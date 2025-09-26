@@ -4,10 +4,22 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="848ab2e8-8fff-4102-93c9-069111a3636e" name="更改" comment="">
-      <change beforePath="$PROJECT_DIR$/backend/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/backend/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+    <list default="true" id="848ab2e8-8fff-4102-93c9-069111a3636e" name="更改" comment="chore(project): 统一项目父模块名称为PetFosterHub- 修改backend/pom.xml中的父模块artifactId为PetFosterHub&#10;- 修改frontend/pom.xml中的父模块artifactId为PetFosterHub&#10;- 修改根目录pom.xml的artifactId为PetFosterHub- 更新IDEA工作区配置中的开发时间记录-为backend模块添加JavaScript库映射配置&#10;- 为frontend模块添加JavaScript库映射配置">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/features/foster/api/fosterApi.ts" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/features/foster/api/fosterApi.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/features/foster/components/FosterCard.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/features/foster/components/FosterCard.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/features/foster/hooks/useFosterApply.ts" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/features/foster/hooks/useFosterApply.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/features/foster/hooks/useFosters.ts" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/features/foster/hooks/useFosters.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/features/foster/services/fosterService.ts" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/features/foster/services/fosterService.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/features/foster/slice/fosterSlice.ts" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/features/foster/slice/fosterSlice.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/features/foster/types/dto/FosterDTO.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/features/foster/types/entity/FosterEntity.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/features/foster/types/enums/FosterEnums.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/features/foster/types/index.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/features/order/api/orderApi.ts" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/features/order/api/orderApi.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/features/order/hooks/useOrderForm.ts" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/features/order/hooks/useOrderForm.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/features/order/services/orderService.ts" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/features/order/services/orderService.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/features/order/slice/orderSlice.ts" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/features/order/slice/orderSlice.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -39,6 +51,7 @@
   </component>
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
+    "Maven.PetFosterHub [install].executor": "Run",
     "Maven.backend [install].executor": "Run",
     "Maven.petfosterhub-parent [install].executor": "Run",
     "ModuleVcsDetector.initialDetectionPerformed": "true",
@@ -126,8 +139,17 @@
       <workItem from="1758871043583" duration="1688000" />
       <workItem from="1758893189240" duration="570000" />
       <workItem from="1758893809422" duration="100000" />
-      <workItem from="1758894114202" duration="1393000" />
+      <workItem from="1758894114202" duration="4328000" />
     </task>
+    <task id="LOCAL-00001" summary="chore(project): 统一项目父模块名称为PetFosterHub- 修改backend/pom.xml中的父模块artifactId为PetFosterHub&#10;- 修改frontend/pom.xml中的父模块artifactId为PetFosterHub&#10;- 修改根目录pom.xml的artifactId为PetFosterHub- 更新IDEA工作区配置中的开发时间记录-为backend模块添加JavaScript库映射配置&#10;- 为frontend模块添加JavaScript库映射配置">
+      <option name="closed" value="true" />
+      <created>1758895550171</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1758895550171</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -148,5 +170,7 @@
     <ignored-roots>
       <path value="$PROJECT_DIR$" />
     </ignored-roots>
+    <MESSAGE value="chore(project): 统一项目父模块名称为PetFosterHub- 修改backend/pom.xml中的父模块artifactId为PetFosterHub&#10;- 修改frontend/pom.xml中的父模块artifactId为PetFosterHub&#10;- 修改根目录pom.xml的artifactId为PetFosterHub- 更新IDEA工作区配置中的开发时间记录-为backend模块添加JavaScript库映射配置&#10;- 为frontend模块添加JavaScript库映射配置" />
+    <option name="LAST_COMMIT_MESSAGE" value="chore(project): 统一项目父模块名称为PetFosterHub- 修改backend/pom.xml中的父模块artifactId为PetFosterHub&#10;- 修改frontend/pom.xml中的父模块artifactId为PetFosterHub&#10;- 修改根目录pom.xml的artifactId为PetFosterHub- 更新IDEA工作区配置中的开发时间记录-为backend模块添加JavaScript库映射配置&#10;- 为frontend模块添加JavaScript库映射配置" />
   </component>
 </project>

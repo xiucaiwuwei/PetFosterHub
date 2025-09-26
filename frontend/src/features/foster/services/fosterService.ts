@@ -1,4 +1,3 @@
-import fosterApi from '../api/fosterApi';
 import type {
   FosterServiceListRequest,
   FosterServiceListResponse,
@@ -9,7 +8,8 @@ import type {
   FosterOrderRequest,
   FosterOrderResponse
 } from '../types/dto';
-import type { BaseResponse } from '@/types';
+import type { BaseResponse } from '@/types/baseType';
+import fosterApi from '../api/fosterApi';
 
 // 寄养服务
 export class FosterService {

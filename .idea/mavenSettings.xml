@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="MavenSettings">
+    <option name="generalSettings">
+      <MavenGeneralSettings>
+        <option name="localRepository" value="$USER_HOME$/.m2/repository" />
+        <option name="userSettingsFile" value="$USER_HOME$/.m2/settings.xml" />
+      </MavenGeneralSettings>
+    </option>
+    <option name="importing">
+      <MavenImportingSettings>
+        <option name="groupIdPattern" value="" />
+        <option name="skipMavenAlerts" value="false" />
+        <option name="versionPattern" value="" />
+        <option name="VMOptions" value="" />
+        <option name="alwaysUpdateSnapshots" value="false" />
+        <option name="automaticallyDownloadSources" value="true" />
+        <option name="automaticallyDownloadJavadoc" value="false" />
+        <option name="downloadSourcesOnImportNewMavenProjects" value="true" />
+        <option name="downloadJavadocOnImportNewMavenProjects" value="false" />
+        <option name="keepSourceAndTestFoldersOnReload" value="false" />
+        <option name="excludedScopes" value="test" />
+      </MavenImportingSettings>
+    </option>
+  </component>
+</project>

@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component name="ProjectJdkTable">
+  <jdk version="2">
+    <name value="openjdk-21" />
+    <type value="JavaSDK" />
+    <version value="21" />
+    <homePath value="$USER_HOME$/java/jdk-21" />
+    <roots>
+      <classPath>
+        <root type="composite">
+          <root type="simple" url="file://$USER_HOME$/java/jdk-21/jmods/java.base.jmod" />
+          <root type="simple" url="file://$USER_HOME$/java/jdk-21/jmods/java.compiler.jmod" />
+          <root type="simple" url="file://$USER_HOME$/java/jdk-21/jmods/java.datatransfer.jmod" />
+          <root type="simple" url="file://$USER_HOME$/java/jdk-21/jmods/java.desktop.jmod" />
+          <root type="simple" url="file://$USER_HOME$/java/jdk-21/jmods/java.instrument.jmod" />
+          <root type="simple" url="file://$USER_HOME$/java/jdk-21/jmods/java.logging.jmod" />
+          <root type="simple" url="file://$USER_HOME$/java/jdk-21/jmods/java.management.jmod" />
+          <root type="simple" url="file://$USER_HOME$/java/jdk-21/jmods/java.management.rmi.jmod" />
+          <root type="simple" url="file://$USER_HOME$/java/jdk-21/jmods/java.naming.jmod" />
+          <root type="simple" url="file://$USER_HOME$/java/jdk-21/jmods/java.net.http.jmod" />
+          <root type="simple" url="file://$USER_HOME$/java/jdk-21/jmods/java.prefs.jmod" />
+          <root type="simple" url="file://$USER_HOME$/java/jdk-21/jmods/java.rmi.jmod" />
+          <root type="simple" url="file://$USER_HOME$/java/jdk-21/jmods/java.scripting.jmod" />
+          <root type="simple" url="file://$USER_HOME$/java/jdk-21/jmods/java.se.jmod" />
+          <root type="simple" url="file://$USER_HOME$/java/jdk-21/jmods/java.security.jgss.jmod" />
+          <root type="simple" url="file://$USER_HOME$/java/jdk-21/jmods/java.security.sasl.jmod" />
+          <root type="simple" url="file://$USER_HOME$/java/jdk-21/jmods/java.smartcardio.jmod" />
+          <root type="simple" url="file://$USER_HOME$/java/jdk-21/jmods/java.sql.jmod" />
+          <root type="simple" url="file://$USER_HOME$/java/jdk-21/jmods/java.sql.rowset.jmod" />
+          <root type="simple" url="file://$USER_HOME$/java/jdk-21/jmods/java.transaction.xa.jmod" />
+          <root type="simple" url="file://$USER_HOME$/java/jdk-21/jmods/java.xml.jmod" />
+          <root type="simple" url="file://$USER_HOME$/java/jdk-21/jmods/java.xml.crypto.jmod" />
+          <root type="simple" url="file://$USER_HOME$/java/jdk-21/jmods/jdk.accessibility.jmod" />
+          <root type="simple" url="file://$USER_HOME$/java/jdk-21/jmods/jdk.attach.jmod" />
+          <root type="simple" url="file://$USER_HOME$/java/jdk-21/jmods/jdk.charsets.jmod" />
+          <root type="simple" url="file://$USER_HOME$/java/jdk-21/jmods/jdk.compiler.jmod" />
+          <root type="simple" url="file://$USER_HOME$/java/jdk-21/jmods/jdk.crypto.cryptoki.jmod" />
+          <root type="simple" url="file://$USER_HOME$/java/jdk-21/jmods/jdk.crypto.ec.jmod" />
+          <root type="simple" url="file://$USER_HOME$/java/jdk-21/jmods/jdk.dynalink.jmod" />
+          <root type="simple" url="file://$USER_HOME$/java/jdk-21/jmods/jdk.editpad.jmod" />
+          <root type="simple" url="file://$USER_HOME$/java/jdk-21/jmods/jdk.hotspot.agent.jmod" />
+          <root type="simple" url="file://$USER_HOME$/java/jdk-21/jmods/jdk.httpserver.jmod" />
+          <root type="simple" url="file://$USER_HOME$/java/jdk-21/jmods/jdk.incubator.vector.jmod" />
+          <root type="simple" url="file://$USER_HOME$/java/jdk-21/jmods/jdk.internal.ed.jmod" />
+          <root type="simple" url="file://$USER_HOME$/java/jdk-21/jmods/jdk.internal.le.jmod" />
+          <root type="simple" url="file://$USER_HOME$/java/jdk-21/jmods/jdk.internal.opt.jmod" />
+          <root type="simple" url="file://$USER_HOME$/java/jdk-21/jmods/jdk.internal.vm.ci.jmod" />
+          <root type="simple" url="file://$USER_HOME$/java/jdk-21/jmods/jdk.internal.vm.compiler.jmod" />
+          <root type="simple" url="file://$USER_HOME$/java/jdk-21/jmods/jdk.internal.vm.compiler.management.jmod" />
+          <root type="simple" url="file://$USER_HOME$/java/jdk-21/jmods/jdk.jartool.jmod" />
+          <root type="simple" url="file://$USER_HOME$/java/jdk-21/jmods/jdk.javadoc.jmod" />
+          <root type="simple" url="file://$USER_HOME$/java/jdk-21/jmods/jdk.jcmd.jmod" />
+          <root type="simple" url="file://$USER_HOME$/java/jdk-21/jmods/jdk.jconsole.jmod" />
+          <root type="simple" url="file://$USER_HOME$/java/jdk-21/jmods/jdk.jdeps.jmod" />
+          <root type="simple" url="file://$USER_HOME$/java/jdk-21/jmods/jdk.jdi.jmod" />
+          <root type="simple" url="file://$USER_HOME$/java/jdk-21/jmods/jdk.jdwp.agent.jmod" />
+          <root type="simple" url="file://$USER_HOME$/java/jdk-21/jmods/jdk.jfr.jmod" />
+          <root type="simple" url="file://$USER_HOME$/java/jdk-21/jmods/jdk.jlink.jmod" />
+          <root type="simple" url="file://$USER_HOME$/java/jdk-21/jmods/jdk.jpackage.jmod" />
+          <root type="simple" url="file://$USER_HOME$/java/jdk-21/jmods/jdk.jshell.jmod" />
+          <root type="simple" url="file://$USER_HOME$/java/jdk-21/jmods/jdk.jsobject.jmod" />
+          <root type="simple" url="file://$USER_HOME$/java/jdk-21/jmods/jdk.jstatd.jmod" />
+          <root type="simple" url="file://$USER_HOME$/java/jdk-21/jmods/jdk.localedata.jmod" />
+          <root type="simple" url="file://$USER_HOME$/java/jdk-21/jmods/jdk.management.jmod" />
+          <root type="simple" url="file://$USER_HOME$/java/jdk-21/jmods/jdk.management.agent.jmod" />
+          <root type="simple" url="file://$USER_HOME$/java/jdk-21/jmods/jdk.management.jfr.jmod" />
+          <root type="simple" url="file://$USER_HOME$/java/jdk-21/jmods/jdk.naming.dns.jmod" />
+          <root type="simple" url="file://$USER_HOME$/java/jdk-21/jmods/jdk.naming.ldap.jmod" />
+          <root type="simple" url="file://$USER_HOME$/java/jdk-21/jmods/jdk.naming.rmi.jmod" />
+          <root type="simple" url="file://$USER_HOME$/java/jdk-21/jmods/jdk.net.jmod" />
+          <root type="simple" url="file://$USER_HOME$/java/jdk-21/jmods/jdk.nio.mapmode.jmod" />
+          <root type="simple" url="file://$USER_HOME$/java/jdk-21/jmods/jdk.sctp.jmod" />
+          <root type="simple" url="file://$USER_HOME$/java/jdk-21/jmods/jdk.security.auth.jmod" />
+          <root type="simple" url="file://$USER_HOME$/java/jdk-21/jmods/jdk.security.jgss.jmod" />
+          <root type="simple" url="file://$USER_HOME$/java/jdk-21/jmods/jdk.unsupported.jmod" />
+          <root type="simple" url="file://$USER_HOME$/java/jdk-21/jmods/jdk.unsupported.desktop.jmod" />
+          <root type="simple" url="file://$USER_HOME$/java/jdk-21/jmods/jdk.xml.dom.jmod" />
+          <root type="simple" url="file://$USER_HOME$/java/jdk-21/jmods/jdk.zipfs.jmod" />
+        </root>
+      </classPath>
+      <javadocPath>
+        <root type="composite">
+          <root type="simple" url="http://docs.oracle.com/en/java/javase/21/docs/api/" />
+        </root>
+      </javadocPath>
+      <sourcePath>
+        <root type="composite">
+          <root type="simple" url="file://$USER_HOME$/java/jdk-21/lib/src.zip" />
+        </root>
+      </sourcePath>
+    </roots>
+    <additional jdk="openjdk-21" sdkHome="$USER_HOME$/java/jdk-21" />
+  </jdk>
+</component>

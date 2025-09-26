@@ -6,7 +6,7 @@
     
     <parent>
         <groupId>com.petfosterhub</groupId>
-        <artifactId>petfosterhub-parent</artifactId>
+        <artifactId>PetFosterHub</artifactId>
         <version>1.0.0</version>
         <relativePath>../pom.xml</relativePath>
     </parent>

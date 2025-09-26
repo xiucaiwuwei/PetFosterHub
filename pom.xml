@@ -12,7 +12,7 @@
     </parent>
     
     <groupId>com.petfosterhub</groupId>
-    <artifactId>petfosterhub-parent</artifactId>
+    <artifactId>PetFosterHub</artifactId>
     <version>1.0.0</version>
     <packaging>pom</packaging>
     <name>PetFosterHub Parent</name>

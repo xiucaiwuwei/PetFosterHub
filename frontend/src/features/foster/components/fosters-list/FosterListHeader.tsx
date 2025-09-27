@@ -1,0 +1,63 @@
+import React from 'react';
+
+/**
+ * 寄养列表页面的标题区域组件，包含渐变背景和统计数据卡片
+ */
+const FosterListHeader: React.FC = () => {
+  return (
+    <section
+      className="relative bg-gradient-to-r from-orange-500 to-orange-600 text-white py-12 overflow-hidden"
+    >
+      {/* 背景装饰 */}
+      <div className="absolute inset-0 opacity-10">
+        <div
+          className="absolute top-0 left-0 w-full h-full bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI2MCIgaGVpZ2h0PSI2MCIgdmlld0JveD0iMCAwIDYwIDYwIj48cGF0aCBkPSJNMzAgNjBhMzAgMzAgMCAxIDEgMCA2MEgzMHoiIGZpbGw9Im5vbmUiIHN0cm9rZT0iI2ZmZiIgc3Ryb2tlLXdpZHRoPSIxIi8+PGNpcmNsZSBjeD0iMzAiIGN5PSIzMCIgcj0iMjAiIGZpbGw9Im5vbmUiIHN0cm9rZT0iI2ZmZiIgc3Ryb2tlLXdpZHRoPSIwLjUiLz48L3N2Zz4=')] bg-repeat opacity-30"
+        ></div>
+      </div>
+
+      <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 z-10">
+        <h1 className="text-3xl md:text-4xl lg:text-5xl font-extrabold mb-4 tracking-tight animate-fadeIn">
+          为您的爱宠找到 <span className="relative inline-block">
+                <span className="relative z-10">温暖的临时家园</span>
+                <span
+                  className="absolute bottom-0 left-0 w-full h-2 bg-yellow-300 opacity-30 rounded-lg -rotate-1"
+                ></span>
+              </span>
+        </h1>
+        <p className="text-base md:text-lg text-orange-100 max-w-2xl leading-relaxed mb-6">
+          精选优质寄养服务，专业照顾，让您外出无忧，爱宠舒适安心
+        </p>
+
+        {/* 数据统计卡片 */}
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mt-4">
+          <div
+            className="bg-white/10 backdrop-blur-sm rounded-xl p-3 hover:bg-white/15 transition-all duration-300 transform hover:scale-105"
+          >
+            <p className="text-xs text-orange-100 mb-1">优质服务</p>
+            <p className="text-2xl font-bold">200+</p>
+          </div>
+          <div
+            className="bg-white/10 backdrop-blur-sm rounded-xl p-3 hover:bg-white/15 transition-all duration-300 transform hover:scale-105"
+          >
+            <p className="text-xs text-orange-100 mb-1">专业寄养师</p>
+            <p className="text-2xl font-bold">50+</p>
+          </div>
+          <div
+            className="bg-white/10 backdrop-blur-sm rounded-xl p-3 hover:bg-white/15 transition-all duration-300 transform hover:scale-105"
+          >
+            <p className="text-xs text-orange-100 mb-1">满意评价</p>
+            <p className="text-2xl font-bold">98%</p>
+          </div>
+          <div
+            className="bg-white/10 backdrop-blur-sm rounded-xl p-3 hover:bg-white/15 transition-all duration-300 transform hover:scale-105"
+          >
+            <p className="text-xs text-orange-100 mb-1">覆盖城市</p>
+            <p className="text-2xl font-bold">10+</p>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+};
+
+export default FosterListHeader;

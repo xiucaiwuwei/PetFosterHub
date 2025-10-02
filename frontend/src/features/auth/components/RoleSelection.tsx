@@ -1,6 +1,6 @@
 import React from 'react';
 import {motion} from 'framer-motion';
-import { UserRole } from '../types/enums/UserRole';
+import { UserRole } from '../types/enums';
 
 interface RoleSelectionProps {
     role: UserRole;

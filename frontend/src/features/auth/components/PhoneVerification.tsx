@@ -1,10 +1,7 @@
 import React from 'react';
 import {motion} from 'framer-motion';
-
-// Hooks
 import useFormService from '../hooks/useFormService';
-import { VerificationCodeType } from '../types/enums/VerificationCodeType';
-import { UserRole } from '../types/enums/UserRole';
+import { VerificationCodeType,UserRole  } from '../types/enums';
 
 /**
  * 判断是否为开发环境

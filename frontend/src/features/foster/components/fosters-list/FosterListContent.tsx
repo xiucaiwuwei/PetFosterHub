@@ -1,8 +1,8 @@
 import React from 'react';
-import FosterCard from './FosterCard';
+import { FosterCard } from '../FosterCard';
 import FosterListSkeleton from './FosterListSkeleton';
 import FosterListEmptyState from './FosterListEmptyState';
-import type { FosterServiceItem } from '../../types/dto/FosterServiceDTO';
+import type { FosterServiceItem } from '@/features/foster/types/dto';
 
 interface FostersData {
   list: FosterServiceItem[];
@@ -70,7 +70,7 @@ const FosterListContent: React.FC<FosterListContentProps> = ({
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {fosters.list.map((service) => (
             <div key={service.id} className="group animate-fadeInUp">
-              <FosterCard foster={service} />
+              <FosterCard service={service} />
             </div>
           ))}
         </div>

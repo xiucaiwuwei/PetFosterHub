@@ -1,5 +1,5 @@
 import React from 'react';
-import ErrorDisplay from './ErrorDisplay';
+import ErrorDisplay from '@/components/forms/ErrorDisplay.tsx';
 
 interface LivingEnvironmentStepProps {
   formData: any;
@@ -47,10 +47,10 @@ const LivingEnvironmentStep: React.FC<LivingEnvironmentStepProps> = ({
             className={`w-full px-3 py-2 border ${errors.livingSpace ? 'border-red-300' : 'border-gray-300'} rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent`}
           >
             <option value="">请选择</option>
-            <option value="small">小型 (< 60㎡)</option>
+            <option value="small">小型 (&lt; 60㎡)</option>
             <option value="medium">中型 (60-100㎡)</option>
             <option value="large">大型 (100-150㎡)</option>
-            <option value="xlarge">超大 (> 150㎡)</option>
+            <option value="xlarge">超大 (&gt; 150㎡)</option>
           </select>
           <ErrorDisplay errors={errors} fieldName="livingSpace" />
         </div>

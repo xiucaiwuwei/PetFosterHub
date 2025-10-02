@@ -1,5 +1,5 @@
 import { RouteObject } from 'react-router-dom';
-import { AdminLayout } from '@/components/layout/AdminLayout';
+import { AdminLayout } from '@/components/layout/AdminLayout.tsx';
 import Admin from '@/features/admin/pages/Admin.tsx';
 import Users from '@/features/admin/pages/Users.tsx';
 import Products from '@/features/admin/pages/Products.tsx';

@@ -15,6 +15,7 @@ const PUBLIC_ENDPOINTS = [
   /\/api\/auth\/reset-password/,
   /\/api\/auth\/verify-email/,
   /\/api\/banners\/active/,
+  /\/api\/home\/.*/, // 首页接口无需认证
 ];
 
 // 创建axios实例

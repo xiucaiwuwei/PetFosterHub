@@ -1,5 +1,4 @@
 import React from 'react';
-import { formatDate } from '../utils/validationUtils';
 import { StatusBadge } from './StatusBadge';
 
 interface User {

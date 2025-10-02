@@ -1,5 +1,5 @@
-import { Navbar } from '@/components/layout/Navbar';
-import { Footer } from '@/components/layout/Footer';
+import { Navbar } from '@/components/layout/Navbar.tsx';
+import { Footer } from '@/features/home/components/Footer.tsx';
 import ApplyFosterForm from '../components/ApplyFosterForm';
 
 export default function ApplyFoster() {

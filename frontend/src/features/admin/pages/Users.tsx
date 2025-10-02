@@ -1,9 +1,7 @@
 import { useState, useEffect } from 'react';
-import { motion } from 'framer-motion';
 import { toast } from 'sonner';
 import { users } from '@/mocks/users.ts';
 import { User } from '@/types';
-import { cn } from '@/lib/utils/utils';
 
 // 格式化日期显示
 const formatDate = (date: Date): string => {

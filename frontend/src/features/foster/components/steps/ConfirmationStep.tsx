@@ -1,5 +1,5 @@
 import React from 'react';
-import ErrorDisplay from './ErrorDisplay';
+import ErrorDisplay from '@/components/forms/ErrorDisplay.tsx';
 
 interface ConfirmationStepProps {
   formData: any;

@@ -1,5 +1,5 @@
-import Navbar from '../../layout/Navbar';
-import Footer from '../../layout/Footer';
+import {Navbar} from '@/components/layout/Navbar.tsx';
+import {Footer} from '@/features/home/components/Footer.tsx';
 import { ServiceProviderForm } from '../components';
 
 const ApplyServiceProvider = () => {

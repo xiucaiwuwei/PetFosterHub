@@ -1,7 +1,6 @@
 import React, {useState} from 'react';
 import {motion} from 'framer-motion';
 import {useNavigate} from 'react-router-dom';
-import authService from '../services/authService';
 
 // 组件
 import RoleSelection from './RoleSelection';

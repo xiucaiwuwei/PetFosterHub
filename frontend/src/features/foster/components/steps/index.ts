@@ -1,6 +1,6 @@
 // 导出所有步骤组件
-export { default as StepIndicator } from './StepIndicator';
-export { default as ErrorDisplay } from './ErrorDisplay';
+export { default as StepIndicator } from '@/components/navigation/StepIndicator.tsx';
+export { default as ErrorDisplay } from '@/components/forms/ErrorDisplay.tsx';
 export { default as BasicInfoStep } from './BasicInfoStep';
 export { default as LivingEnvironmentStep } from './LivingEnvironmentStep';
 export { default as PetTypeStep } from './PetTypeStep';

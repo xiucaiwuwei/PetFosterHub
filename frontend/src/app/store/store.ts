@@ -5,7 +5,8 @@ import { setupListeners } from '@reduxjs/toolkit/query';
 import { TypedUseSelectorHook, useSelector } from 'react-redux';
 
 import authReducer from '../../features/auth/slice/authSlice';
-import { ErrorHandler } from '../../lib/utils/ErrorHandler';
+import homeReducer from '../../features/home/slice/homeSlice';
+import { ErrorHandler } from '@/lib/utils';
 
 // Redux Persist 相关的常量
 const PERSIST_ACTIONS = [
@@ -74,6 +75,7 @@ const performanceMiddleware: Middleware = (_store) => (next) => (action: any) =>
 // 定义reducer映射
 const reducers = {
   auth: persistReducer(authPersistConfig, authReducer),
+  home: homeReducer,
 } as const;
 
 // 配置Store

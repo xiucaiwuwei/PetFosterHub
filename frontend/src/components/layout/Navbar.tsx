@@ -10,7 +10,7 @@ import LocalStorageManager from '@/lib/utils/LocalStorageManager';
 export function Navbar() {
   const dispatch = useDispatch<AppDispatch>();
   const { isAuthenticated } = useSelector((state: RootState) => state.auth);
-  const { toggleCart, itemCount } = useCart();
+  useCart();
   const navigate = useNavigate();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
@@ -86,7 +86,7 @@ export function Navbar() {
                  首页
                </NavLink>
                
-               {/* 寄养服务 - 所有用户可见 */}
+               {/* 宠物寄养 - 所有用户可见 */}
                <NavLink 
                  to="/fosters"
                  className={({ isActive }) => 
@@ -95,26 +95,12 @@ export function Navbar() {
                      : "border-b-2 border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700 hover:bg-orange-50 inline-flex items-center px-3 py-2 text-sm font-medium rounded-md transition-all duration-300"
                  }
                >
-                 寄养服务
+                 宠物寄养
                </NavLink>
-                
-               {/* 供养服务 - 宠物主人和管理员可见 */}
-               {canViewLink(['OWNER', 'ADMIN']) && (
-                <NavLink 
-                  to="/support"
-                  className={({ isActive }) => 
-                    isActive 
-                      ? "border-b-2 border-orange-500 text-orange-600 inline-flex items-center px-3 py-2 text-sm font-medium transition-all duration-300" 
-                      : "border-b-2 border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700 hover:bg-orange-50 inline-flex items-center px-3 py-2 text-sm font-medium rounded-md transition-all duration-300"
-                  }
-                >
-                  供养服务
-                </NavLink>
-               )}
                 
                {/* 宠物商店 - 所有用户可见 */}
                <NavLink 
-                 to="/food-store"
+                 to="/pet-store"
                  className={({ isActive }) => 
                    isActive 
                      ? "border-b-2 border-orange-500 text-orange-600 inline-flex items-center px-3 py-2 text-sm font-medium transition-all duration-300" 
@@ -124,20 +110,20 @@ export function Navbar() {
                  宠物商店
                </NavLink>
                 
-               {/* 线上问诊 - 宠物主人和管理员可见 */}
-               {canViewLink(['OWNER', 'ADMIN']) && (
-                 <NavLink 
-                   to="/pet-consultation"
-                   className={({ isActive }) => 
-                     isActive 
-                       ? "border-b-2 border-orange-500 text-orange-600 inline-flex items-center px-3 py-2 text-sm font-medium transition-all duration-300" 
-                       : "border-b-2 border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700 hover:bg-orange-50 inline-flex items-center px-3 py-2 text-sm font-medium rounded-md transition-all duration-300"
-                   }
-                 >
-                   线上问诊
-                 </NavLink>
-               )}
-                {isAuthenticated && (
+               {/* 线上问诊 - 所有用户可见 */}
+               <NavLink 
+                 to="/pet-consultation"
+                 className={({ isActive }) => 
+                   isActive 
+                     ? "border-b-2 border-orange-500 text-orange-600 inline-flex items-center px-3 py-2 text-sm font-medium transition-all duration-300" 
+                     : "border-b-2 border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700 hover:bg-orange-50 inline-flex items-center px-3 py-2 text-sm font-medium rounded-md transition-all duration-300"
+                 }
+               >
+                 线上问诊
+               </NavLink>
+                
+               {/* 消息 - 仅登录用户可见 */}
+               {isAuthenticated && (
                   <NavLink 
                      to="/messages" 
                      className={({ isActive }) => 
@@ -156,24 +142,25 @@ export function Navbar() {
                     </span>
                   </NavLink>
                 )}
+                
+                {/* 订单 - 仅登录用户可见 */}
+                {isAuthenticated && (
+                  <NavLink 
+                     to="/profile/orders" 
+                     className={({ isActive }) => 
+                       isActive 
+                         ? "border-b-2 border-orange-500 text-orange-600 inline-flex items-center px-3 py-2 text-sm font-medium transition-all duration-300" 
+                         : "border-b-2 border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700 hover:bg-orange-50 inline-flex items-center px-3 py-2 text-sm font-medium rounded-md transition-all duration-300"
+                     }
+                   >
+                    <span className="relative inline-flex items-center">
+                      我的订单
+                    </span>
+                  </NavLink>
+                )}
              </div>
           </div>
           <div className="flex items-center">
-            {/* 购物车图标 - 仅登录用户可见 */}
-            {isAuthenticated && (
-              <button 
-                className="relative p-2 mr-4 text-gray-700 hover:text-orange-500 transition-colors duration-300 transform hover:scale-110"
-                onClick={toggleCart}
-              >
-                <i className="fa-solid fa-shopping-cart text-xl"></i>
-                {/* 购物车商品数量徽章 */}
-                {itemCount > 0 && (
-                  <span className="absolute -top-1 -right-1 bg-orange-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center animate-bounce">
-                    {itemCount}
-                  </span>
-                )}
-              </button>
-            )}
             {isAuthenticated ? (
                <div className="hidden md:flex items-center ml-4 relative group">
                  <div className="flex items-center mr-3 cursor-pointer hover:text-orange-500 transition-colors duration-300" onClick={() => setIsCityDropdownOpen(!isCityDropdownOpen)}>
@@ -230,6 +217,16 @@ export function Navbar() {
                       className="block px-4 py-2 text-sm text-gray-700 hover:bg-orange-50 hover:text-orange-600 w-full text-left transition-colors duration-200"
                     >
                       <i className="fa-solid fa-user mr-2"></i>个人资料
+                    </button>
+                    
+                    <button
+                      onClick={() => {
+                        navigate('/profile/orders');
+                        setIsDropdownOpen(false);
+                      }}
+                      className="block px-4 py-2 text-sm text-gray-700 hover:bg-orange-50 hover:text-orange-600 w-full text-left transition-colors duration-200"
+                    >
+                      <i className="fa-solid fa-list-alt mr-2"></i>我的订单
                     </button>
                     {/* 后台管理 - 仅管理员可见 */}
                       {canViewLink(['ADMIN']) && (
@@ -300,48 +297,47 @@ export function Navbar() {
               首页
             </Link>
             
-            {/* 寄养服务 - 所有用户可见 */}
+            {/* 宠物寄养 - 所有用户可见 */}
             <Link
               to="/fosters"
               className="border-transparent text-gray-500 hover:bg-gray-50 hover:border-gray-300 hover:text-gray-700 block pl-3 pr-4 py-2 border-l-4 text-base font-medium rounded-md transition-colors duration-200"
             >
-              寄养服务
+              宠物寄养
             </Link>
-            
-            {/* 供养服务 - 宠物主人和管理员可见 */}
-            {canViewLink(['OWNER', 'ADMIN']) && (
-            <Link
-              to="/support"
-              className="border-transparent text-gray-500 hover:bg-gray-50 hover:border-gray-300 hover:text-gray-700 block pl-3 pr-4 py-2 border-l-4 text-base font-medium rounded-md transition-colors duration-200"
-            >
-              供养服务
-            </Link>
-            )}
             
             {/* 宠物商店 - 所有用户可见 */}
             <Link
-              to="/food-store"
+              to="/pet-store"
               className="border-transparent text-gray-500 hover:bg-gray-50 hover:border-gray-300 hover:text-gray-700 block pl-3 pr-4 py-2 border-l-4 text-base font-medium rounded-md transition-colors duration-200"
             >
               宠物商店
             </Link>
             
-            {/* 线上问诊 - 宠物主人和管理员可见 */}
-            {canViewLink(['OWNER', 'ADMIN']) && (
+            {/* 线上问诊 - 所有用户可见 */}
             <Link
               to="/pet-consultation"
               className="border-transparent text-gray-500 hover:bg-gray-50 hover:border-gray-300 hover:text-gray-700 block pl-3 pr-4 py-2 border-l-4 text-base font-medium rounded-md transition-colors duration-200"
             >
               线上问诊
             </Link>
-            )}
             
+            {/* 消息 - 仅登录用户可见 */}
             {isAuthenticated && (
               <Link
                 to="/messages"
                 className="border-transparent text-gray-500 hover:bg-gray-50 hover:border-gray-300 hover:text-gray-700 block pl-3 pr-4 py-2 border-l-4 text-base font-medium rounded-md transition-colors duration-200"
               >
                 消息
+              </Link>
+            )}
+            
+            {/* 订单 - 仅登录用户可见 */}
+            {isAuthenticated && (
+              <Link
+                to="/profile/orders"
+                className="border-transparent text-gray-500 hover:bg-gray-50 hover:border-gray-300 hover:text-gray-700 block pl-3 pr-4 py-2 border-l-4 text-base font-medium rounded-md transition-colors duration-200"
+              >
+                我的订单
               </Link>
             )}
             {isAuthenticated ? (

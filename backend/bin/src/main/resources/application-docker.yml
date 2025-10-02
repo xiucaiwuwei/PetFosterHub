@@ -1,0 +1,67 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: pet-foster-hub
+  datasource:
+    url: jdbc:mysql://mysql:3306/pet_foster_hub?useSSL=false&serverTimezone=UTC&characterEncoding=utf8
+    username: petuser
+    password: 123456
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    # HikariCP连接池配置
+    hikari:
+      minimum-idle: 5
+      maximum-pool-size: 20
+      auto-commit: true
+      connection-timeout: 30000
+      pool-name: PetFosterHubHikariPool
+  data:
+    redis:
+      host: redis
+      port: 6379
+      password: 123456
+      database: 0
+      timeout: 5000ms
+      lettuce:
+        pool:
+          max-active: 8
+          max-wait: -1ms
+          max-idle: 8
+          min-idle: 0
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    database-platform: org.hibernate.dialect.MySQL8Dialect
+
+jwt:
+  secret: petFosterHubSecretKey2024ForJwtTokenGenerationAndValidation
+  expiration: 86400000
+  refresh-expiration: 604800000
+
+logging:
+  level:
+    com.petfosterhub: info
+    org.springframework.security: info
+  pattern:
+    file: "%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n"
+  file:
+    name: ./logs/pet-foster-hub.log
+
+# 短信服务配置
+sms:
+  api:
+    regionId: cn-hangzhou
+    secretId: your_access_key_id
+    secretKey: your_access_key_secret
+  app:
+    key: your_app_key  # 应用类型标识，从阿里云控制台获取
+  # 频率限制配置
+  rate-limit:
+    send-sms:
+      max-attempts: 50      # 单实例发送限制
+      time-window: 1        # 1秒时间窗口
+    template-operation:
+      max-attempts: 1       # 模板操作限制
+      time-window: 1        # 1秒时间窗口

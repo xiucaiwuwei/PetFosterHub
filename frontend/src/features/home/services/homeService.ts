@@ -1,69 +1,41 @@
 // Home模块的服务层逻辑
-import { homeApi } from '../api/homeApi';
-import { FosterService } from '@/types';
+import homeApi from '../api/homeApi';
+import type { FosterService } from '../types';
+import type { Testimonial } from '../types';
 
-// 服务特点类型
-export interface ServiceFeature {
-  id: string;
-  title: string;
-  description: string;
-  icon: string;
-}
-
-// 用户评价类型
-export interface Testimonial {
-  id: string;
-  name: string;
-  avatar: string;
-  content: string;
-  rating: number;
-}
-
-export const homeService = {
-  // 获取推荐寄养服务
-  async getFeaturedFosters(): Promise<FosterService[]> {
+// Home服务
+class HomeService {
+  /**
+   * 获取最好的三个寄养服务数据
+   * @returns 评分最高的三个寄养服务列表的Promise
+   */
+  async getTopThreeFosters(): Promise<FosterService[]> {
+    console.log('[HomeService] 开始获取最好的三个寄养服务数据');
     try {
-      const data = await homeApi.getFeaturedFosters();
-      // 可以在这里添加数据处理逻辑
+      const data = await homeApi.getTopThreeFosters();
+      console.log('[HomeService] 获取最好的三个寄养服务数据成功', { count: data?.length || 0 });
       return data;
     } catch (error) {
-      console.error('获取推荐寄养服务失败:', error);
-      throw error;
-    }
-  },
-
-  // 获取服务特点
-  async getServiceFeatures(): Promise<ServiceFeature[]> {
-    try {
-      const data = await homeApi.getServiceFeatures();
-      return data;
-    } catch (error) {
-      console.error('获取服务特点失败:', error);
-      throw error;
-    }
-  },
-
-  // 获取用户评价
-  async getTestimonials(): Promise<Testimonial[]> {
-    try {
-      const data = await homeApi.getTestimonials();
-      return data;
-    } catch (error) {
-      console.error('获取用户评价失败:', error);
-      throw error;
-    }
-  },
-
-  // 获取评分最高的寄养服务
-  async getTopRatedFosters(limit: number = 3): Promise<FosterService[]> {
-    try {
-      const allFosters = await this.getFeaturedFosters();
-      return [...allFosters]
-        .sort((a, b) => b.rating - a.rating)
-        .slice(0, limit);
-    } catch (error) {
-      console.error('获取评分最高的寄养服务失败:', error);
+      console.error('[HomeService] 获取最好的三个寄养服务数据失败', { error: error instanceof Error ? error.message : '未知错误' });
       throw error;
     }
   }
-};
+
+  /**
+   * 获取三个用户最新的评价
+   * @returns 最新的三个用户评价列表的Promise
+   */
+  async getLatestThreeTestimonials(): Promise<Testimonial[]> {
+    console.log('[HomeService] 开始获取三个用户最新的评价');
+    try {
+      const data = await homeApi.getLatestThreeTestimonials();
+      console.log('[HomeService] 获取三个用户最新的评价成功', { count: data?.length || 0 });
+      return data;
+    } catch (error) {
+      console.error('[HomeService] 获取三个用户最新的评价失败', { error: error instanceof Error ? error.message : '未知错误' });
+      throw error;
+    }
+  }
+}
+
+export default new HomeService();

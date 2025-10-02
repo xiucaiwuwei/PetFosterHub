@@ -1,7 +1,7 @@
 import { useParams, useNavigate } from 'react-router-dom';
 import { toast } from 'sonner';
-import { Navbar } from '@/components/layout/Navbar';
-import { Footer } from '@/components/layout/Footer';
+import { Navbar } from '@/components/layout/Navbar.tsx';
+import { Footer } from '@/features/home/components/Footer.tsx';
 import { useFosterDetail } from '../hooks/useFosters';
 import { useState } from 'react';
 import type { Pet } from '@/types';

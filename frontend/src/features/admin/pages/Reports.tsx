@@ -1,12 +1,10 @@
 import { useState, useEffect } from 'react';
-import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { 
   LineChart, Line, BarChart, Bar, PieChart, Pie, AreaChart, Area,
-  XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, Cell
+  XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Cell
 } from 'recharts';
 import { toast } from 'sonner';
-import { cn } from '@/lib/utils/utils';
 
 // 模拟数据 - 用户增长趋势
 const userGrowthData = [

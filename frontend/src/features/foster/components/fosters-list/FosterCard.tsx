@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import type { FosterServiceItem } from '../../types/dto';
-import { FosterServiceStatus } from '../../types/enums/FosterServiceStatus';
+import { FosterServiceStatus } from '@/features/foster/types/enums';
 
 interface FosterCardProps {
   foster: FosterServiceItem;

@@ -1,15 +1,15 @@
 import {RouteObject} from 'react-router-dom';
-import {UserLayout} from '@/components/layout/UserLayout';
-import Home from '@/features/home/pages/Home';
-import FosterList from '@/features/foster/pages/FosterList';
+import {UserLayout} from '@/components/layout/UserLayout.tsx';
+import HomePage from '@/features/home/pages/HomePage.tsx';
+import {FosterList} from '@/features/foster/pages/FosterList';
 import Login from '@/features/auth/pages/LoginPage';
 import Register from '@/features/auth/pages/RegisterPage';
 import ForgotPassword from '@/features/auth/pages/ForgotPasswordPage';
 import FosterDetail from '@/features/foster/pages/FosterDetail';
 import SupportPage from '@/features/support/pages/SupportPage';
 import PetConsultation from '@/features/consultation/pages/PetConsultation';
-import PetStore from '@/features/food/pages/FoodStore';
-import FoodDetail from '@/features/food/pages/FoodDetail';
+import PetStore from '@/features/petStore/pages/PetStore';
+import PetStoreDetail from '@/features/petStore/pages/PetStoreDetail';
 import CompleteProfilePage from '@/features/auth/pages/CompleteProfilePage';
 
 const publicRoutes: RouteObject[] = [
@@ -19,7 +19,7 @@ const publicRoutes: RouteObject[] = [
     children: [
       {
         path: '',
-        element: <Home />
+        element: <HomePage />
       },
       {
         path: 'fosters',
@@ -37,14 +37,7 @@ const publicRoutes: RouteObject[] = [
         path: 'pet-consultation',
         element: <PetConsultation />
       },
-      {
-        path: 'food-store',
-        element: <PetStore />
-      },
-      {
-        path: 'food-store/:id',
-        element: <FoodDetail />
-      }
+      {        path: 'pet-store',        element: <PetStore />      },      {        path: 'pet-store/:id',        element: <PetStoreDetail />      }
     ]
   },
   {

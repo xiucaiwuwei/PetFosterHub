@@ -4,7 +4,6 @@ import fosterApi from './api/fosterApi';
 import fosterReducer from './slice/fosterSlice';
 import * as fosterHooks from './hooks/useFosters';
 import * as fosterComponents from './components';
-import * as fosterTypes from './types';
 import * as fosterUtils from './utils/formatUtils';
 import * as fosterActions from './slice/fosterSlice';
 
@@ -27,10 +26,6 @@ export { fosterComponents };
 
 export * from './components';
 
-// 导出类型
-export { fosterTypes };
-
-export * from './types';
 
 // 导出工具函数
 export { fosterUtils };

@@ -1,5 +1,5 @@
-import type { FosterService } from '../../types';
-import { formatDate } from '../../utils/formatUtils';
+import type { FosterService } from '@/types';
+import { formatDate } from '@/features/foster/utils/formatUtils';
 
 interface AvailableDatesProps {
   service: FosterService;

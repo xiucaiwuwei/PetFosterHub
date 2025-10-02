@@ -1,13 +1,11 @@
 import React, { useState } from 'react';
-import { Navbar } from '@/components/layout/Navbar';
-import { Footer } from '@/components/layout/Footer';
 import { SupportForm, SupportList } from '../components';
 import { useCreateSupportRequest, useSupportRequests } from '../hooks';
 import { toast } from 'react-toastify';
-import { SupportRequestDto, SupportResponseDto } from '../types';
+import { SupportRequestDto } from '../types';
 
 const UserSupportPage: React.FC = () => {
-  const { supportRequests, loading, error, refreshSupportRequests } = useSupportRequests();
+  const { requests, isLoading, error, fetchRequests } = useSupportRequests();
   const { createSupportRequest, isSubmitting } = useCreateSupportRequest();
   const [activeTab, setActiveTab] = useState<'new' | 'my'>('new');
 
@@ -16,7 +14,7 @@ const UserSupportPage: React.FC = () => {
       await createSupportRequest(requestData);
       toast.success('支持请求已提交成功！');
       setActiveTab('my');
-      refreshSupportRequests();
+      fetchRequests();
     } catch (error) {
       toast.error('提交支持请求失败，请重试');
     }
@@ -24,9 +22,8 @@ const UserSupportPage: React.FC = () => {
 
   return (
     <div className="flex flex-col min-h-screen bg-gray-50">
-      <Navbar />
-      
-      <main className="flex-grow pt-16">
+    
+      <main className="flex-grow">
         {/* 页面标题 */}
         <section className="bg-gradient-to-r from-blue-500 to-blue-600 text-white py-16">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -64,17 +61,15 @@ const UserSupportPage: React.FC = () => {
           ) : (
             <div className="bg-white rounded-xl shadow-md p-6">
               <SupportList 
-                supportRequests={supportRequests}
-                loading={loading}
-                error={error}
-                onRefresh={refreshSupportRequests}
+                requests={requests}
+                isLoading={isLoading}
+                error={error || ''}
+                onViewDetails={(id) => console.log('View details:', id)}
               />
             </div>
           )}
         </div>
       </main>
-      
-      <Footer />
     </div>
   );
 };

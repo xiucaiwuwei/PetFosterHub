@@ -1,7 +1,6 @@
 import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { toast } from 'sonner';
-import { cn } from '@/lib/utils/utils';
 
 // 问诊类型定义
 interface Consultation {

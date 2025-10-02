@@ -30,7 +30,7 @@ const ForgotPasswordForm: React.FC<ForgotPasswordFormProps> = ({ onResetSuccess 
   const [phone, setPhone] = useState('');
   const [verificationCode, setVerificationCode] = useState('');
   const [countdown, setCountdown] = useState(0);
-  const [role, setRole] = useState<UserRole>(UserRole.OWNER);
+  const [role] = useState<UserRole>(UserRole.OWNER);
   const [loading, setLoading] = useState(false);
   // 使用 Record<string, string> 类型以兼容表单处理方法，并确保值不为 undefined
   const [errors, setErrors] = useState<Record<string, string>>({});
@@ -65,16 +65,6 @@ const ForgotPasswordForm: React.FC<ForgotPasswordFormProps> = ({ onResetSuccess 
     setErrors(errorsObject);
   };
 
-  // 辅助函数：安全地更新单个字段错误（内部使用）
-  const updateFieldError = (fieldName: string, value: string | undefined): void => {
-    if (value === undefined) {
-      const newErrors = { ...errors };
-      delete newErrors[fieldName];
-      setErrors(newErrors);
-    } else {
-      setErrors({ ...errors, [fieldName]: value });
-    }
-  };
   const [currentStep, setCurrentStep] = useState<1 | 2>(1);
   const [newPassword, setNewPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');

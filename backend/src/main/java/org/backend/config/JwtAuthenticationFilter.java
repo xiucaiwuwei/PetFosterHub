@@ -16,11 +16,24 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
+import java.util.Arrays;
+import java.util.List;
 
 @Component
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
     private static final Logger logger = LoggerFactory.getLogger(JwtAuthenticationFilter.class);
+    // 定义公开接口的路径列表（这些接口不需要认证）
+    private static final List<String> PUBLIC_ENDPOINTS = Arrays.asList(
+            "/api/auth/login",
+            "/api/auth/register",
+            "/api/verification-code/send",
+            "/api/auth/forgot-password",
+            "/api/auth/reset-password",
+            "/api/auth/verify-email",
+            "/api/banners/active",
+            "/api/home/" // 首页接口无需认证
+    );
 
     private final JwtUtil jwtUtil;
     private final UserDetailsService userDetailsService;
@@ -42,6 +55,14 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         }
 
         try {
+            // 检查是否是公开接口，如果是则跳过JWT验证
+            String requestUri = request.getRequestURI();
+            if (isPublicEndpoint(requestUri)) {
+                logger.debug("跳过公开接口的JWT验证: {}", requestUri);
+                filterChain.doFilter(request, response);
+                return;
+            }
+
             String authHeader = request.getHeader("Authorization");
 
             if (authHeader != null && authHeader.startsWith("Bearer ")) {
@@ -80,5 +101,29 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
         // 继续执行过滤器链
         filterChain.doFilter(request, response);
+    }
+
+    /**
+     * 检查请求是否是公开接口
+     * @param requestUri 请求的URI路径
+     * @return 是否是公开接口
+     */
+    private boolean isPublicEndpoint(String requestUri) {
+        // 记录请求URI以便调试
+        logger.debug("检查请求是否为公开接口: {}", requestUri);
+        
+        // 优先检查精确匹配或前缀匹配
+        boolean isPublic = PUBLIC_ENDPOINTS.stream().anyMatch(endpoint -> 
+                requestUri.equals(endpoint) || requestUri.startsWith(endpoint + "/")
+        );
+        
+        // 特别针对首页接口做额外检查，确保所有/api/home/开头的路径都被正确识别
+        if (!isPublic && requestUri.startsWith("/api/home/")) {
+            logger.debug("额外匹配首页接口: {}", requestUri);
+            isPublic = true;
+        }
+        
+        logger.debug("请求[{}]是否为公开接口: {}", requestUri, isPublic);
+        return isPublic;
     }
 }

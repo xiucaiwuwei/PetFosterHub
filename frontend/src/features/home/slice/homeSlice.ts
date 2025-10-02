@@ -1,12 +1,12 @@
 // Home模块的Redux状态管理
 import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
-import { homeService, ServiceFeature, Testimonial } from '../services/homeService';
-import { FosterService } from '@/types';
+import homeService from '../services/homeService';
+import type { FosterService } from '../types';
+import type { Testimonial } from '../types';
 
 // 定义状态接口
 interface HomeState {
   featuredFosters: FosterService[];
-  serviceFeatures: ServiceFeature[];
   testimonials: Testimonial[];
   loading: boolean;
   error: string | null;
@@ -15,7 +15,6 @@ interface HomeState {
 // 初始状态
 const initialState: HomeState = {
   featuredFosters: [],
-  serviceFeatures: [],
   testimonials: [],
   loading: false,
   error: null
@@ -23,38 +22,26 @@ const initialState: HomeState = {
 
 // 异步Thunks
 
-export const fetchFeaturedFosters = createAsyncThunk(
-  'home/fetchFeaturedFosters',
+export const fetchTopThreeFosters = createAsyncThunk(
+  'home/fetchTopThreeFosters',
   async (_, { rejectWithValue }) => {
     try {
-      const data = await homeService.getFeaturedFosters();
+      const data = await homeService.getTopThreeFosters();
       return data;
     } catch (error) {
-      return rejectWithValue('获取推荐寄养服务失败');
+      return rejectWithValue('获取最好的三个寄养服务数据失败');
     }
   }
 );
 
-export const fetchServiceFeatures = createAsyncThunk(
-  'home/fetchServiceFeatures',
+export const fetchLatestThreeTestimonials = createAsyncThunk(
+  'home/fetchLatestThreeTestimonials',
   async (_, { rejectWithValue }) => {
     try {
-      const data = await homeService.getServiceFeatures();
+      const data = await homeService.getLatestThreeTestimonials();
       return data;
     } catch (error) {
-      return rejectWithValue('获取服务特点失败');
-    }
-  }
-);
-
-export const fetchTestimonials = createAsyncThunk(
-  'home/fetchTestimonials',
-  async (_, { rejectWithValue }) => {
-    try {
-      const data = await homeService.getTestimonials();
-      return data;
-    } catch (error) {
-      return rejectWithValue('获取用户评价失败');
+      return rejectWithValue('获取三个用户最新的评价失败');
     }
   }
 );
@@ -70,47 +57,33 @@ const homeSlice = createSlice({
     }
   },
   extraReducers: (builder) => {
-    // 处理fetchFeaturedFosters
+    // 处理fetchTopThreeFosters
     builder
-      .addCase(fetchFeaturedFosters.pending, (state) => {
+      .addCase(fetchTopThreeFosters.pending, (state) => {
         state.loading = true;
         state.error = null;
       })
-      .addCase(fetchFeaturedFosters.fulfilled, (state, action: PayloadAction<FosterService[]>) => {
+      .addCase(fetchTopThreeFosters.fulfilled, (state, action: PayloadAction<FosterService[]>) => {
         state.loading = false;
         state.featuredFosters = action.payload;
       })
-      .addCase(fetchFeaturedFosters.rejected, (state, action) => {
+      .addCase(fetchTopThreeFosters.rejected, (state, action) => {
         state.loading = false;
-        state.error = action.payload as string || '获取推荐寄养服务失败';
+        state.error = action.payload as string || '获取最好的三个寄养服务数据失败';
       })
 
-      // 处理fetchServiceFeatures
-      .addCase(fetchServiceFeatures.pending, (state) => {
+      // 处理fetchLatestThreeTestimonials
+      .addCase(fetchLatestThreeTestimonials.pending, (state) => {
         state.loading = true;
         state.error = null;
       })
-      .addCase(fetchServiceFeatures.fulfilled, (state, action: PayloadAction<ServiceFeature[]>) => {
-        state.loading = false;
-        state.serviceFeatures = action.payload;
-      })
-      .addCase(fetchServiceFeatures.rejected, (state, action) => {
-        state.loading = false;
-        state.error = action.payload as string || '获取服务特点失败';
-      })
-
-      // 处理fetchTestimonials
-      .addCase(fetchTestimonials.pending, (state) => {
-        state.loading = true;
-        state.error = null;
-      })
-      .addCase(fetchTestimonials.fulfilled, (state, action: PayloadAction<Testimonial[]>) => {
+      .addCase(fetchLatestThreeTestimonials.fulfilled, (state, action: PayloadAction<Testimonial[]>) => {
         state.loading = false;
         state.testimonials = action.payload;
       })
-      .addCase(fetchTestimonials.rejected, (state, action) => {
+      .addCase(fetchLatestThreeTestimonials.rejected, (state, action) => {
         state.loading = false;
-        state.error = action.payload as string || '获取用户评价失败';
+        state.error = action.payload as string || '获取三个用户最新的评价失败';
       });
   }
 });

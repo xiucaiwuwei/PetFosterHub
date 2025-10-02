@@ -6,7 +6,6 @@ import authService from '../services/authService';
 import AuthHeader from '../components/AuthHeader';
 import UserInfoForm from '../components/UserInfoForm';
 import LocalStorageManager from '@/lib/utils/LocalStorageManager';
-import { cn } from '@/lib/utils/ClassUtils';
 
 interface FormValues {
   name?: string | undefined;

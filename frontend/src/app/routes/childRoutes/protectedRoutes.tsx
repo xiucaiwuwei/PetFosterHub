@@ -1,5 +1,5 @@
 import { RouteObject } from 'react-router-dom';
-import { UserLayout } from '@/components/layout/UserLayout';
+import { UserLayout } from '@/components/layout/UserLayout.tsx';
 import Profile from '@/features/user/pages/Profile.tsx';
 import Messages from '@/features/messages/pages/Messages.tsx';
 import ApplyFoster from '@/features/foster/pages/ApplyFoster';

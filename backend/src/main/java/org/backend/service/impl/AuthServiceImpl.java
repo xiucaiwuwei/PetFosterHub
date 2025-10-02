@@ -129,6 +129,8 @@ public class AuthServiceImpl implements AuthService {
         // 设置默认密码以应对数据库非空判断
         newUser.setPassword(passwordEncoder.encode("123456"));
         newUser.setRole(registerRequest.getRole());
+        // 设置idCard为null以避免数据库非空约束错误
+        newUser.setIdCard(null);
         return newUser;
     }
     

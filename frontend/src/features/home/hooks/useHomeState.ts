@@ -1,23 +1,18 @@
-// Home模块的状态访问hooks
-import { useSelector } from 'react-redux';
-import { RootState } from '@/store';
-import { FosterService } from '@/types';
-import { ServiceFeature, Testimonial } from '../services/homeService';
+// Home模块的自定义state hooks
+import {useSelector} from 'react-redux';
+import {RootState} from '@/app/store/store';
+import type {FosterService, Testimonial} from '../types';
+import type {FosterServiceItem} from '@/features/foster/types/dto/FosterServiceDTO';
+import {convertToFosterServiceItems} from '../types/fosterServiceConverter';
 
 // 获取home模块的所有状态
 export const useHomeState = () => {
-  const homeState = useSelector((state: RootState) => state.home);
-  return homeState;
+    return useSelector((state: RootState) => state.home);
 };
 
 // 获取推荐寄养服务列表
 export const useFeaturedFosters = (): FosterService[] => {
   return useSelector((state: RootState) => state.home.featuredFosters);
-};
-
-// 获取服务特点列表
-export const useServiceFeatures = (): ServiceFeature[] => {
-  return useSelector((state: RootState) => state.home.serviceFeatures);
 };
 
 // 获取用户评价列表
@@ -41,4 +36,10 @@ export const useTopRatedFosters = (limit: number = 3): FosterService[] => {
   return [...fosters]
     .sort((a, b) => b.rating - a.rating)
     .slice(0, limit);
+};
+
+// 获取评分最高的寄养服务(转换为列表项格式)
+export const useTopRatedFosterItems = (limit: number = 3): FosterServiceItem[] => {
+  const topRatedFosters = useTopRatedFosters(limit);
+  return convertToFosterServiceItems(topRatedFosters);
 };

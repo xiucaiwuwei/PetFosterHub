@@ -39,7 +39,7 @@ public class User extends BaseEntity {
     @Schema(description = "角色")
     private UserRole role;
 
-    @Column(nullable = false)
+    @Column(nullable = true)
     @Schema(description = "身份证号")
     private String idCard;
 

@@ -1,0 +1,53 @@
+version: '3.8'
+
+services:
+  mysql:
+    image: mysql:8.0
+    container_name: petfosterhub-mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: 123456
+      MYSQL_DATABASE: pet_foster_hub
+      MYSQL_USER: petuser
+      MYSQL_PASSWORD: 123456
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+      - ./init-db.sql:/docker-entrypoint-initdb.d/init-db.sql
+    networks:
+      - petfosterhub-network
+
+  redis:
+    image: redis:7-alpine
+    container_name: petfosterhub-redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    networks:
+      - petfosterhub-network
+
+  backend:
+    build: .
+    container_name: petfosterhub-backend
+    ports:
+      - "8080:8080"
+    environment:
+      SPRING_PROFILES_ACTIVE: docker
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/pet_foster_hub?useSSL=false&serverTimezone=UTC&characterEncoding=utf8
+      SPRING_DATASOURCE_USERNAME: petuser
+      SPRING_DATASOURCE_PASSWORD: 123456
+      SPRING_REDIS_HOST: redis
+    depends_on:
+      - mysql
+      - redis
+    networks:
+      - petfosterhub-network
+
+volumes:
+  mysql_data:
+  redis_data:
+
+networks:
+  petfosterhub-network:
+    driver: bridge

@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
-import { motion } from 'framer-motion';
 import { toast } from 'sonner';
-import { cn } from '@/lib/utils/utils';
+import { cn } from '@/lib/utils';
 
 // 设置分类类型定义
 interface SettingCategory {

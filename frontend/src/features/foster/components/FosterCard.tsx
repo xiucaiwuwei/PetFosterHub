@@ -1,89 +1,114 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import type { FosterServiceItem } from '../types/dto';
+import { motion } from 'framer-motion';
+import { FosterService } from '@/types';
+import { cn } from '@/lib/utils';
 
 interface FosterCardProps {
-  foster: FosterServiceItem;
+  service: FosterService;
 }
 
-const FosterCard: React.FC<FosterCardProps> = ({ foster }) => {
-  const { id, title, description, price, discountPrice, images, location, rating, reviewCount, tags } = foster;
-
+export function FosterCard({ service }: FosterCardProps) {
+  const [imageIndex, setImageIndex] = useState(0);
+  
+  // 格式化价格显示
+  const formatPrice = (price: number, currency: string) => {
+    return `${price} ${currency}/天`;
+  };
+  
+  // 处理图片轮播
+  const nextImage = () => {
+    if (service.images.length > 1) {
+      setImageIndex((prev) => (prev + 1) % service.images.length);
+    }
+  };
+  
+  // 自动轮播图片
+  useEffect(() => {
+    if (service.images.length > 1) {
+      const interval = setInterval(nextImage, 3000);
+      return () => clearInterval(interval);
+    }
+    // 当图片数量不大于1时，返回undefined（或者不返回任何值）
+    return undefined;
+  }, [service.images.length]);
+  
   return (
-    <div className="bg-white rounded-lg shadow-md overflow-hidden transition-all duration-300 hover:shadow-xl">
-      <div className="relative h-48 bg-gray-100">
-        {images && images.length > 0 ? (
-          <img 
-            src={images[0]} 
-            alt={title} 
-            className="w-full h-full object-cover"
-          />
-        ) : (
-          <div className="w-full h-full flex items-center justify-center bg-gray-200">
-            <span className="text-gray-500">无图片</span>
+    <motion.div
+      className="bg-white rounded-xl shadow-md overflow-hidden transition-all duration-300 hover:shadow-lg"
+      whileHover={{ y: -5 }}
+    >
+      <div className="relative h-48 bg-gray-200">
+        <img
+          src={service.images[imageIndex]}
+          alt={service.title}
+          className="w-full h-full object-cover"
+        />
+        {service.images.length > 1 && (
+          <div className="absolute bottom-2 left-0 right-0 flex justify-center space-x-2">
+            {service.images.map((_, idx) => (
+              <button
+                key={idx}
+                onClick={() => setImageIndex(idx)}
+                className={cn(
+                  "w-2 h-2 rounded-full transition-colors duration-200",
+                  idx === imageIndex ? "bg-white" : "bg-gray-400 bg-opacity-50"
+                )}
+                aria-label={`查看图片 ${idx + 1}`}
+              />
+            ))}
           </div>
         )}
-        {discountPrice && (
-          <div className="absolute top-2 left-2 bg-red-500 text-white text-xs px-2 py-1 rounded">
-            优惠
-          </div>
-        )}
+        <div className="absolute top-2 right-2 bg-white bg-opacity-90 rounded-full px-2 py-1 text-sm font-medium text-gray-800 flex items-center">
+          <i className="fa-solid fa-star text-yellow-400 mr-1"></i>
+          {service.rating} ({service.reviewsCount})
+        </div>
       </div>
       
       <div className="p-4">
         <div className="flex items-center mb-2">
-          <div className="flex items-center text-amber-500 mr-2">
-            {[...Array(5)].map((_, i) => (
-              <svg 
-                key={i} 
-                className={`w-4 h-4 ${i < Math.floor(rating) ? 'text-amber-500' : 'text-gray-300'}`} 
-                fill="currentColor" 
-                viewBox="0 0 20 20"
-              >
-                <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-              </svg>
-            ))}
-          </div>
-          <span className="text-sm text-gray-600">{reviewCount} 评价</span>
+          <img
+            src={service.providerAvatar}
+            alt={service.providerName}
+            className="w-8 h-8 rounded-full object-cover mr-2"
+          />
+          <span className="text-sm font-medium text-gray-700">{service.providerName}</span>
         </div>
         
-        <h3 className="text-lg font-semibold mb-1 line-clamp-1">{title}</h3>
-        <p className="text-gray-600 text-sm mb-3 line-clamp-2">{description}</p>
+        <Link to={`/fosters/${service.id}`}>
+          <h3 className="text-lg font-semibold text-gray-900 mb-1 hover:text-orange-500 transition-colors">
+            {service.title}
+          </h3>
+        </Link>
         
-        <div className="flex flex-wrap gap-2 mb-3">
-          {tags.slice(0, 3).map((tag, index) => (
-            <span 
-              key={index} 
-              className="bg-gray-100 text-gray-600 text-xs px-2 py-1 rounded"
+        <p className="text-sm text-gray-500 mb-3 line-clamp-2">{service.description}</p>
+        
+        <div className="flex flex-wrap gap-1 mb-3">
+          {service.petTypes.map((type) => (
+            <span
+              key={type}
+              className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-orange-100 text-orange-800"
             >
-              {tag}
+              {type === 'dog' && <i className="fa-solid fa-dog mr-1"></i>}
+              {type === 'cat' && <i className="fa-solid fa-cat mr-1"></i>}
+              {type === 'other' && <i className="fa-solid fa-paw mr-1"></i>}
+              {type === 'dog' ? '狗狗' : type === 'cat' ? '猫咪' : '其他宠物'}
             </span>
           ))}
         </div>
         
-        <div className="flex justify-between items-center">
-          <div className="flex items-center">
-            {discountPrice ? (
-              <>
-                <span className="text-red-500 font-bold text-lg">¥{discountPrice}</span>
-                <span className="text-gray-400 text-sm line-through ml-1">¥{price}</span>
-              </>
-            ) : (
-              <span className="text-gray-800 font-bold text-lg">¥{price}</span>
-            )}
-            <span className="text-gray-500 text-xs ml-1">/天</span>
-          </div>
-          
-          <Link 
-            to={`/foster/detail/${id}`} 
-            className="bg-primary text-white px-3 py-1 rounded-md text-sm hover:bg-primary/90 transition-colors"
+        <div className="flex items-center justify-between mt-4">
+          <span className="text-lg font-bold text-gray-900">
+            {formatPrice(service.pricePerDay, service.currency)}
+          </span>
+          <Link
+            to={`/fosters/${service.id}`}
+            className="inline-flex items-center px-3 py-1 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-orange-500 hover:bg-orange-600"
           >
             查看详情
           </Link>
         </div>
       </div>
-    </div>
+    </motion.div>
   );
-};
-
-export default FosterCard;
+}

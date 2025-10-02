@@ -67,6 +67,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(AUTH_API_PATH).permitAll()
                         .requestMatchers("/api/verification-code/**").permitAll() // 允许验证码接口无需认证
+                        .requestMatchers("/api/home/**").permitAll() // 允许首页接口无需认证
                         .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll() // 允许所有OPTIONS预检请求
                         .anyRequest().authenticated()
                 )

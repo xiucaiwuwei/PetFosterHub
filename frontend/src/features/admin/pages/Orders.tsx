@@ -5,11 +5,9 @@ import { getBookingsByOwnerId } from '@/mocks/bookings.ts';
 import { getFosterServiceById } from '@/mocks/fosters.ts';
 import { getPetById } from '@/mocks/pets.ts';
 import { Booking, FosterService, Pet } from '@/types';
-import { cn } from '@/lib/utils/ClassUtils';
 import { OrderList } from '../components/OrderList';
 import { SearchFilter } from '../components/SearchFilter';
 import { Pagination } from '../components/Pagination';
-import { StatusBadge } from '../components/StatusBadge';
 
 // 格式化日期显示
 const formatDate = (date: Date): string => {
@@ -99,7 +97,6 @@ export default function Orders() {
   // 分页逻辑
   const indexOfLastOrder = currentPage * ordersPerPage;
   const indexOfFirstOrder = indexOfLastOrder - ordersPerPage;
-  const currentOrders = filteredOrders.slice(indexOfFirstOrder, indexOfLastOrder);
   const totalPages = Math.ceil(filteredOrders.length / ordersPerPage);
 
   // 查看订单详情

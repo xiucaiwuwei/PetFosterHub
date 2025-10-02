@@ -1,32 +1,32 @@
 // 外部依赖
-import { getToken, removeToken, setToken } from '@/lib/utils/TokenManager';
+import {getToken, removeToken, setToken} from '@/lib/utils/TokenManager';
 import LocalStorageManager from '@/lib/utils/LocalStorageManager';
 
 // 内部依赖
 import authApi from '../api/authApi';
 
 // 类型导入
-import type { BaseResponse } from '@/types';
-import type { UserRole } from '../types/enums';
-import type { StoredUserInfo } from '../types/entity';
+import type {BaseResponse} from '@/types';
+import type {UserRole} from '../types/enums';
+import type {StoredUserInfo} from '../types/entity';
 import type {
-  LoginRequest,
-  LoginResponse,
-  RegisterRequest,
-  RegisterResponse,
-  UpdateUserInfoRequest,
-  UpdateUserInfoResponse,
-  VerificationCodeRequest,
-  VerificationCodeResponse,
-  VerificationCodeVerifyRequest,
-  VerificationCodeVerifyResponse,
-  GetUserInfoRequest,
-  GetUserInfoResponse,
-  LogoutResponse,
-  RefreshTokenRequest,
-  RefreshTokenResponse,
-  ResetPasswordRequest,
-  ResetPasswordResponse
+    GetUserInfoRequest,
+    GetUserInfoResponse,
+    LoginRequest,
+    LoginResponse,
+    LogoutResponse,
+    RefreshTokenRequest,
+    RefreshTokenResponse,
+    RegisterRequest,
+    RegisterResponse,
+    ResetPasswordRequest,
+    ResetPasswordResponse,
+    UpdateUserInfoRequest,
+    UpdateUserInfoResponse,
+    VerificationCodeRequest,
+    VerificationCodeResponse,
+    VerificationCodeVerifyRequest,
+    VerificationCodeVerifyResponse
 } from '../types/dto';
 
 // 三天的毫秒数
@@ -125,7 +125,7 @@ class AuthService {
                     }
                 } else if (errorMessage.includes('could not execute statement')) {
                     // 简化SQL相关错误
-                    const causeMatch = errorMessage.match(/\[([^\]]+)\]/);
+                    const causeMatch = errorMessage.match(/\[([^\]]+)]/);
                     if (causeMatch && causeMatch[1]) {
                         errorMessage = causeMatch[1];
                     } else {
@@ -204,8 +204,7 @@ class AuthService {
     async logout(): Promise<LogoutResponse> {
         console.log('[AuthService] 开始登出流程');
         try {
-            const result = await authApi.logout();
-            return result;
+            return await authApi.logout();
         } catch (error) {
             console.error('[AuthService] 登出API调用失败', { error: error instanceof Error ? error.message : '未知错误' });
             throw error;

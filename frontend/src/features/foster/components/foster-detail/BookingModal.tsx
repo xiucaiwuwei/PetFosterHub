@@ -2,7 +2,7 @@ import { motion } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'sonner';
 import type { FosterService, Pet } from '../../types';
-import { calculateDaysBetween } from '../../utils/formatUtils';
+import { calculateDaysBetween } from '@/features/foster/utils/formatUtils';
 
 interface BookingModalProps {
   isOpen: boolean;

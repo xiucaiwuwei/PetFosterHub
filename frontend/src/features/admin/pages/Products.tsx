@@ -1,8 +1,6 @@
 import { useState, useEffect } from 'react';
-import { motion } from 'framer-motion';
 import { toast } from 'sonner';
 import { getPetProducts, PetProduct } from '@/mocks/petProducts.ts';
-import { cn } from '@/lib/utils/utils';
 
 // 格式化价格显示
 const formatPrice = (price: number): string => {

@@ -1,4 +1,6 @@
-// 寄养服务提供者信息实体类型定义
+/**
+ * 寄养服务提供者
+ */
 export interface FosterProvider {
   id: string; // 提供者ID
   userId: string; // 用户ID

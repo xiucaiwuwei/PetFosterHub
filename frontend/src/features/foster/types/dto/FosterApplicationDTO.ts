@@ -1,3 +1,6 @@
+/**
+ * 申请寄养服务参数
+ */
 import { PetType } from '../enums';
 
 // 申请寄养服务请求参数

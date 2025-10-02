@@ -1,3 +1,6 @@
+/**
+ * 模拟寄养服务数据
+ */
 import type {
   FosterServiceListRequest,
   FosterServiceListResponse,
@@ -8,7 +11,6 @@ import type {
   FosterOrderRequest,
   FosterOrderResponse
 } from '../types/dto';
-import type { BaseResponse } from '@/types/baseType';
 import fosterApi from '../api/fosterApi';
 
 // 寄养服务

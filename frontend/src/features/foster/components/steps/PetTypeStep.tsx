@@ -1,3 +1,7 @@
+/**
+ * 寄养申请表单宠物类型步骤
+ * 收集用户可接受的宠物类型信息
+ */
 import React from 'react';
 import ErrorDisplay from '@/components/forms/ErrorDisplay.tsx';
 

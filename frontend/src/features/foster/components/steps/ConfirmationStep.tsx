@@ -1,3 +1,7 @@
+/**
+ * 寄养申请表单确认步骤
+ * 展示用户填写的所有申请信息，供用户确认和提交
+ */
 import React from 'react';
 import ErrorDisplay from '@/components/forms/ErrorDisplay.tsx';
 

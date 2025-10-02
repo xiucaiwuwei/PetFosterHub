@@ -1,3 +1,7 @@
+/**
+ * 寄养申请表单服务信息步骤
+ * 收集用户提供的寄养服务价格、服务描述等信息
+ */
 import React from 'react';
 import ErrorDisplay from '@/components/forms/ErrorDisplay.tsx';
 

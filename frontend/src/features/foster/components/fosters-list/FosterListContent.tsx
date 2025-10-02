@@ -1,3 +1,7 @@
+/**
+ * 寄养列表内容组件
+ * 显示寄养服务列表、加载状态、错误状态和分页控件
+ */
 import React from 'react';
 import { FosterCard } from '../FosterCard';
 import FosterListSkeleton from './FosterListSkeleton';

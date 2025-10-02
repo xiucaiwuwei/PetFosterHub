@@ -1,3 +1,7 @@
+/**
+ * 步骤指示器组件
+ * 显示多步骤表单的当前进度、步骤名称和完成状态
+ */
 import React from 'react';
 
 interface StepIndicatorProps {

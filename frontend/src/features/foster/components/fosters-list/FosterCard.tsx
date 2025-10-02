@@ -1,3 +1,7 @@
+/**
+ * 寄养列表卡片组件
+ * 用于在寄养列表页面展示单个寄养服务的概要信息
+ */
 import React from 'react';
 import { Link } from 'react-router-dom';
 import type { FosterServiceItem } from '../../types/dto';

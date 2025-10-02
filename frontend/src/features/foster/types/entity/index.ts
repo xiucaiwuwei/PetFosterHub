@@ -1,4 +1,6 @@
-// 统一导出所有寄养相关的实体类型
+/**
+ * 寄养服务模块
+ */
 
 export * from './FosterService';
 export * from './FosterOrder';

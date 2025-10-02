@@ -1,3 +1,6 @@
+/**
+ * 创建寄养订单接口参数
+ */
 import { FosterOrderStatus, PaymentMethod } from '../enums';
 
 // 创建寄养订单请求参数

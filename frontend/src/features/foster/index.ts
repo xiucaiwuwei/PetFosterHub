@@ -2,10 +2,17 @@
 import fosterService from './services/fosterService';
 import fosterApi from './api/fosterApi';
 import fosterReducer from './slice/fosterSlice';
-import * as fosterHooks from './hooks/useFosters';
+import * as useFostersHooks from './hooks/useFosters';
+import useFosterListData from './hooks/useFosterListData';
 import * as fosterComponents from './components';
 import * as fosterUtils from './utils/formatUtils';
 import * as fosterActions from './slice/fosterSlice';
+
+// 合并所有hooks
+const fosterHooks = {
+  ...useFostersHooks,
+  useFosterListData
+};
 
 // 导出服务
 export { fosterService };
@@ -20,6 +27,7 @@ export { fosterReducer };
 export { fosterHooks };
 
 export * from './hooks/useFosters';
+export { useFosterListData } from './hooks/useFosterListData';
 
 // 导出组件
 export { fosterComponents };

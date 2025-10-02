@@ -1,3 +1,7 @@
+/**
+ * 寄养服务预订面板组件
+ * 显示服务价格信息，并提供预订按钮
+ */
 import { useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { RootState } from '@/app/store/store';

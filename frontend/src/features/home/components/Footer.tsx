@@ -67,7 +67,7 @@ export const Footer = () => {
                                     <Link to="/" className="text-sm text-gray-500 hover:text-orange-500 transition-colors duration-200">首页</Link>
                                 </li>
                                 <li>
-                                    <Link to="/fosters" className="text-sm text-gray-500 hover:text-orange-500 transition-colors duration-200">寻找寄养</Link>
+                                    <Link to="/fosters" className="text-sm text-gray-500 hover:text-orange-500 transition-all duration-300">寻找寄养</Link>
                                 </li>
                                 <li>
                                     <Link to="/become-foster" className="text-sm text-gray-500 hover:text-orange-500 transition-colors duration-200">成为寄养者</Link>

@@ -1,3 +1,7 @@
+/**
+ * 寄养申请表单处理逻辑
+ */
+
 import { useState, useEffect, useCallback } from 'react';
 import fosterService from '../services/fosterService';
 import type {

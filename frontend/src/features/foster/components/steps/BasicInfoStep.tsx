@@ -1,3 +1,7 @@
+/**
+ * 寄养申请表单基本信息步骤
+ * 收集用户的姓名、联系方式等基本信息
+ */
 import React from 'react';
 import ErrorDisplay from '@/components/forms/ErrorDisplay.tsx';
 

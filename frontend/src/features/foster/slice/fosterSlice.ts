@@ -1,3 +1,6 @@
+/**
+ * fosterSlice.ts
+ */
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import fosterService from '../services/fosterService';
 import type {
@@ -6,7 +9,6 @@ import type {
   FosterServiceDetailRequest,
   FosterServiceDetailResponse,
   ApplyFosterRequest,
-  ApplyFosterResponse,
   FosterOrderRequest,
   FosterOrderResponse
 } from '../types/dto';

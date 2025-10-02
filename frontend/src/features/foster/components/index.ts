@@ -1,4 +1,7 @@
-// 导出寄养服务相关组件
+/**
+ * Foster组件统一导出文件
+ * 导出所有foster相关的展示组件
+ */
 export { default as FosterCard } from './fosters-list/FosterCard';
 export { default as FosterListHeader } from './fosters-list/FosterListHeader';
 export { default as FosterSearchFilter } from './fosters-list/FosterSearchFilter';

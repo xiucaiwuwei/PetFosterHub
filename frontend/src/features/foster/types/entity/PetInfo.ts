@@ -1,3 +1,6 @@
+/**
+ * 申请寄养服务参数
+ */
 import { PetType } from '../enums';
 
 // 宠物信息实体类型定义

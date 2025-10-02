@@ -1,3 +1,7 @@
+/**
+ * 服务图片展示组件
+ * 展示寄养服务的图片集，支持点击放大查看
+ */
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import type { FosterService } from '../../types';

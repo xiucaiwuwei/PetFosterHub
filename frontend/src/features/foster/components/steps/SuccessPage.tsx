@@ -1,3 +1,7 @@
+/**
+ * 申请提交成功页面组件
+ * 寄养申请表单提交成功后显示的页面，包含成功提示和后续操作选项
+ */
 import React from 'react';
 
 interface SuccessPageProps {

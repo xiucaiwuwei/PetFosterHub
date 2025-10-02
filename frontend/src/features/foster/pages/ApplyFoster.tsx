@@ -1,3 +1,6 @@
+/**
+ * 申请寄养
+ */
 import { Navbar } from '@/components/layout/Navbar.tsx';
 import { Footer } from '@/features/home/components/Footer.tsx';
 import ApplyFosterForm from '../components/ApplyFosterForm';

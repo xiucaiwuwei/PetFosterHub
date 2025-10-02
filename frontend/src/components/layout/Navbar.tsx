@@ -90,9 +90,12 @@ export function Navbar() {
                <NavLink 
                  to="/fosters"
                  className={({ isActive }) => 
-                   isActive 
-                     ? "border-b-2 border-orange-500 text-orange-600 inline-flex items-center px-3 py-2 text-sm font-medium transition-all duration-300" 
-                     : "border-b-2 border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700 hover:bg-orange-50 inline-flex items-center px-3 py-2 text-sm font-medium rounded-md transition-all duration-300"
+                   cn(
+                     "inline-flex items-center px-3 py-2 text-sm font-medium rounded-md transition-all duration-300",
+                     isActive 
+                       ? "border-b-2 border-orange-500 text-orange-600" 
+                       : "border-b-2 border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700 hover:bg-orange-50"
+                   )
                  }
                >
                  宠物寄养
@@ -300,7 +303,10 @@ export function Navbar() {
             {/* 宠物寄养 - 所有用户可见 */}
             <Link
               to="/fosters"
-              className="border-transparent text-gray-500 hover:bg-gray-50 hover:border-gray-300 hover:text-gray-700 block pl-3 pr-4 py-2 border-l-4 text-base font-medium rounded-md transition-colors duration-200"
+              className={cn(
+                "block pl-3 pr-4 py-2 border-l-4 text-base font-medium rounded-md transition-colors duration-200",
+                "border-transparent text-gray-500 hover:bg-gray-50 hover:border-gray-300 hover:text-gray-700"
+              )}
             >
               宠物寄养
             </Link>

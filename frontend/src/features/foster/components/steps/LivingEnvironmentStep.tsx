@@ -1,3 +1,7 @@
+/**
+ * 寄养申请表单居住环境步骤
+ * 收集用户的居住环境信息，包括是否有院子、居住空间大小等
+ */
 import React from 'react';
 import ErrorDisplay from '@/components/forms/ErrorDisplay.tsx';
 

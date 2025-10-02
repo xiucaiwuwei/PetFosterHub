@@ -1,7 +1,7 @@
-import {RouteObject} from 'react-router-dom';
-import {UserLayout} from '@/components/layout/UserLayout.tsx';
+import { RouteObject } from 'react-router-dom';
+import { UserLayout } from '@/components/layout/UserLayout.tsx';
 import HomePage from '@/features/home/pages/HomePage.tsx';
-import {FosterList} from '@/features/foster/pages/FosterList';
+import FosterHome from '@/features/foster/pages/FosterHome';
 import Login from '@/features/auth/pages/LoginPage';
 import Register from '@/features/auth/pages/RegisterPage';
 import ForgotPassword from '@/features/auth/pages/ForgotPasswordPage';
@@ -23,7 +23,7 @@ const publicRoutes: RouteObject[] = [
       },
       {
         path: 'fosters',
-        element: <FosterList />
+        element: <FosterHome />
       },
       {
         path: 'support',
@@ -37,7 +37,14 @@ const publicRoutes: RouteObject[] = [
         path: 'pet-consultation',
         element: <PetConsultation />
       },
-      {        path: 'pet-store',        element: <PetStore />      },      {        path: 'pet-store/:id',        element: <PetStoreDetail />      }
+      {
+        path: 'pet-store',
+        element: <PetStore />
+      },
+      {
+        path: 'pet-store/:id',
+        element: <PetStoreDetail />
+      }
     ]
   },
   {
@@ -52,9 +59,9 @@ const publicRoutes: RouteObject[] = [
     path: '/forgot-password',
     element: <ForgotPassword />
   },
-    {
-        path: '/complete-profile',
-        element: <CompleteProfilePage/>
+  {
+    path: '/complete-profile',
+    element: <CompleteProfilePage />
   }
 ]
 

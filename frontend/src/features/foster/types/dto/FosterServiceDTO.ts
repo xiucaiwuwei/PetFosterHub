@@ -1,5 +1,6 @@
-// 寄养服务列表和详情相关的DTO类型定义
-
+/**
+ * 创建寄养订单接口参数
+ */
 import { FosterServiceStatus } from '../enums';
 
 // 获取寄养服务列表请求参数

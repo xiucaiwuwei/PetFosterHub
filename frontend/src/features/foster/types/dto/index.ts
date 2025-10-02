@@ -1,4 +1,6 @@
-// 统一导出所有寄养相关的DTO类型
+/**
+ * 寄养服务模块接口
+ */
 export * from './FosterServiceDTO';
 export * from './FosterApplicationDTO';
 export * from './FosterOrderDTO';

@@ -1,13 +1,13 @@
+/**
+ * 寄养列表为空时的显示组件
+ * 当寄养服务列表为空时显示的界面，提供清除筛选和刷新列表的功能
+ */
 import React from 'react';
 
 interface FosterListEmptyStateProps {
   onClearAllFilters: () => void;
   onRefreshList: () => void;
 }
-
-/**
- * 寄养列表为空时的显示组件
- */
 const FosterListEmptyState: React.FC<FosterListEmptyStateProps> = ({
   onClearAllFilters,
   onRefreshList,

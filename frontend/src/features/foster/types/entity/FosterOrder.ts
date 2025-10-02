@@ -1,3 +1,6 @@
+/**
+ * 创建寄养订单接口参数
+ */
 import { FosterOrderStatus } from '../enums';
 
 // 寄养订单实体类型定义

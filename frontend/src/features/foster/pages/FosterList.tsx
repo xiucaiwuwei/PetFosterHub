@@ -1,37 +1,24 @@
-import {useFosters} from '@/features/foster';
+/**
+ * 寄养服务列表页面
+ * 展示所有可提供的寄养服务，并提供搜索和筛选功能
+ */
+import { useFosterListData } from '../hooks/useFosterListData';
 import FosterListHeader from '../components/fosters-list/FosterListHeader';
 import FosterSearchFilter from '../components/fosters-list/FosterSearchFilter';
 import FosterListContent from '../components/fosters-list/FosterListContent';
 
-// 定义搜索和筛选函数接口
-type SearchFunction = (keyword: string) => void;
-type FiltersChangeFunction = (filters: { petType: string; serviceType: string }) => void;
-
 export function FosterList() {
-    const {fosters, loading, error, updateParams, refreshFosters} = useFosters({pageNum: 1, pageSize: 12});
-
-    // 搜索函数
-    const search: SearchFunction = (keyword: string) => {
-        updateParams({keyword, pageNum: 1});
-    };
-
-    // 处理筛选条件变化的函数
-    const handleFiltersChange: FiltersChangeFunction = (filters) => {
-        // 合并筛选条件为一个关键字字符串
-        const filterKeywords = [];
-        if (filters.petType) filterKeywords.push(filters.petType);
-        if (filters.serviceType) filterKeywords.push(filters.serviceType);
-        
-        const combinedKeyword = filterKeywords.join(' ');
-        updateParams({keyword: combinedKeyword, pageNum: 1});
-    };
-
-    // 清除所有筛选条件的函数
-    const clearAllFilters = () => {
-        search('');
-        // 触发一次空筛选，确保所有筛选条件都被清除
-        handleFiltersChange({petType: '', serviceType: ''});
-    };
+    // 使用自定义hook处理所有数据逻辑
+    const {
+        fosters,
+        loading,
+        error,
+        refreshFosters,
+        updateParams,
+        search,
+        handleFiltersChange,
+        clearAllFilters
+    } = useFosterListData({ pageNum: 1, pageSize: 12 });
 
     return (
         <div className="flex flex-col min-h-screen">

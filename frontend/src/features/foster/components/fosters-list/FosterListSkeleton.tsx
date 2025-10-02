@@ -1,8 +1,8 @@
-import React from 'react';
-
 /**
  * 寄养列表加载状态的骨架屏组件
  */
+import React from 'react';
+
 const FosterListSkeleton: React.FC = () => {
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">

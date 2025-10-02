@@ -1,32 +1,17 @@
 import React from 'react';
-import Carousel from '@/components/display/Carousel.tsx';
+import Carousel from '@/components/display/Carousel';
 
-interface CarouselSlide {
-  id: number;
-  title: string;
-  description: string;
-  backgroundColor: string;
-  backgroundGradient: string;
-  imageUrl?: string;
-  stats?: {
-    label: string;
-    value: string;
-  }[];
-}
-
-interface PetStoreHeaderProps {
-  slides?: CarouselSlide[];
+interface PetStoreCarouselProps {
   autoPlay?: boolean;
   autoPlayInterval?: number;
 }
 
-const PetStoreHeader: React.FC<PetStoreHeaderProps> = ({ 
-  slides: customSlides,
+const PetStoreCarousel: React.FC<PetStoreCarouselProps> = ({
   autoPlay = true,
   autoPlayInterval = 5000
 }) => {
-  // 默认轮播图数据
-  const defaultSlides: CarouselSlide[] = [
+  // 宠物商店专用轮播图数据
+  const petStoreSlides = [
     {
       id: 1,
       title: '宠物商店',
@@ -68,11 +53,9 @@ const PetStoreHeader: React.FC<PetStoreHeaderProps> = ({
     }
   ];
 
-  const slides = customSlides || defaultSlides;
-
   return (
     <Carousel
-      slides={slides}
+      slides={petStoreSlides}
       autoPlay={autoPlay}
       autoPlayInterval={autoPlayInterval}
       minHeight="240px"
@@ -83,4 +66,4 @@ const PetStoreHeader: React.FC<PetStoreHeaderProps> = ({
   );
 };
 
-export default PetStoreHeader;
+export default PetStoreCarousel;

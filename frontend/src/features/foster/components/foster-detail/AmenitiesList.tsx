@@ -1,3 +1,7 @@
+/**
+ * 设施与服务列表组件
+ * 用于展示寄养服务提供的各种设施和服务
+ */
 import type { FosterService } from '../../types';
 
 interface AmenitiesListProps {

@@ -1,3 +1,7 @@
+/**
+ * 加载状态展示组件
+ * 当寄养服务详情正在加载时显示的界面
+ */
 import { Navbar } from '@/components/layout/Navbar.tsx';
 import { Footer } from '@/features/home/components/Footer.tsx';
 

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { useProductList } from '../hooks/useProductList';
 import PetStoreSecondaryNav from '../components/layout/PetStoreSecondaryNav';
-import PetStoreHeader from '../components/layout/PetStoreHeader';
+import PetStoreCarousel from '../components/layout/PetStoreCarousel';
 import ProductCategory from '../components/products/ProductCategory';
 import ProductListSection from '../components/products/ProductListSection';
 import { ProductSortOption } from '@/features/petStore/types';
@@ -234,8 +234,8 @@ const PetStore: React.FC = () => {
           className="flex-1 bg-gray-50 min-h-[calc(100vh-64px)] overflow-y-auto transition-all duration-300 ease-in-out"
           style={{ marginRight: isSidebarOpen || isCartOpen || isFavoritesOpen ? `${expandedWidth}px` : '0px' }}
         >
-          {/* 渐变背景标题区域 */}
-          <PetStoreHeader />
+          {/* 渐变背景标题轮播图区域 */}
+          <PetStoreCarousel />
           
           {/* 商品列表区域 */}
           <div className="px-4 md:px-12">

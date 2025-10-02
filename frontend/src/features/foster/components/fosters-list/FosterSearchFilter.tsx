@@ -1,3 +1,7 @@
+/**
+ * 寄养服务搜索筛选组件
+ * 提供关键词搜索和宠物类型、服务类型的筛选功能
+ */
 import React, { useState } from 'react';
 
 interface FosterSearchFilterProps {
@@ -5,10 +9,6 @@ interface FosterSearchFilterProps {
   onFiltersChange: (filters: { petType: string; serviceType: string }) => void;
   initialSearchTerm?: string;
 }
-
-/**
- * 整合搜索和筛选功能的组件
- */
 export function FosterSearchFilter({
   onSearch,
   onFiltersChange,

@@ -4,10 +4,9 @@
  */
 import { useState } from 'react';
 import { useFosterListData } from '../hooks/useFosterListData';
-import { useFosterFavorites } from '../components/favorites/FosterFavoritesContext';
+import { useFosterFavorites } from '../components/favorites';
 import { useFosterHomeUI } from '../hooks/useFosterHomeUI';
-import FosterCarousel from '../components/fosters-list/FosterCarousel';
-import FosterListContent from '../components/fosters-list/FosterListContent';
+import { FosterCarousel, FosterListContent } from '../components';
 import FosterSecondaryNav from '../components/layout/FosterSecondaryNav';
 import FosterFilterPanel from '../components/layout/FosterFilterPanel';
 import { FosterFavoritesManager } from '../components/favorites';

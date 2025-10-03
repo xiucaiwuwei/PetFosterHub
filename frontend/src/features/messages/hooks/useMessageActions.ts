@@ -2,10 +2,10 @@
  * 处理消息操作的自定义Hook
  */
 import { useCallback } from 'react';
-import { useDispatch } from 'react-redux';
+import { useAppDispatch } from '@/app/store/store';
 import { sendMessage, markConversationAsRead } from '../slice/messageSlice';
 import { SendMessageDto } from '../types/dto';
-import { Message } from '../types/entity';
+import { Message } from '../types/entity/Message';
 
 /**
  * 消息操作Hook的返回类型
@@ -20,7 +20,7 @@ export interface UseMessageActionsReturn {
  * @returns 消息操作相关的函数
  */
 export const useMessageActions = (): UseMessageActionsReturn => {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   /**
    * 发送消息

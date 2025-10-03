@@ -6,6 +6,8 @@ import { TypedUseSelectorHook, useSelector } from 'react-redux';
 
 import authReducer from '../../features/auth/slice/authSlice';
 import homeReducer from '../../features/home/slice/homeSlice';
+import fosterReducer from '../../features/foster/slice/fosterSlice';
+import messageReducer from '../../features/messages/slice/messageSlice';
 import { ErrorHandler } from '@/lib/utils';
 
 // Redux Persist 相关的常量
@@ -76,6 +78,8 @@ const performanceMiddleware: Middleware = (_store) => (next) => (action: any) =>
 const reducers = {
   auth: persistReducer(authPersistConfig, authReducer),
   home: homeReducer,
+  foster: fosterReducer,
+  message: messageReducer,
 } as const;
 
 // 配置Store

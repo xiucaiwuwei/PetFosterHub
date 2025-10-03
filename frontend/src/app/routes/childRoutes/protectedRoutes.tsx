@@ -1,7 +1,7 @@
 import { RouteObject } from 'react-router-dom';
 import { UserLayout } from '@/components/layout/UserLayout.tsx';
 import Profile from '@/features/user/pages/Profile.tsx';
-import Messages from '@/features/messages/pages/Messages.tsx';
+import MessagesHome from '@/features/messages/pages/MessagesHome.tsx';
 import ApplyFoster from '@/features/foster/pages/ApplyFoster';
 import ApplyServiceProvider from '@/features/serviceProvider/pages/ApplyServiceProvider';
 import OrderDetail from '@/features/order/pages/OrderDetail';
@@ -17,7 +17,7 @@ const protectedRoutes: RouteObject[] = [
       },
       {
         path: 'messages',
-        element: <Messages />
+        element: <MessagesHome />
       },
       {
         path: 'apply-foster',

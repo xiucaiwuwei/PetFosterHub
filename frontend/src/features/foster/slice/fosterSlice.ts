@@ -1,5 +1,6 @@
 /**
- * fosterSlice.ts
+ * 寄养服务状态管理Slice
+ * 处理寄养服务列表、详情、申请和订单相关的状态更新
  */
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import fosterService from '../services/fosterService';

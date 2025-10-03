@@ -2,7 +2,7 @@
  * 推荐寄养服务组件
  * 展示平台上评分最高的寄养服务提供商
  */
-import FosterCard from '@/features/foster/components/fosters-list/FosterCard';
+import { FosterCard } from '@/features/foster/components';
 import { useTopRatedFosterItems, useHomeLoading } from '../hooks';
 
 interface FeaturedFostersProps {
@@ -59,7 +59,7 @@ export const FeaturedFosters = ({ }: FeaturedFostersProps) => {
                 className="bg-white rounded-xl shadow-md overflow-hidden border border-orange-100 transform transition-all duration-500 hover:-translate-y-3 hover:shadow-xl hover:border-orange-200 opacity-0 animate-[fadeIn_0.7s_ease-in-out_forwards]"
                 style={{ animationDelay: `${index * 0.2}s` }}
               >
-                <FosterCard foster={serviceItem} />
+                <FosterCard service={serviceItem} />
               </div>
             ))}
           </div>

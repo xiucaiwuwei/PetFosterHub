@@ -22,19 +22,18 @@ const ApplyFosterForm: React.FC<ApplyFosterFormProps> = ({onSubmitSuccess}) => {
     // 使用自定义 Hook 管理表单状态和逻辑
     const {
         formData,
-        errors,
+        formErrors,
         currentStep,
         isSubmitting,
         submitSuccess,
-        onChange,
-        handleFileChange,
-        handleRemoveImage,
-        handleCustomPetTypeChange,
+        handleChange,
+        handleFileUpload,
+        removeImage,
         goToStep,
         handleSubmit,
         resetForm,
         navigateToHome
-    } = useFosterApply({onSubmitSuccess});
+    } = useFosterApply();
 
     // 步骤名称
     const STEP_NAMES = ['基本信息', '居住环境', '宠物类型', '服务信息', '确认提交'];
@@ -46,43 +45,42 @@ const ApplyFosterForm: React.FC<ApplyFosterFormProps> = ({onSubmitSuccess}) => {
                 return (
                     <BasicInfoStep
                         formData={formData}
-                        errors={errors}
-                        onChange={onChange}
+                        errors={formErrors}
+                        onChange={handleChange}
                     />
                 );
             case 2:
                 return (
                     <LivingEnvironmentStep
                         formData={formData}
-                        errors={errors}
-                        onChange={onChange}
-                        onFileChange={handleFileChange}
-                        onRemoveImage={handleRemoveImage}
+                        errors={formErrors}
+                        onChange={handleChange}
+                        onFileChange={handleFileUpload}
+                        onRemoveImage={removeImage}
                     />
                 );
             case 3:
                 return (
                     <PetTypeStep
                         formData={formData}
-                        errors={errors}
-                        onChange={onChange}
-                        onCustomPetTypeChange={handleCustomPetTypeChange}
+                        errors={formErrors}
+                        onChange={handleChange}
                     />
                 );
             case 4:
                 return (
                     <ServiceInfoStep
                         formData={formData}
-                        errors={errors}
-                        onChange={onChange}
+                        errors={formErrors}
+                        onChange={handleChange}
                     />
                 );
             case 5:
                 return (
                     <ConfirmationStep
                         formData={formData}
-                        errors={errors}
-                        onFileChange={handleFileChange}
+                        errors={formErrors}
+                        onFileChange={handleFileUpload}
                     />
                 );
             default:

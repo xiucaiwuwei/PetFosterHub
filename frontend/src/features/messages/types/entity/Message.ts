@@ -12,4 +12,8 @@ export interface Message {
   type: MessageType;
   createdAt: Date;
   isRead: boolean;
+  // 以下属性用于UI显示
+  isSentByMe?: boolean;
+  status?: 'sending' | 'sent' | 'delivered' | 'read';
+  messageId?: string; // 为了向后兼容保留messageId
 }

@@ -4,6 +4,8 @@ import fosterApi from './api/fosterApi';
 import fosterReducer from './slice/fosterSlice';
 import * as useFostersHooks from './hooks/useFosters';
 import useFosterListData from './hooks/useFosterListData';
+import useFosterDetailForm from './hooks/useFosterDetailForm';
+import useFosterDetail from './hooks/useFosterDetail';
 import * as fosterComponents from './components';
 import * as fosterUtils from './utils/formatUtils';
 import * as fosterActions from './slice/fosterSlice';
@@ -11,7 +13,9 @@ import * as fosterActions from './slice/fosterSlice';
 // 合并所有hooks
 const fosterHooks = {
   ...useFostersHooks,
-  useFosterListData
+  useFosterListData,
+  useFosterDetailForm,
+  useFosterDetail
 };
 
 // 导出服务
@@ -28,6 +32,8 @@ export { fosterHooks };
 
 export * from './hooks/useFosters';
 export { useFosterListData } from './hooks/useFosterListData';
+export { useFosterDetailForm } from './hooks/useFosterDetailForm';
+export { useFosterDetail } from './hooks/useFosterDetail';
 
 // 导出组件
 export { fosterComponents };

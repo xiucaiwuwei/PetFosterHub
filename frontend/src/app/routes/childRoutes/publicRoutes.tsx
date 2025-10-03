@@ -30,10 +30,6 @@ const publicRoutes: RouteObject[] = [
         element: <SupportPage />
       },
       {
-        path: 'fosters/:id',
-        element: <FosterDetail />
-      },
-      {
         path: 'pet-consultation',
         element: <PetConsultation />
       },
@@ -46,6 +42,10 @@ const publicRoutes: RouteObject[] = [
         element: <PetStoreDetail />
       }
     ]
+  },
+  {
+    path: 'fosters/:id',
+    element: <FosterDetail />
   },
   {
     path: '/login',

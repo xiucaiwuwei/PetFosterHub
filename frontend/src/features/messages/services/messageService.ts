@@ -2,7 +2,8 @@
  * 消息业务逻辑服务
  */
 import { getConversations, getMessagesByConversationId, sendMessage as apiSendMessage, markAsRead } from '../api/messageApi';
-import { Message, Conversation } from '../types/entity';
+import { Message } from '../types/entity/Message';
+import { Conversation } from '../types/entity/Conversation';
 import { GetMessagesDto, SendMessageDto } from '../types/dto';
 import { validateMessageContent } from '../utils/validationUtils';
 
@@ -18,9 +19,22 @@ export class MessageService {
   static async getUserConversations(userId: string): Promise<Conversation[]> {
     try {
       const conversations = await getConversations(userId);
+      
+      // 确保日期格式正确，不进行序列化转换
+      const formattedConversations = conversations.map(conversation => ({
+        ...conversation,
+        createdAt: conversation.createdAt instanceof Date ? conversation.createdAt : 
+                  typeof conversation.createdAt === 'string' ? new Date(conversation.createdAt) : new Date(),
+        lastMessage: {
+          ...conversation.lastMessage,
+          createdAt: conversation.lastMessage?.createdAt instanceof Date ? conversation.lastMessage.createdAt : 
+                     typeof conversation.lastMessage?.createdAt === 'string' ? new Date(conversation.lastMessage.createdAt) : new Date()
+        }
+      }));
+      
       // 按最后消息时间排序，最新的对话在前面
-      return conversations.sort((a, b) => {
-        return new Date(b.lastMessage.createdAt).getTime() - new Date(a.lastMessage.createdAt).getTime();
+      return formattedConversations.sort((a, b) => {
+        return b.lastMessage.createdAt.getTime() - a.lastMessage.createdAt.getTime();
       });
     } catch (error) {
       console.error('获取对话列表失败:', error);
@@ -36,9 +50,17 @@ export class MessageService {
   static async getConversationMessages(dto: GetMessagesDto): Promise<Message[]> {
     try {
       const messages = await getMessagesByConversationId(dto);
+      
+      // 确保日期格式正确，不进行序列化转换
+      const formattedMessages = messages.map((message: Message) => ({
+        ...message,
+        createdAt: message.createdAt instanceof Date ? message.createdAt : 
+                   typeof message.createdAt === 'string' ? new Date(message.createdAt) : new Date()
+      }));
+      
       // 按时间排序，最早的消息在前面
-      return messages.sort((a, b) => {
-        return new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime();
+      return formattedMessages.sort((a, b) => {
+        return a.createdAt.getTime() - b.createdAt.getTime();
       });
     } catch (error) {
       console.error('获取消息列表失败:', error);
@@ -60,7 +82,15 @@ export class MessageService {
 
     try {
       const message = await apiSendMessage(dto);
-      return message;
+      
+      // 确保日期格式正确，不进行序列化转换
+      const formattedMessage: Message = {
+        ...message,
+        createdAt: message.createdAt instanceof Date ? message.createdAt : 
+                   typeof message.createdAt === 'string' ? new Date(message.createdAt) : new Date()
+      };
+      
+      return formattedMessage;
     } catch (error) {
       console.error('发送消息失败:', error);
       throw new Error('发送消息失败，请重试');
@@ -94,10 +124,17 @@ export class MessageService {
     conversationId: string,
     newMessage: Message
   ): Conversation[] {
+    // 确保新消息中的createdAt是Date对象
+    const formattedNewMessage: Message = {
+      ...newMessage,
+      createdAt: newMessage.createdAt instanceof Date ? newMessage.createdAt : 
+                 typeof newMessage.createdAt === 'string' ? new Date(newMessage.createdAt) : new Date()
+    };
+    
     // 更新对话列表中的最后一条消息
     const updatedConversations = conversations.map(conv => 
       conv.conversationId === conversationId 
-        ? { ...conv, lastMessage: newMessage, unreadCount: 0 } 
+        ? { ...conv, lastMessage: formattedNewMessage, unreadCount: 0 } 
         : conv
     );
 

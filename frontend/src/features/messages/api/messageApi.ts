@@ -2,7 +2,8 @@
  * 消息API调用函数
  */
 import { GetMessagesDto, SendMessageDto } from '../types/dto';
-import { Message, Conversation } from '../types/entity';
+import { Message } from '../types/entity/Message';
+import { Conversation } from '../types/entity/Conversation';
 
 // 由于当前使用mock数据，这里定义API调用函数的接口
 // 实际项目中，这些函数将使用fetch或axios等HTTP客户端调用后端API
@@ -17,7 +18,7 @@ export const getConversations = async (userId: string): Promise<Conversation[]> 
   // 例如: return await httpClient.get<Conversation[]>(`/api/messages/conversations/${userId}`);
   
   // 目前使用mock数据
-  const { getConversations: mockGetConversations } = await import('@/mocks/messages');
+  const { getConversations: mockGetConversations } = await import('@/features/messages/mocks/messages');
   return mockGetConversations(userId);
 };
 
@@ -31,7 +32,7 @@ export const getMessagesByConversationId = async (dto: GetMessagesDto): Promise<
   // 例如: return await httpClient.get<Message[]>(`/api/messages/${dto.conversationId}`, { params: { limit: dto.limit, offset: dto.offset } });
   
   // 目前使用mock数据
-  const { getMessagesByConversationId: mockGetMessagesByConversationId } = await import('@/mocks/messages');
+  const { getMessagesByConversationId: mockGetMessagesByConversationId } = await import('@/features/messages/mocks/messages');
   return mockGetMessagesByConversationId(dto.conversationId);
 };
 
@@ -45,7 +46,7 @@ export const sendMessage = async (dto: SendMessageDto): Promise<Message> => {
   // 例如: return await httpClient.post<Message>(`/api/messages/send`, dto);
   
   // 目前使用mock数据
-  const { sendMessage: mockSendMessage } = await import('@/mocks/messages');
+  const { sendMessage: mockSendMessage } = await import('@/features/messages/mocks/messages');
   const currentUserId = 'u4'; // 模拟当前登录用户ID
   return mockSendMessage(dto.conversationId, currentUserId, dto.receiverId, dto.content);
 };
@@ -61,7 +62,7 @@ export const markAsRead = async (conversationId: string, userId: string): Promis
   // 例如: return await httpClient.post<boolean>(`/api/messages/${conversationId}/read`, { userId });
   
   // 目前使用mock数据
-  const { markAsRead: mockMarkAsRead } = await import('@/mocks/messages');
+  const { markAsRead: mockMarkAsRead } = await import('@/features/messages/mocks/messages');
   mockMarkAsRead(conversationId, userId);
   return true;
 };

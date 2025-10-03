@@ -2,10 +2,9 @@
  * 处理对话列表的自定义Hook
  */
 import { useState, useEffect, useCallback } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { RootState } from '@/app/store/store';
-import { fetchConversations, setSelectedConversation, MessageState } from '../slice/messageSlice';
-import { Conversation } from '../types/entity';
+import { useAppDispatch, useAppSelector } from '@/app/store/store';
+import { fetchConversations, setSelectedConversation } from '../slice/messageSlice';
+import { Conversation } from '../types/entity/Conversation';
 import { MessageService } from '../services/messageService';
 
 /**
@@ -26,8 +25,8 @@ export interface UseConversationListReturn {
  * @returns 对话列表相关的状态和操作函数
  */
 export const useConversationList = (userId: string): UseConversationListReturn => {
-  const dispatch = useDispatch();
-  const { conversations, selectedConversation, isLoading } = useSelector<RootState, MessageState>(
+  const dispatch = useAppDispatch();
+  const { conversations, selectedConversation, isLoading } = useAppSelector(
     (state) => state.message
   );
   
@@ -38,7 +37,7 @@ export const useConversationList = (userId: string): UseConversationListReturn =
    * 加载对话列表
    */
   const loadConversations = useCallback(() => {
-    dispatch(fetchConversations(userId));
+    return dispatch(fetchConversations(userId));
   }, [dispatch, userId]);
 
   /**

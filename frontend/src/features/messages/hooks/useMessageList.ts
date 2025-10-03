@@ -2,10 +2,9 @@
  * 处理消息列表的自定义Hook
  */
 import { useState, useEffect, useRef, useCallback } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { RootState } from '@/app/store/store';
-import { fetchMessages, markConversationAsRead, MessageState } from '../slice/messageSlice';
-import { Message } from '../types/entity';
+import { useAppDispatch, useAppSelector } from '@/app/store/store';
+import { fetchMessages, markConversationAsRead } from '../slice/messageSlice';
+import { Message } from '../types/entity/Message';
 
 /**
  * 消息列表Hook的返回类型
@@ -27,8 +26,8 @@ export const useMessageList = (
   conversationId: string | null,
   currentUserId: string
 ): UseMessageListReturn => {
-  const dispatch = useDispatch();
-  const { messages, isLoading } = useSelector<RootState, MessageState>(
+  const dispatch = useAppDispatch();
+  const { messages, isLoading } = useAppSelector(
     (state) => state.message
   );
   

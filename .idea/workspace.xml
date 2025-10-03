@@ -5,59 +5,70 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="848ab2e8-8fff-4102-93c9-069111a3636e" name="更改" comment="refactor(foster):重构寄养服务类型定义结构&#10;&#10;- 删除原有的聚合类型文件，重新组织类型定义文件结构- 新增独立的DTO类型定义文件(FosterServiceDTO、FosterApplicationDTO、FosterOrderDTO)&#10;- 新增独立的实体类型定义文件(FosterService、FosterOrder、PetInfo、FosterProvider)&#10;- 新增独立的枚举类型定义文件(FosterServiceStatus、FosterOrderStatus、PaymentMethod、PetType、ProviderType)&#10;- 更新类型导入路径和引用关系&#10;- 优化类型定义的注释和字段说明&#10;- 统一导出所有类型定义文件&#10;- 调整fosterService.ts中的导入顺序和基础类型引用">
+      <change afterPath="$PROJECT_DIR$/qodana.yaml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/app/App.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/app/App.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/app/routes/childRoutes/protectedRoutes.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/app/routes/childRoutes/protectedRoutes.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/frontend/src/app/routes/childRoutes/publicRoutes.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/app/routes/childRoutes/publicRoutes.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/components/display/Carousel.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/display/Carousel.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/components/layout/Navbar.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/layout/Navbar.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/features/foster/api/fosterApi.ts" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/features/foster/api/fosterApi.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/app/store/store.ts" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/app/store/store.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/frontend/src/features/foster/components/ApplyFosterForm.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/features/foster/components/ApplyFosterForm.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/features/foster/components/FosterCard.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/features/foster/components/FosterCard.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/features/foster/components/foster-detail/AmenitiesList.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/features/foster/components/foster-detail/AmenitiesList.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/features/foster/components/foster-detail/AvailableDates.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/features/foster/components/foster-detail/AvailableDates.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/features/foster/components/foster-detail/BookingModal.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/features/foster/components/foster-detail/BookingModal.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/features/foster/components/foster-detail/BookingPanel.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/features/foster/components/foster-detail/BookingPanel.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/features/foster/components/foster-detail/ErrorState.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/features/foster/components/foster-detail/ErrorState.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/features/foster/components/foster-detail/LoadingState.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/features/foster/components/foster-detail/LoadingState.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/features/foster/components/foster-detail/ProviderInfo.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/features/foster/components/foster-detail/ProviderInfo.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/features/foster/components/foster-detail/ServiceDescription.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/features/foster/components/foster-detail/ServiceDescription.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/features/foster/components/FosterCard.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/features/foster/components/favorites/FosterEmptyFavorites.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/features/foster/components/favorites/FosterFavoriteItem.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/features/foster/components/favorites/FosterFavoritesContext.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/features/foster/components/favorites/FosterFavoritesManager.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/features/foster/components/favorites/FosterFavoritesPanel.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/features/foster/components/favorites/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/features/foster/components/favorites/index.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/features/foster/components/foster-detail/AmenitiesList.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/features/foster/components/foster-detail/AvailableDates.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/features/foster/components/foster-detail/BookingModal.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/features/foster/components/foster-detail/BookingPanel.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/features/foster/components/foster-detail/ErrorState.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/features/foster/components/foster-detail/LoadingState.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/features/foster/components/foster-detail/ProviderInfo.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/features/foster/components/foster-detail/ServiceDescription.tsx" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/frontend/src/features/foster/components/foster-detail/ServiceImages.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/features/foster/components/foster-detail/ServiceImages.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/frontend/src/features/foster/components/foster-detail/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/features/foster/components/foster-detail/index.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/features/foster/components/fosters-list/FosterCard.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/features/foster/components/fosters-list/FosterCard.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/features/foster/components/fosters-list/FosterListContent.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/features/foster/components/fosters-list/FosterListContent.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/features/foster/components/fosters-list/FosterListEmptyState.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/features/foster/components/fosters-list/FosterListEmptyState.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/features/foster/components/fosters-list/FosterListHeader.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/features/foster/components/fosters-list/FosterListHeader.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/features/foster/components/fosters-list/FosterListSkeleton.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/features/foster/components/fosters-list/FosterListSkeleton.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/features/foster/components/fosters-list/FosterSearchFilter.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/features/foster/components/fosters-list/FosterSearchFilter.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/features/foster/components/fosters-list/FosterCard.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/features/foster/components/fosters-list/FosterCarousel.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/features/foster/components/fosters-list/FosterListContent.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/features/foster/components/fosters-list/FosterListEmptyState.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/features/foster/components/fosters-list/FosterListHeader.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/features/foster/components/fosters-list/FosterListSkeleton.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/features/foster/components/fosters-list/FosterSearchFilter.tsx" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/frontend/src/features/foster/components/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/features/foster/components/index.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/features/foster/components/steps/BasicInfoStep.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/features/foster/components/steps/BasicInfoStep.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/features/foster/components/steps/ConfirmationStep.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/features/foster/components/steps/ConfirmationStep.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/features/foster/components/steps/ErrorDisplay.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/features/foster/components/steps/ErrorDisplay.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/features/foster/components/steps/LivingEnvironmentStep.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/features/foster/components/steps/LivingEnvironmentStep.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/features/foster/components/steps/PetTypeStep.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/features/foster/components/steps/PetTypeStep.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/features/foster/components/steps/ServiceInfoStep.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/features/foster/components/steps/ServiceInfoStep.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/features/foster/components/steps/StepIndicator.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/features/foster/components/steps/StepIndicator.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/features/foster/components/steps/SuccessPage.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/features/foster/components/steps/SuccessPage.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/features/foster/components/layout/FosterFilterPanel.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/features/foster/components/layout/FosterFilterPanel.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/features/foster/components/steps/BasicInfoStep.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/features/foster/components/steps/ConfirmationStep.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/features/foster/components/steps/ErrorDisplay.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/features/foster/components/steps/LivingEnvironmentStep.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/features/foster/components/steps/PetTypeStep.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/features/foster/components/steps/ServiceInfoStep.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/features/foster/components/steps/StepIndicator.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/features/foster/components/steps/SuccessPage.tsx" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/frontend/src/features/foster/components/steps/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/features/foster/components/steps/index.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/features/foster/hooks/useFosterApply.ts" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/features/foster/hooks/useFosterApply.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/features/foster/hooks/useFosters.ts" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/features/foster/hooks/useFosters.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/frontend/src/features/foster/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/features/foster/index.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/features/foster/pages/ApplyFoster.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/features/foster/pages/ApplyFoster.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/frontend/src/features/foster/pages/FosterDetail.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/features/foster/pages/FosterDetail.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/features/foster/pages/FosterList.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/features/foster/pages/FosterList.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/features/foster/services/fosterService.ts" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/features/foster/services/fosterService.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/features/foster/pages/FosterHome.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/features/foster/pages/FosterHome.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/features/foster/pages/FosterList.tsx" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/frontend/src/features/foster/slice/fosterSlice.ts" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/features/foster/slice/fosterSlice.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/features/foster/types/dto/FosterApplicationDTO.ts" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/features/foster/types/dto/FosterApplicationDTO.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/features/foster/types/dto/FosterOrderDTO.ts" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/features/foster/types/dto/FosterOrderDTO.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/features/foster/types/dto/FosterServiceDTO.ts" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/features/foster/types/dto/FosterServiceDTO.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/features/foster/types/dto/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/features/foster/types/dto/index.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/features/foster/types/entity/FosterOrder.ts" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/features/foster/types/entity/FosterOrder.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/features/foster/types/entity/FosterProvider.ts" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/features/foster/types/entity/FosterProvider.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/features/foster/types/entity/FosterService.ts" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/features/foster/types/entity/FosterService.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/features/foster/types/entity/PetInfo.ts" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/features/foster/types/entity/PetInfo.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/features/foster/types/entity/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/features/foster/types/entity/index.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/features/home/components/Footer.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/features/home/components/Footer.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/features/petStore/components/layout/PetStoreHeader.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/features/petStore/pages/PetStore.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/features/petStore/pages/PetStore.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/features/home/components/FeaturedFosters.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/features/home/components/FeaturedFosters.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/features/messages/api/messageApi.ts" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/features/messages/api/messageApi.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/features/messages/components/ConversationList.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/features/messages/components/MessageInput.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/features/messages/components/MessageList.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/features/messages/components/MessageStatusBadge.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/features/messages/components/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/features/messages/components/index.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/features/messages/hooks/useConversationList.ts" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/features/messages/hooks/useConversationList.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/features/messages/hooks/useMessageActions.ts" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/features/messages/hooks/useMessageActions.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/features/messages/hooks/useMessageForm.ts" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/features/messages/hooks/useMessageForm.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/features/messages/hooks/useMessageList.ts" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/features/messages/hooks/useMessageList.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/features/messages/pages/Messages.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/features/messages/services/messageService.ts" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/features/messages/services/messageService.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/features/messages/slice/messageSlice.ts" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/features/messages/slice/messageSlice.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/features/messages/types/entity/Message.ts" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/features/messages/types/entity/Message.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/mocks/messages.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/types/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/types/index.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -99,6 +110,10 @@
         <option name="userSettingsFile" value="D:\Program\maven\apache-maven-3.9.11\conf\settings.xml" />
       </MavenGeneralSettings>
     </option>
+  </component>
+  <component name="ProblemsViewState">
+    <option name="selectedTabId" value="ProjectErrors" />
+    <option name="showPreview" value="true" />
   </component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 0
@@ -147,7 +162,7 @@
     "project.structure.last.edited": "项目",
     "project.structure.proportion": "0.15234375",
     "project.structure.side.proportion": "0.2",
-    "settings.editor.selected.configurable": "preferences.keymap",
+    "settings.editor.selected.configurable": "settings.qodana",
     "ts.external.directory.path": "D:\\WORK\\JAVA-WORK\\PetFosterHub\\frontend\\node_modules\\typescript\\lib",
     "vue.rearranger.settings.migration": "true"
   },
@@ -245,7 +260,9 @@
       <workItem from="1759324988685" duration="737000" />
       <workItem from="1759326014148" duration="1259000" />
       <workItem from="1759327520316" duration="24000" />
-      <workItem from="1759369778644" duration="16029000" />
+      <workItem from="1759369778644" duration="16705000" />
+      <workItem from="1759461049189" duration="4511000" />
+      <workItem from="1759504510626" duration="1582000" />
     </task>
     <task id="LOCAL-00001" summary="chore(project): 统一项目父模块名称为PetFosterHub- 修改backend/pom.xml中的父模块artifactId为PetFosterHub&#10;- 修改frontend/pom.xml中的父模块artifactId为PetFosterHub&#10;- 修改根目录pom.xml的artifactId为PetFosterHub- 更新IDEA工作区配置中的开发时间记录-为backend模块添加JavaScript库映射配置&#10;- 为frontend模块添加JavaScript库映射配置">
       <option name="closed" value="true" />
@@ -270,11 +287,38 @@
     <option name="version" value="3" />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
+    <option name="RECENT_FILTERS">
+      <map>
+        <entry key="User">
+          <value>
+            <list>
+              <RecentGroup>
+                <option name="FILTER_VALUES">
+                  <option value="*" />
+                </option>
+              </RecentGroup>
+            </list>
+          </value>
+        </entry>
+      </map>
+    </option>
     <option name="TAB_STATES">
       <map>
         <entry key="MAIN">
           <value>
-            <State />
+            <State>
+              <option name="FILTERS">
+                <map>
+                  <entry key="user">
+                    <value>
+                      <list>
+                        <option value="*" />
+                      </list>
+                    </value>
+                  </entry>
+                </map>
+              </option>
+            </State>
           </value>
         </entry>
       </map>

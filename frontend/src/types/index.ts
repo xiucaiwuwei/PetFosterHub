@@ -47,13 +47,3 @@ export interface Booking {
   notes?: string;
   createdAt: Date;
 }
-
-export interface Message {
-  id: string;
-  conversationId: string;
-  senderId: string;
-  receiverId: string;
-  content: string;
-  createdAt: Date;
-  isRead: boolean;
-}

@@ -5,7 +5,7 @@ import { useState, useCallback } from 'react';
 import { useMessageActions } from './useMessageActions';
 import { validateMessageContent } from '../utils/validationUtils';
 import { SendMessageDto } from '../types/dto';
-import { Message } from '../types/entity';
+import { Message } from '../types/entity/Message';
 
 /**
  * 消息表单Hook的返回类型

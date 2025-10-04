@@ -1,10 +1,12 @@
 /**
  * 处理消息列表的自定义Hook
+ * 集成WebSocket实时通信功能
  */
 import { useState, useEffect, useRef, useCallback } from 'react';
 import { useAppDispatch, useAppSelector } from '@/app/store/store';
-import { fetchMessages, markConversationAsRead } from '../slice/messageSlice';
+import { fetchMessages, markConversationAsRead, addNewMessage } from '../slice/messageSlice';
 import { Message } from '../types/entity/Message';
+import { useWebSocket } from './useWebSocket';
 
 /**
  * 消息列表Hook的返回类型
@@ -14,6 +16,13 @@ export interface UseMessageListReturn {
   isLoading: boolean;
   messagesEndRef: React.RefObject<HTMLDivElement>;
   refreshMessages: () => void;
+  // WebSocket相关状态和方法
+  isWsConnected: boolean;
+  wsConnecting: boolean;
+  typingUsers: Map<string, boolean>;
+  currentUserStatus: Map<string, 'online' | 'offline' | 'away'>;
+  sendReadReceipt: (messageIds: string[]) => void;
+  sendTypingStatus: (isTyping: boolean) => void;
 }
 
 /**
@@ -32,6 +41,36 @@ export const useMessageList = (
   );
   
   const messagesEndRef = useRef<HTMLDivElement>(null);
+  
+  /**
+   * 处理收到的新消息
+   */
+  const handleNewMessage = useCallback((message: Message) => {
+    // 只有当消息属于当前选中的对话时才添加到消息列表
+    if (message.conversationId === conversationId) {
+      dispatch(addNewMessage(message));
+      // 自动滚动到底部
+      setTimeout(() => {
+        scrollToBottom();
+      }, 100);
+    }
+  }, [dispatch, conversationId]);
+
+  // 使用WebSocket Hook
+  const {
+    isConnected,
+    connecting: wsConnecting,
+    currentUserStatus,
+    typingUsers,
+    connect: wsConnect,
+    disconnect: wsDisconnect,
+    sendReadReceipt: wsSendReadReceipt,
+    sendTypingStatus: wsSendTypingStatus
+  } = useWebSocket(
+    currentUserId,
+    handleNewMessage,
+    undefined // 暂时不需要处理对话更新
+  );
 
   /**
    * 加载消息列表
@@ -58,6 +97,24 @@ export const useMessageList = (
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, []);
 
+  /**
+   * 发送消息已读确认
+   */
+  const sendReadReceipt = useCallback((messageIds: string[]) => {
+    if (conversationId) {
+      wsSendReadReceipt(conversationId, messageIds);
+    }
+  }, [conversationId, wsSendReadReceipt]);
+
+  /**
+   * 发送正在输入状态
+   */
+  const sendTypingStatus = useCallback((isTyping: boolean) => {
+    if (conversationId) {
+      wsSendTypingStatus(conversationId, isTyping);
+    }
+  }, [conversationId, wsSendTypingStatus]);
+
   // 当选择的对话或消息列表变化时，加载消息并滚动到底部
   useEffect(() => {
     loadMessages();
@@ -72,10 +129,31 @@ export const useMessageList = (
     }
   }, [messages.length, scrollToBottom]);
 
+  // 当用户ID和对话ID都有效时连接WebSocket
+  useEffect(() => {
+    if (currentUserId && conversationId) {
+      wsConnect();
+    } else {
+      wsDisconnect();
+    }
+
+    // 组件卸载时断开连接
+    return () => {
+      wsDisconnect();
+    };
+  }, [currentUserId, conversationId, wsConnect, wsDisconnect]);
+
   return {
     messages,
     isLoading,
     messagesEndRef,
-    refreshMessages
+    refreshMessages,
+    // WebSocket相关状态和方法
+    isWsConnected: isConnected,
+    wsConnecting,
+    typingUsers,
+    currentUserStatus,
+    sendReadReceipt,
+    sendTypingStatus
   };
 };

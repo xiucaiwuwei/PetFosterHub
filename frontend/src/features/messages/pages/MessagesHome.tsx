@@ -20,6 +20,19 @@ export default function MessagesHome() {
   const { isAuthenticated } = useSelector((state: RootState) => state.auth);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   
+  // 控制对话屏蔽状态
+  const [blockedConversations, setBlockedConversations] = useState<Record<string, boolean>>({});
+  
+  // 处理屏蔽状态切换
+  const handleToggleBlock = (conversationId: string, blocked: boolean) => {
+    setBlockedConversations(prev => ({
+      ...prev,
+      [conversationId]: blocked
+    }));
+    
+    // 这里可以添加实际的API调用逻辑，保存屏蔽状态到服务器
+  };
+  
   // 当前用户ID (模拟登录用户为赵强，ID为u4)
   const currentUserId = 'u4';
 
@@ -49,10 +62,12 @@ export default function MessagesHome() {
     isSubmitting,
     handleContentChange,
     handleSubmit,
+    handleSendImage,
     resetForm
   } = useMessageForm(
     selectedConversation?.conversationId || null,
-    selectedConversation?.otherUser.id || null
+    selectedConversation?.otherUser.id || null,
+    currentUserId
   );
 
   // 处理移动端菜单切换
@@ -132,7 +147,14 @@ export default function MessagesHome() {
             messages={messages}
             isLoading={isLoadingMessages}
             onSendMessage={handleSubmit}
+            onSendImage={handleSendImage}
             error={error || ''}
+            isBlocked={selectedConversation ? blockedConversations[selectedConversation.conversationId] || false : false}
+            onToggleBlock={(blocked) => {
+              if (selectedConversation) {
+                handleToggleBlock(selectedConversation.conversationId, blocked);
+              }
+            }}
           />
         </div>
         

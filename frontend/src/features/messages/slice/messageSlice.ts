@@ -61,6 +61,42 @@ export const sendMessage = createAsyncThunk(
 );
 
 /**
+ * 发送图片消息的异步thunk
+ */
+export const sendImageMessage = createAsyncThunk(
+  'message/sendImageMessage',
+  async (
+    { 
+      conversationId, 
+      senderId, 
+      receiverId, 
+      file, 
+      caption 
+    }: {
+      conversationId: string;
+      senderId: string;
+      receiverId: string;
+      file: File;
+      caption?: string;
+    },
+    { rejectWithValue }
+  ) => {
+    try {
+      const message = await MessageService.sendImageMessage(
+        conversationId,
+        senderId,
+        receiverId,
+        file,
+        caption
+      );
+      return message;
+    } catch (error) {
+      return rejectWithValue(error instanceof Error ? error.message : '发送图片失败');
+    }
+  }
+);
+
+/**
  * 标记消息为已读的异步thunk
  */
 export const markConversationAsRead = createAsyncThunk(
@@ -161,6 +197,32 @@ export const messageSlice = createSlice({
     builder.addCase(sendMessage.rejected, (state, action) => {
       state.isLoading = false;
       state.error = action.error.message || '发送消息失败';
+      toast.error(state.error);
+    });
+    
+    // 发送图片消息
+    builder.addCase(sendImageMessage.pending, (state) => {
+      state.isLoading = true;
+      state.error = null;
+    });
+    
+    builder.addCase(sendImageMessage.fulfilled, (state, action: PayloadAction<Message>) => {
+      state.isLoading = false;
+      state.messages.push(action.payload);
+      
+      // 更新对话列表中的最后一条消息
+      if (state.selectedConversation) {
+        state.conversations = MessageService.updateConversationLastMessage(
+          state.conversations,
+          state.selectedConversation.conversationId,
+          action.payload
+        );
+      }
+    });
+    
+    builder.addCase(sendImageMessage.rejected, (state, action) => {
+      state.isLoading = false;
+      state.error = action.error.message || '发送图片失败';
       toast.error(state.error);
     });
     

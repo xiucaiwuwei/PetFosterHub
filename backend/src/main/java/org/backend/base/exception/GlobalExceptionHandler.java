@@ -20,6 +20,13 @@ import org.springframework.web.multipart.MaxUploadSizeExceededException;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * 全局异常处理器
+ * 处理应用程序中未被捕获的异常，并返回统一格式的错误响应
+ * <p>
+ * 该类使用@RestControllerAdvice注解，可以捕获所有控制器中抛出的异常，
+ * 并根据异常类型返回相应的错误信息和HTTP状态码，确保API错误响应的一致性。
+ */
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
@@ -44,10 +51,11 @@ public class GlobalExceptionHandler {
     /**
      * 处理认证异常
      *
+     * @param ignoredEx AuthenticationException异常
      * @return 错误响应
      */
     @ExceptionHandler(AuthenticationException.class)
-    public ResponseEntity<BaseResponse<Void>> handleAuthenticationException() {
+    public ResponseEntity<BaseResponse<Void>> handleAuthenticationException(AuthenticationException ignoredEx) {
         logger.warn("认证失败");
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
                 .body(BaseResponse.error("认证失败"));
@@ -74,10 +82,11 @@ public class GlobalExceptionHandler {
     /**
      * 处理实体未找到异常
      *
+     * @param ignoredEx EntityNotFoundException异常
      * @return 错误响应
      */
     @ExceptionHandler(EntityNotFoundException.class)
-    public ResponseEntity<BaseResponse<Void>> handleEntityNotFoundException() {
+    public ResponseEntity<BaseResponse<Void>> handleEntityNotFoundException(EntityNotFoundException ignoredEx) {
         logger.warn("实体未找到");
         return ResponseEntity.status(HttpStatus.NOT_FOUND)
                 .body(BaseResponse.error("数据不存在"));
@@ -86,10 +95,11 @@ public class GlobalExceptionHandler {
     /**
      * 处理查询结果为空异常
      *
+     * @param ignoredEx EmptyResultDataAccessException异常
      * @return 错误响应
      */
     @ExceptionHandler(EmptyResultDataAccessException.class)
-    public ResponseEntity<BaseResponse<Void>> handleEmptyResultDataAccessException() {
+    public ResponseEntity<BaseResponse<Void>> handleEmptyResultDataAccessException(EmptyResultDataAccessException ignoredEx) {
         logger.warn("查询结果为空");
         return ResponseEntity.status(HttpStatus.NOT_FOUND)
                 .body(BaseResponse.error("查询结果不存在"));
@@ -98,10 +108,11 @@ public class GlobalExceptionHandler {
     /**
      * 处理数据完整性约束违反异常
      *
+     * @param ignoredEx DataIntegrityViolationException异常
      * @return 错误响应
      */
     @ExceptionHandler(DataIntegrityViolationException.class)
-    public ResponseEntity<BaseResponse<Void>> handleDataIntegrityViolationException() {
+    public ResponseEntity<BaseResponse<Void>> handleDataIntegrityViolationException(DataIntegrityViolationException ignoredEx) {
         logger.error("数据完整性约束违反");
         return ResponseEntity.status(HttpStatus.CONFLICT)
                 .body(BaseResponse.error("数据操作违反约束"));
@@ -125,10 +136,11 @@ public class GlobalExceptionHandler {
     /**
      * 处理文件上传大小超限异常
      *
+     * @param ignoredEx MaxUploadSizeExceededException异常
      * @return 错误响应
      */
     @ExceptionHandler(MaxUploadSizeExceededException.class)
-    public ResponseEntity<BaseResponse<Void>> handleMaxUploadSizeExceededException() {
+    public ResponseEntity<BaseResponse<Void>> handleMaxUploadSizeExceededException(MaxUploadSizeExceededException ignoredEx) {
         logger.warn("文件上传大小超限");
         return ResponseEntity.status(HttpStatus.PAYLOAD_TOO_LARGE)
                 .body(BaseResponse.error("文件大小超过限制"));
@@ -150,10 +162,11 @@ public class GlobalExceptionHandler {
     /**
      * 处理访问拒绝异常
      *
+     * @param ignoredEx AccessDeniedException异常
      * @return 错误响应
      */
     @ExceptionHandler(AccessDeniedException.class)
-    public ResponseEntity<BaseResponse<Void>> handleAccessDeniedException() {
+    public ResponseEntity<BaseResponse<Void>> handleAccessDeniedException(AccessDeniedException ignoredEx) {
         logger.warn("访问被拒绝");
         return ResponseEntity.status(HttpStatus.FORBIDDEN)
                 .body(BaseResponse.error("访问权限不足"));

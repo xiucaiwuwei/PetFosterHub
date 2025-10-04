@@ -21,6 +21,17 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 
+/**
+ * Spring Security配置类
+ * 配置应用程序的安全策略，包括认证、授权、密码加密等
+ * <p>
+ * 该配置类负责：
+ * 1. 配置密码加密器
+ * 2. 配置认证提供者
+ * 3. 配置认证管理器
+ * 4. 配置JWT认证过滤器
+ * 5. 配置HTTP安全策略和访问控制规则
+ */
 @Configuration
 @EnableWebSecurity
 @EnableConfigurationProperties(JwtProperties.class)
@@ -32,11 +43,21 @@ public class SecurityConfig {
     private final JwtUtil jwtUtil;
     private final UserDetailsService userDetailsService;
 
+    /**
+     * 配置密码编码器
+     * 
+     * @return BCryptPasswordEncoder实例
+     */
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
 
+    /**
+     * 配置认证提供者
+     * 
+     * @return DaoAuthenticationProvider实例
+     */
     @SuppressWarnings("deprecation")
     @Bean
     public DaoAuthenticationProvider authenticationProvider() {
@@ -46,18 +67,35 @@ public class SecurityConfig {
         return authProvider;
     }
 
+    /**
+     * 配置认证管理器
+     * 
+     * @param authConfig 认证配置
+     * @return AuthenticationManager实例
+     * @throws Exception 配置异常
+     */
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration authConfig) throws Exception {
         return authConfig.getAuthenticationManager();
     }
 
+    /**
+     * 配置JWT认证过滤器
+     * 
+     * @return JwtAuthenticationFilter实例
+     */
     @Bean
     public JwtAuthenticationFilter jwtAuthenticationFilter() {
         return new JwtAuthenticationFilter(jwtUtil, userDetailsService);
     }
 
-    // CORS配置使用CorsConfig类中的bean定义
-
+    /**
+     * 配置安全过滤器链
+     * 
+     * @param http HttpSecurity对象，用于配置HTTP安全策略
+     * @return SecurityFilterChain实例
+     * @throws Exception 配置异常
+     */
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http.csrf(AbstractHttpConfigurer::disable)

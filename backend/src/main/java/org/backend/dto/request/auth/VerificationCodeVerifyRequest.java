@@ -11,6 +11,7 @@ import org.backend.entity.enums.VerificationCodeType;
 
 /**
  * 验证码验证请求DTO
+ * 用于封装验证验证码的请求数据
  */
 @EqualsAndHashCode(callSuper = true)
 @Data

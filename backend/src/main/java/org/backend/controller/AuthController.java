@@ -5,7 +5,6 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
-import lombok.Getter;
 import org.backend.base.controller.BaseController;
 import org.backend.base.dto.BaseResponse;
 import org.backend.base.utils.JwtUtil;
@@ -24,7 +23,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -47,16 +45,12 @@ public class AuthController extends BaseController {
 
     private final AuthService authService;
     private final UserService userService;
-    @Getter
-    private final PasswordEncoder passwordEncoder;
     private final JwtUtil jwtUtil;
 
     @Autowired
-    public AuthController(AuthService authService, UserService userService, PasswordEncoder passwordEncoder,
-                          JwtUtil jwtUtil) {
+    public AuthController(AuthService authService, UserService userService, JwtUtil jwtUtil) {
         this.authService = authService;
         this.userService = userService;
-        this.passwordEncoder = passwordEncoder;
         this.jwtUtil = jwtUtil;
     }
 
@@ -73,11 +67,11 @@ public class AuthController extends BaseController {
         try {
             User user = authService.authenticateUser(loginRequest);
             LoginResponse loginResponse = authService.generateLoginResponse(user);
-            logger.info("用户登录成功，用户ID: {}, 手机号: {}", user.getId(), user.getPhone());
+            logger.info("用户登录成功，用户ID: {}, 手机号: {}", user.getId(), maskPhone(user.getPhone()));
             return super.success("登录成功", loginResponse);
         } catch (Exception e) {
             logger.warn("用户登录失败，手机号: {}, 错误信息: {}",
-                    loginRequest != null && loginRequest.getPhone() != null ? loginRequest.getPhone() : "未知",
+                    loginRequest != null && loginRequest.getPhone() != null ? maskPhone(loginRequest.getPhone()) : "未知",
                     e.getMessage());
             return super.failure("登录失败：" + e.getMessage());
         }
@@ -98,11 +92,11 @@ public class AuthController extends BaseController {
             User newUser = authService.createUserFromRequest(registerRequest);
             User savedUser = userService.saveUser(newUser);
 
-            logger.info("用户注册成功，用户ID: {}, 手机号: {}", savedUser.getId(), savedUser.getPhone());
+            logger.info("用户注册成功，用户ID: {}, 手机号: {}", savedUser.getId(), maskPhone(savedUser.getPhone()));
             return super.success("注册成功");
         } catch (Exception e) {
             logger.warn("用户注册失败，手机号: {}, 错误信息: {}",
-                    registerRequest != null && registerRequest.getPhone() != null ? registerRequest.getPhone() : "未知",
+                    registerRequest != null && registerRequest.getPhone() != null ? maskPhone(registerRequest.getPhone()) : "未知",
                     e.getMessage());
             return super.failure("注册失败：" + e.getMessage());
         }
@@ -237,4 +231,16 @@ public class AuthController extends BaseController {
         }
     }
 
+    /**
+     * 隐藏手机号中间四位，用于日志记录
+     *
+     * @param phone 手机号
+     * @return 隐藏中间四位的手机号
+     */
+    private String maskPhone(String phone) {
+        if (phone == null || phone.length() != 11) {
+            return phone;
+        }
+        return phone.substring(0, 3) + "****" + phone.substring(7);
+    }
 }

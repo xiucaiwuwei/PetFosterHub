@@ -40,7 +40,7 @@ const loggerMiddleware: Middleware = () => (next) => (action: any) => {
 
 // 自定义中间件：错误处理
 const errorMiddleware: Middleware = (_store) => (next) => (action: any) => {
-  // 确保 action 和 action.type 存在再调用 endsWith 方法
+  // 确保 action 和 action.messageType 存在再调用 endsWith 方法
   if (action && action.type && typeof action.type === 'string' && action.type.endsWith('/rejected')) {
     const errorMessage = ErrorHandler.normalizeError(action.payload, '操作失败');
     console.error('Redux Error:', errorMessage);

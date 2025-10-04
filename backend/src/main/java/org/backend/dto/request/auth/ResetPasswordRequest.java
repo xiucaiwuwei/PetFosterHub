@@ -7,6 +7,10 @@ import lombok.EqualsAndHashCode;
 import org.backend.base.dto.BaseRequest;
 import org.backend.entity.enums.UserRole;
 
+/**
+ * 重置密码请求DTO
+ * 用于封装用户重置密码的请求数据
+ */
 @EqualsAndHashCode(callSuper = true)
 @Data
 @Schema(description = "重置密码请求DTO")

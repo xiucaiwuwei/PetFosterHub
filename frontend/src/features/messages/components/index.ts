@@ -10,11 +10,10 @@ export * from './layout/MessageListSidebar';
 export * from './message-list/MessageListHeader';
 export * from './message-list/MessageTabs';
 export * from './message-list/MessageList';
-export * from './message-list/MessageListHeader';
-export * from './message-list/MessageTabs';
 export * from './message-list/MessageItem';
 
 // 对话框相关组件
-export * from './dialog/MessageInput';
-export * from './dialog/DialogMessageList';
-export * from './dialog/MessageStatusBadge';
+export * from './dialog/input/MessageInput';
+export * from './dialog/message/DialogMessageList';
+export * from './dialog/message/MessageStatusBadge';
+export * from './dialog/header/ConversationHeader';

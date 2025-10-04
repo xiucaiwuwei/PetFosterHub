@@ -25,6 +25,11 @@ public abstract class BaseServiceImpl<T, ID, R extends JpaRepository<T, ID>> imp
 
     protected final R repository;
 
+    /**
+     * 构造函数
+     *
+     * @param repository 数据访问层对象
+     */
     public BaseServiceImpl(R repository) {
         this.repository = repository;
     }

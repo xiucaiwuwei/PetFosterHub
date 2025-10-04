@@ -1,7 +1,4 @@
-// 包声明
 package org.backend.base.utils;
-
-// 导入io.jsonwebtoken相关类，用于JWT操作
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
@@ -125,10 +122,8 @@ public class JwtUtil {
     public String getRoleFromToken(String token) {
         try {
             // 解析JWT令牌并获取声明部分
-            Claims claims = Jwts.parser()
-                    .verifyWith((SecretKey) getSigningKey())  // 设置签名密钥用于验证
-                    .build()
-                    .parseSignedClaims(token)           // 解析JWT令牌
+            Claims claims = Jwts.parser().verifyWith((SecretKey) getSigningKey())  // 设置签名密钥用于验证
+                    .build().parseSignedClaims(token)           // 解析JWT令牌
                     .getPayload();                      // 获取声明部分
 
             // 从声明中获取角色信息
@@ -149,10 +144,8 @@ public class JwtUtil {
     public String getPhoneFromToken(String token) {
         try {
             // 解析JWT令牌并获取声明部分
-            Claims claims = Jwts.parser()
-                    .verifyWith((SecretKey) getSigningKey())  // 设置签名密钥用于验证
-                    .build()
-                    .parseSignedClaims(token)           // 解析JWT令牌
+            Claims claims = Jwts.parser().verifyWith((SecretKey) getSigningKey())  // 设置签名密钥用于验证
+                    .build().parseSignedClaims(token)           // 解析JWT令牌
                     .getPayload();                      // 获取声明部分
 
             // 从声明中获取手机号信息
@@ -173,10 +166,8 @@ public class JwtUtil {
     public Long getUserIdFromToken(String token) {
         try {
             // 解析JWT令牌并获取声明部分
-            Claims claims = Jwts.parser()
-                    .verifyWith((SecretKey) getSigningKey())  // 设置签名密钥用于验证
-                    .build()
-                    .parseSignedClaims(token)           // 解析JWT令牌
+            Claims claims = Jwts.parser().verifyWith((SecretKey) getSigningKey())  // 设置签名密钥用于验证
+                    .build().parseSignedClaims(token)           // 解析JWT令牌
                     .getPayload();                      // 获取声明部分
 
             // 从声明中获取用户ID
@@ -226,16 +217,14 @@ public class JwtUtil {
     public void saveRefreshToken(String userId, String refreshToken) {
         try {
             // 将刷新令牌存储到Redis中，设置过期时间
-            redisTemplate.opsForValue().set(
-                    REFRESH_TOKEN_PREFIX + userId, // Redis键名
+            redisTemplate.opsForValue().set(REFRESH_TOKEN_PREFIX + userId, // Redis键名
                     refreshToken, // Redis值
                     jwtProperties.getRefreshExpiration(), // 过期时间
                     TimeUnit.MILLISECONDS // 时间单位
             );
 
             // 同时存储刷新令牌到用户ID的反向映射，用于快速查找
-            redisTemplate.opsForValue().set(
-                    REFRESH_TOKEN_PREFIX + "reverse:" + refreshToken, // 反向映射键名
+            redisTemplate.opsForValue().set(REFRESH_TOKEN_PREFIX + "reverse:" + refreshToken, // 反向映射键名
                     userId, // 用户ID作为值
                     jwtProperties.getRefreshExpiration(), // 相同的过期时间
                     TimeUnit.MILLISECONDS // 时间单位
@@ -299,19 +288,13 @@ public class JwtUtil {
     public void addToBlacklist(String token) {
         try {
             // 计算令牌剩余有效时间
-            Date expiration = Jwts.parser()
-                    .verifyWith((SecretKey) getSigningKey())
-                    .build()
-                    .parseSignedClaims(token)
-                    .getPayload()
-                    .getExpiration();
+            Date expiration = Jwts.parser().verifyWith((SecretKey) getSigningKey()).build().parseSignedClaims(token).getPayload().getExpiration();
 
             long expirationTime = expiration.getTime() - System.currentTimeMillis();
 
             // 将令牌添加到Redis黑名单中，设置与令牌相同的过期时间
             if (expirationTime > 0) {
-                redisTemplate.opsForValue().set(
-                        BLACKLIST_TOKEN_PREFIX + token, // Redis键名
+                redisTemplate.opsForValue().set(BLACKLIST_TOKEN_PREFIX + token, // Redis键名
                         "blacklisted", // Redis值
                         expirationTime, // 过期时间
                         TimeUnit.MILLISECONDS // 时间单位
@@ -339,10 +322,7 @@ public class JwtUtil {
             }
 
             // 验证令牌签名和过期时间
-            Jwts.parser()
-                    .verifyWith((SecretKey) getSigningKey())
-                    .build()
-                    .parseSignedClaims(token);
+            Jwts.parser().verifyWith((SecretKey) getSigningKey()).build().parseSignedClaims(token);
 
             return true;
         } catch (Exception e) {

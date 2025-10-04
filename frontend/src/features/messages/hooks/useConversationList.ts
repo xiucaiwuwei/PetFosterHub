@@ -6,6 +6,7 @@ import { useAppDispatch, useAppSelector } from '@/app/store/store';
 import { fetchConversations, setSelectedConversation } from '../slice/messageSlice';
 import { Conversation } from '../types/entity/Conversation';
 import { MessageService } from '../services/messageService';
+import { useWebSocket } from './useWebSocket';
 
 /**
  * 对话列表Hook的返回类型
@@ -17,6 +18,9 @@ export interface UseConversationListReturn {
   totalUnreadCount: number;
   handleSelectConversation: (conversation: Conversation) => void;
   refreshConversations: () => void;
+  // WebSocket相关状态
+  isWsConnected: boolean;
+  currentUserStatus: Map<string, 'online' | 'offline' | 'away'>;
 }
 
 /**
@@ -32,6 +36,27 @@ export const useConversationList = (userId: string): UseConversationListReturn =
   
   // 计算未读消息总数
   const totalUnreadCount = MessageService.getTotalUnreadCount(conversations);
+  
+  /**
+   * 处理对话更新
+   */
+  const handleConversationUpdate = useCallback((conversation: Conversation) => {
+    // 这里可以实现对话更新的逻辑
+    // 例如，更新对话列表中的特定对话
+    console.log('Conversation updated:', conversation);
+  }, []);
+  
+  // 使用WebSocket Hook
+  const { 
+    isConnected, 
+    currentUserStatus, 
+    connect: wsConnect, 
+    disconnect: wsDisconnect 
+  } = useWebSocket(
+    userId,
+    undefined, // 暂时不需要处理新消息
+    handleConversationUpdate
+  );
 
   /**
    * 加载对话列表
@@ -58,7 +83,14 @@ export const useConversationList = (userId: string): UseConversationListReturn =
   // 初始加载对话列表
   useEffect(() => {
     loadConversations();
-  }, [loadConversations]);
+    // 连接WebSocket
+    wsConnect();
+
+    // 组件卸载时断开连接
+    return () => {
+      wsDisconnect();
+    };
+  }, [loadConversations, wsConnect, wsDisconnect]);
 
   return {
     conversations,
@@ -66,6 +98,9 @@ export const useConversationList = (userId: string): UseConversationListReturn =
     isLoading,
     totalUnreadCount,
     handleSelectConversation,
-    refreshConversations
+    refreshConversations,
+    // WebSocket相关状态
+    isWsConnected: isConnected,
+    currentUserStatus
   };
 };

@@ -10,7 +10,10 @@ import org.backend.base.dto.BaseRequest;
 import org.backend.entity.enums.LoginType;
 import org.backend.entity.enums.UserRole;
 
-
+/**
+ * 登录请求DTO
+ * 用于封装用户登录的请求数据，支持密码登录和验证码登录两种方式
+ */
 @EqualsAndHashCode(callSuper = true)
 @Data
 @Schema(description = "登录请求DTO")

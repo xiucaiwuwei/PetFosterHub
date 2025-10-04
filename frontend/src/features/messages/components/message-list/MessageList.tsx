@@ -3,7 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { cn } from '@/lib/utils';
 import { Conversation } from '../../types/entity/Conversation';
 import { MessageItem } from './MessageItem';
-import { MessageStatusBadge } from '../dialog/MessageStatusBadge';
+import { MessageStatusBadge } from '../dialog/message/MessageStatusBadge';
 
 /**
  * 增强版消息列表组件 - 显示对话列表概览

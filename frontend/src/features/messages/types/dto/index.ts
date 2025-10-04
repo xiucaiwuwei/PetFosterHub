@@ -1,5 +1,9 @@
 /**
- * 消息模块数据传输对象导出
+ * 导出所有消息相关的数据传输对象
  */
-export * from './GetMessagesDto';
-export * from './SendMessageDto';
+export * from './sendMessage/MessageRequest';
+export * from './sendMessage/MessageResponse';
+export * from './UserActions';
+export * from './MessageActions';
+export * from './ConversationActions';
+export * from './Statistics';

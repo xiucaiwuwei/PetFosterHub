@@ -4,6 +4,13 @@ import org.backend.base.dto.BaseResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
+/**
+ * 控制器基类
+ * 提供统一的响应处理方法，包括成功响应、失败响应、未授权响应等
+ * <p>
+ * 该基类封装了常用的HTTP响应处理逻辑，所有控制器类都应该继承此类，
+ * 以便保持响应格式的一致性。
+ */
 public abstract class BaseController {
 
     /**

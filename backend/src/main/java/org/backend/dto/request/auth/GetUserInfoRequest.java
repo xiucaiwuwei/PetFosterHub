@@ -11,6 +11,7 @@ import org.backend.entity.enums.UserRole;
 
 /**
  * 查询用户信息请求DTO
+ * 用于封装根据手机号和角色查询用户信息的请求数据
  */
 @EqualsAndHashCode(callSuper = true)
 @Data

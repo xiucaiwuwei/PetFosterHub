@@ -6,7 +6,10 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.backend.entity.enums.UserRole;
 
-
+/**
+ * 用户信息响应DTO
+ * 用于封装用户信息的响应数据，包括用户的基本信息和角色
+ */
 @Data
 @NoArgsConstructor
 @AllArgsConstructor

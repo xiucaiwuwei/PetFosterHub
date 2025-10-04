@@ -7,39 +7,26 @@ import lombok.NoArgsConstructor;
 
 /**
  * 首页评价响应类
- * 用于首页展示的用户评价数据
+ * 用于首页展示的用户评价数据，包括用户信息、评价内容和评分
  */
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@Schema(description = "首页评价响应类")
 public class ReviewHomeResponse {
-    /**
-     * 评价ID
-     */
+
     @Schema(description = "评价ID")
     private String id;
 
-    /**
-     * 用户名称
-     */
     @Schema(description = "用户名称")
     private String name;
 
-    /**
-     * 用户头像URL
-     */
     @Schema(description = "用户头像URL")
     private String avatar;
 
-    /**
-     * 评价内容
-     */
     @Schema(description = "评价内容")
     private String content;
 
-    /**
-     * 评分等级（1-5分）
-     */
     @Schema(description = "评分等级（1-5分）")
     private Integer rating;
 }

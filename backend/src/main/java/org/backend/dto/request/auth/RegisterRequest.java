@@ -9,6 +9,10 @@ import lombok.EqualsAndHashCode;
 import org.backend.base.dto.BaseRequest;
 import org.backend.entity.enums.UserRole;
 
+/**
+ * 注册请求DTO
+ * 用于封装用户注册的请求数据
+ */
 @EqualsAndHashCode(callSuper = true)
 @Data
 @Schema(description = "注册请求DTO")

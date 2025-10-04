@@ -7,6 +7,10 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.backend.base.dto.BaseRequest;
 
+/**
+ * 用户信息更新请求DTO
+ * 用于封装更新用户信息的请求数据
+ */
 @EqualsAndHashCode(callSuper = true)
 @Data
 @Schema(description = "用户信息更新请求DTO")

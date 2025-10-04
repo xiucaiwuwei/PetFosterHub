@@ -3,7 +3,9 @@
  */
 import React from 'react';
 import { motion } from 'framer-motion';
-import { DialogMessageList, MessageInput } from '../';
+import { DialogMessageList } from '../dialog/message/DialogMessageList';
+import { MessageInput } from '../dialog/input/MessageInput';
+import { ConversationHeader } from '../dialog/header/ConversationHeader';
 import type { Message } from '../../types/entity/Message';
 import type { UserInfo } from '../../types/entity/Conversation';
 
@@ -15,7 +17,11 @@ interface ConversationPanelProps {
   messages: Message[];
   isLoading: boolean;
   onSendMessage: (content: string) => void;
+  onSendImage: (file: File, caption?: string) => Promise<void>;
   error: string;
+  onClose?: () => void;
+  isBlocked?: boolean;
+  onToggleBlock?: (blocked: boolean) => void;
 }
 
 export const ConversationPanel: React.FC<ConversationPanelProps> = ({
@@ -23,8 +29,19 @@ export const ConversationPanel: React.FC<ConversationPanelProps> = ({
   messages,
   isLoading,
   onSendMessage,
+  onSendImage,
   error,
+  onClose,
+  isBlocked = false,
+  onToggleBlock,
 }) => {
+  // 控制右侧抽屉开关的状态
+  const [isOptionsDrawerOpen, setIsOptionsDrawerOpen] = React.useState(false);
+
+  // 切换抽屉状态的处理函数
+  const handleToggleOptionsDrawer = () => {
+    setIsOptionsDrawerOpen(!isOptionsDrawerOpen);
+  };
   if (!selectedConversation) {
     return (
       <div className="h-full flex flex-col items-center justify-center text-center p-6 bg-gradient-to-b from-gray-50 to-white">
@@ -44,45 +61,13 @@ export const ConversationPanel: React.FC<ConversationPanelProps> = ({
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.3 }}
     >
-      <div className="p-4 border-b border-gray-200 flex items-center justify-between bg-white">
-        <div className="flex items-center space-x-3">
-          <div className="w-10 h-10 rounded-full bg-gradient-to-br from-orange-400 to-orange-500 flex items-center justify-center text-white">
-                  {selectedConversation.otherUser && selectedConversation.otherUser.name 
-                    ? selectedConversation.otherUser.name.charAt(0).toUpperCase()
-                    : '?'}
-                </div>
-                <div>
-                  <h3 className="font-semibold text-gray-800">
-                    {selectedConversation.otherUser && selectedConversation.otherUser.name 
-                      ? selectedConversation.otherUser.name
-                      : '未知用户'}
-                  </h3>
-            <p className="text-xs text-green-500">在线</p>
-          </div>
-        </div>
-        <div className="flex items-center space-x-3 text-gray-500">
-          <button className="p-2 rounded-full hover:bg-gray-100 transition-colors">
-            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth="2"
-                d="M21 15.546c-.523 0-1.046.151-1.5.454a2.704 2.704 0 01-3 0 2.704 2.704 0 00-3 0 2.704 2.704 0 01-3 0 2.704 2.704 0 00-3 0 2.704 2.704 0 01-3 0 2.701 2.701 0 00-1.5-.454M9 6v2m3-2v2m3-2v2M9 3h.01M12 3h.01M15 3h.01M21 21v-7a2 2 0 00-2-2H5a2 2 0 00-2 2v7h18zm-3-9v-2a2 2 0 00-2-2H8a2 2 0 00-2 2v2h12z"
-              ></path>
-            </svg>
-          </button>
-          <button className="p-2 rounded-full hover:bg-gray-100 transition-colors">
-            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth="2"
-                d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"
-              ></path>
-            </svg>
-          </button>
-        </div>
-      </div>
+      <ConversationHeader
+        otherUser={selectedConversation.otherUser}
+        showBackButton={true}
+        isOptionsDrawerOpen={isOptionsDrawerOpen}
+        onToggleOptionsDrawer={handleToggleOptionsDrawer}
+        {...(onClose && { onBack: onClose })}
+      />
 
       {error && (
         <div className="bg-red-50 border-l-4 border-red-400 p-4 text-red-700">
@@ -90,8 +75,19 @@ export const ConversationPanel: React.FC<ConversationPanelProps> = ({
         </div>
       )}
 
-      <DialogMessageList messages={messages} isLoading={isLoading} />
-      <MessageInput onSendMessage={onSendMessage} />
+      <DialogMessageList 
+        messages={messages} 
+        isLoading={isLoading} 
+        isOptionsDrawerOpen={isOptionsDrawerOpen}
+        onToggleOptionsDrawer={handleToggleOptionsDrawer}
+        isBlocked={isBlocked}
+        {...(onToggleBlock && { onToggleBlock })}
+      />
+      <MessageInput 
+        onSendMessage={onSendMessage} 
+        onSendImage={onSendImage} 
+        disabled={isBlocked}
+      />
     </motion.div>
   );
 };

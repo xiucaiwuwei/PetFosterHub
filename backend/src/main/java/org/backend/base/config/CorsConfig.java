@@ -12,10 +12,18 @@ import java.util.List;
 /**
  * CORS 跨域配置类
  * 解决前端开发环境的跨域请求问题
+ * <p>
+ * 该配置类用于配置跨域资源共享（CORS）策略，允许前端应用在不同域下访问后端API。
+ * 主要配置了允许的源地址、请求方法、请求头等信息。
  */
 @Configuration
 public class CorsConfig {
 
+    /**
+     * 创建并配置CorsConfigurationSource实例
+     * 
+     * @return 配置完成的CorsConfigurationSource实例
+     */
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
@@ -47,6 +55,11 @@ public class CorsConfig {
         return source;
     }
 
+    /**
+     * 创建允许的源地址模式列表
+     * 
+     * @return 允许的源地址模式列表
+     */
     private List<String> createAllowedOriginPatterns() {
         return Arrays.asList(
                 "http://localhost:*",
@@ -55,6 +68,11 @@ public class CorsConfig {
         );
     }
 
+    /**
+     * 创建允许的请求头列表
+     * 
+     * @return 允许的请求头列表
+     */
     private List<String> createAllowedHeaders() {
         return Arrays.asList(
                 "Authorization",

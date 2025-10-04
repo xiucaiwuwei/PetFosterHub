@@ -19,6 +19,14 @@ import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 
+/**
+ * JWT认证过滤器
+ * 用于拦截HTTP请求并验证JWT令牌，为受保护的接口提供身份认证
+ * <p>
+ * 该过滤器继承自OncePerRequestFilter，确保每个请求只被处理一次。
+ * 它会检查请求中的Authorization头，提取JWT令牌并验证其有效性，
+ * 如果令牌有效则设置Spring Security的认证信息。
+ */
 @Component
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
@@ -38,6 +46,12 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     private final JwtUtil jwtUtil;
     private final UserDetailsService userDetailsService;
 
+    /**
+     * 构造函数
+     *
+     * @param jwtUtil JWT工具类实例，用于处理JWT令牌的生成和验证
+     * @param userDetailsService 用户详情服务，用于加载用户信息
+     */
     public JwtAuthenticationFilter(JwtUtil jwtUtil, UserDetailsService userDetailsService) {
         this.jwtUtil = jwtUtil;
         this.userDetailsService = userDetailsService;

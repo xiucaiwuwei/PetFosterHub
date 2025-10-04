@@ -3,7 +3,7 @@
  */
 import { useCallback } from 'react';
 import { useAppDispatch } from '@/app/store/store';
-import { sendMessage, markConversationAsRead } from '../slice/messageSlice';
+import { sendMessage, markConversationAsRead, sendImageMessage } from '../slice/messageSlice';
 import { SendMessageDto } from '../types/dto';
 import { Message } from '../types/entity/Message';
 
@@ -13,6 +13,7 @@ import { Message } from '../types/entity/Message';
 export interface UseMessageActionsReturn {
   handleSendMessage: (dto: SendMessageDto) => Promise<Message>;
   handleMarkAsRead: (conversationId: string, userId: string) => void;
+  handleSendImageMessage: (conversationId: string, senderId: string, receiverId: string, file: File, caption?: string) => void;
 }
 
 /**
@@ -38,6 +39,33 @@ export const useMessageActions = (): UseMessageActionsReturn => {
   }, [dispatch]);
 
   /**
+   * 发送图片消息
+   * @param conversationId 对话ID
+   * @param senderId 发送者ID
+   * @param receiverId 接收者ID
+   * @param file 图片文件
+   * @param caption 图片说明（可选）
+   */
+  const handleSendImageMessage = useCallback((
+    conversationId: string,
+    senderId: string,
+    receiverId: string,
+    file: File,
+    caption?: string
+  ) => {
+    // 处理caption参数，确保与exactOptionalPropertyTypes兼容
+    const payload = {
+      conversationId,
+      senderId,
+      receiverId,
+      file,
+      ...(caption !== undefined && { caption })
+    };
+    
+    dispatch(sendImageMessage(payload));
+  }, [dispatch]);
+
+  /**
    * 标记消息为已读
    * @param conversationId 对话ID
    * @param userId 用户ID
@@ -48,6 +76,7 @@ export const useMessageActions = (): UseMessageActionsReturn => {
 
   return {
     handleSendMessage,
-    handleMarkAsRead
+    handleMarkAsRead,
+    handleSendImageMessage
   };
 };

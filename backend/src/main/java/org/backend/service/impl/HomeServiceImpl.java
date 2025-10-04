@@ -38,13 +38,12 @@ public class HomeServiceImpl implements HomeService {
         List<FosterService> allFosterServices = fosterServiceRepository.findNotDeleted();
         
         // 为每个寄养服务计算评分和评论数量
-        List<FosterServiceHomeResponse> fosterServiceDTOs = allFosterServices.stream()
+
+        return allFosterServices.stream()
                 .map(this::convertToDTO)
                 .sorted(Comparator.comparing(FosterServiceHomeResponse::getRating).reversed())
                 .limit(3)
                 .collect(Collectors.toList());
-        
-        return fosterServiceDTOs;
     }
 
     /**
@@ -56,14 +55,13 @@ public class HomeServiceImpl implements HomeService {
         // 获取所有服务类型的评价，按创建时间降序排列，取前三个
         List<Review> latestReviews = reviewRepository.findByTargetTypeAndRatingGreaterThanEqual(
                 ReviewType.SERVICE, 1);
-        
-        // 转换为ReviewDTO列表
-        List<ReviewHomeResponse> reviewDTOs = latestReviews.stream()
+
+        /* 转换为ReviewDTO列表 */
+
+        return latestReviews.stream()
                 .limit(3)
                 .map(this::convertReviewToDTO)
                 .collect(Collectors.toList());
-        
-        return reviewDTOs;
     }
 
     /**

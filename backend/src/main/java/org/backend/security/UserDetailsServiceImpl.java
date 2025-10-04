@@ -11,6 +11,13 @@ import org.springframework.stereotype.Service;
 
 import java.util.Collections;
 
+/**
+ * 用户详情服务实现类
+ * 用于加载用户详细信息，供Spring Security进行身份验证和授权
+ * <p>
+ * 该类实现了UserDetailsService接口，支持通过用户ID或手机号加载用户信息。
+ * 主要用于JWT认证过程中验证用户身份并获取用户权限信息。
+ */
 @Service
 public class UserDetailsServiceImpl implements UserDetailsService {
 
@@ -21,6 +28,17 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         this.userRepository = userRepository;
     }
 
+    /**
+     * 根据用户名加载用户详细信息
+     * <p>
+     * 该方法支持两种方式查找用户：
+     * 1. 通过用户ID查找（优先）
+     * 2. 通过手机号查找（兼容处理）
+     *
+     * @param userId 用户ID或手机号
+     * @return UserDetails对象，包含用户认证和授权信息
+     * @throws UsernameNotFoundException 当用户未找到时抛出此异常
+     */
     @Override
     public UserDetails loadUserByUsername(String userId) throws UsernameNotFoundException {
         try {

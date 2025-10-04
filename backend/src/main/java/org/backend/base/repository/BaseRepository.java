@@ -17,5 +17,5 @@ import java.io.Serializable;
 public interface BaseRepository<T, ID extends Serializable> extends JpaRepository<T, ID>, JpaSpecificationExecutor<T> {
 
     // 可以在这里添加通用的自定义查询方法
-
+    
 }

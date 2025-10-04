@@ -8,6 +8,7 @@ import org.backend.entity.enums.UserRole;
 
 /**
  * 登录响应DTO
+ * 用于封装用户登录成功后的响应数据，包括访问令牌、用户信息等
  */
 @Data
 @NoArgsConstructor

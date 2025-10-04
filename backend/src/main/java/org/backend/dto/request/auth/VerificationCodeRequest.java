@@ -8,6 +8,10 @@ import lombok.EqualsAndHashCode;
 import org.backend.base.dto.BaseRequest;
 import org.backend.entity.enums.UserRole;
 
+/**
+ * 验证码请求DTO
+ * 用于封装获取验证码的请求数据
+ */
 @EqualsAndHashCode(callSuper = true)
 @Data
 @Schema(description = "验证码请求DTO")

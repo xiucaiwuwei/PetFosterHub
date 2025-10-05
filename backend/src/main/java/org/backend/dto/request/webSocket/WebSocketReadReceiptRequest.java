@@ -4,7 +4,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import org.backend.base.dto.BaseRequest;
+import org.backend.A_general.base.dto.BaseRequest;
 
 /**
  * WebSocket消息已读确认请求DTO

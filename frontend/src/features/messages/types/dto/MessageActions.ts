@@ -28,16 +28,3 @@ export interface MarkMultipleAsUnreadRequest extends BaseRequest {
   messageIds: string[]; // 要标记为未读的消息ID列表
   userId: string; // 用户ID
 }
-
-/** 批量删除消息的请求数据传输对象 */
-export interface DeleteMultipleMessagesRequest extends BaseRequest {
-  conversationId: string; // 对话ID
-  messageIds: string[]; // 要删除的消息ID列表
-  userId: string; // 用户ID
-}
-
-/** 撤回消息的请求数据传输对象 */
-export interface RecallMessageRequest extends BaseRequest {
-  messageId: string; // 要撤回的消息ID
-  userId: string; // 用户ID
-}

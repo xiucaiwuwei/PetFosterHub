@@ -1,6 +1,6 @@
 package org.backend.service;
 
-import org.backend.base.service.BaseService;
+import org.backend.A_general.base.service.BaseService;
 import org.backend.dto.request.UserRequest;
 import org.backend.entity.User;
 import org.backend.entity.enums.UserRole;

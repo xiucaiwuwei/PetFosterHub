@@ -1,6 +1,6 @@
 package org.backend.repository;
 
-import org.backend.base.repository.BaseRepository;
+import org.backend.A_general.base.repository.BaseRepository;
 import org.backend.entity.FosterService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

@@ -1,7 +1,9 @@
 package org.backend.service.impl;
 
 import jakarta.validation.Valid;
-import org.backend.base.utils.JwtUtil;
+import org.backend.A_general.base.utils.JwtUtil;
+import org.backend.A_general.base.utils.SecurityUtils;
+import org.backend.A_general.base.utils.ValidationUtils;
 import org.backend.dto.request.auth.*;
 import org.backend.dto.response.auth.LoginResponse;
 import org.backend.entity.User;
@@ -11,7 +13,6 @@ import org.backend.entity.enums.VerificationCodeType;
 import org.backend.service.AuthService;
 import org.backend.service.UserService;
 import org.backend.service.VerificationCodeService;
-import org.backend.utils.ValidationUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -49,7 +50,7 @@ public class AuthServiceImpl implements AuthService {
     @Override
     public User authenticateUser(LoginRequest loginRequest) {
         // 验证手机号格式
-        if (!ValidationUtil.isValidPhone(loginRequest.getPhone())) {
+        if (!ValidationUtils.isValidPhone(loginRequest.getPhone())) {
             throw new IllegalArgumentException("手机号格式不正确");
         }
 
@@ -220,7 +221,7 @@ public class AuthServiceImpl implements AuthService {
         // 更新密码
         if (updateUserInfoRequest.getPassword() != null && !updateUserInfoRequest.getPassword().isEmpty()) {
             // 验证密码复杂度
-            if (!ValidationUtil.isValidPassword(updateUserInfoRequest.getPassword())) {
+            if (SecurityUtils.evaluatePasswordStrength(updateUserInfoRequest.getPassword()) < 60) {
                 throw new IllegalArgumentException("密码必须包含字母和数字，长度8-20位");
             }
             user.setPassword(passwordEncoder.encode(updateUserInfoRequest.getPassword()));
@@ -233,7 +234,7 @@ public class AuthServiceImpl implements AuthService {
      * @param phone 手机号
      */
     private void validatePhoneFormat(String phone) {
-        if (!ValidationUtil.isValidPhone(phone)) {
+        if (!ValidationUtils.isValidPhone(phone)) {
             throw new IllegalArgumentException("手机号格式不正确");
         }
     }

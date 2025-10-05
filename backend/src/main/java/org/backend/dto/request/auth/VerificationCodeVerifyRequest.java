@@ -5,7 +5,7 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import org.backend.base.dto.BaseRequest;
+import org.backend.A_general.base.dto.BaseRequest;
 import org.backend.entity.enums.UserRole;
 import org.backend.entity.enums.VerificationCodeType;
 

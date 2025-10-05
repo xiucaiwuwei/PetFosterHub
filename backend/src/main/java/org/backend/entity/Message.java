@@ -8,7 +8,7 @@ import jakarta.validation.constraints.PositiveOrZero;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
-import org.backend.base.entity.BaseEntity;
+import org.backend.A_general.base.entity.BaseEntity;
 import org.backend.entity.enums.MessageType;
 
 /**

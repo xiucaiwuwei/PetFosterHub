@@ -4,7 +4,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import org.backend.base.entity.BaseEntity;
+import org.backend.A_general.base.entity.BaseEntity;
 import org.backend.entity.enums.ReviewType;
 
 @EqualsAndHashCode(callSuper = true)

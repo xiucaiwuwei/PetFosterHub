@@ -1,12 +1,11 @@
 package org.backend.repository;
 
-import org.backend.base.repository.BaseRepository;
+import org.backend.A_general.base.repository.BaseRepository;
 import org.backend.entity.Message;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
 @Repository

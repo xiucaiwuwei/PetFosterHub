@@ -5,7 +5,7 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import org.backend.base.dto.BaseRequest;
+import org.backend.A_general.base.dto.BaseRequest;
 
 /**
  * WebSocket输入状态请求DTO

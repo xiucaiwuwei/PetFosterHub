@@ -6,7 +6,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import org.backend.base.entity.BaseEntity;
+import org.backend.A_general.base.entity.BaseEntity;
 import org.backend.entity.enums.*;
 
 @EqualsAndHashCode(callSuper = true)

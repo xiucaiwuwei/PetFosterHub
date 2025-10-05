@@ -4,12 +4,12 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.backend.base.controller.BaseController;
-import org.backend.base.dto.BaseResponse;
+import org.backend.A_general.base.controller.BaseController;
+import org.backend.A_general.base.dto.BaseResponse;
+import org.backend.A_general.base.utils.ValidationUtils;
 import org.backend.dto.request.UserRequest;
 import org.backend.entity.User;
 import org.backend.service.UserService;
-import org.backend.utils.ValidationUtil;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
@@ -51,7 +51,7 @@ public class UserController extends BaseController {
                 .orElseThrow(() -> new RuntimeException("用户不存在"));
         
         // 验证手机号格式
-        if (userDTO.getPhone() != null && !ValidationUtil.isValidPhone(userDTO.getPhone())) {
+        if (userDTO.getPhone() != null && !ValidationUtils.isValidPhone(userDTO.getPhone())) {
             throw new RuntimeException("手机号格式不正确");
         }
         

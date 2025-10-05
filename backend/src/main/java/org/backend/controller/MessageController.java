@@ -3,8 +3,8 @@ package org.backend.controller;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
-import org.backend.base.controller.BaseController;
-import org.backend.base.dto.BaseResponse;
+import org.backend.A_general.base.controller.BaseController;
+import org.backend.A_general.base.dto.BaseResponse;
 import org.backend.dto.request.message.*;
 import org.backend.entity.Message;
 import org.backend.service.MessageService;
@@ -123,7 +123,7 @@ public class MessageController extends BaseController {
                 List<Map<String, Object>> conversations = messageService.getUserConversations(targetUserId);
                 return super.success("获取成功", conversations);
             } else {
-                return super.unauthorized("未授权访问");
+                return super.unauthorized();
             }
         } catch (NumberFormatException e) {
             // 如果用户ID格式错误，返回mock数据以避免前端报错

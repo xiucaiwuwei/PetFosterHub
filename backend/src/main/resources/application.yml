@@ -1,9 +1,11 @@
 server:
   port: 8080
+  servlet:
+    context-path: /api
 
 spring:
   application:
-    name: pet-foster-hub-backend
+    name: pet-foster-hub
   profiles:
     active: dev
   
@@ -41,7 +43,6 @@ spring:
     multipart:
       max-file-size: 10MB
       max-request-size: 50MB
-    context-path: /api
   
   # JPA配置
   jpa:
@@ -50,17 +51,55 @@ spring:
     show-sql: true
     database-platform: org.hibernate.dialect.MySQL8Dialect
   
-# JWT配置
-jwt:
-  secret: petFosterHubSecretKey2024ForJWTTokenGeneration
-  expiration: 86400000 # 24小时
-  refresh-expiration: 604800000 # 7天
-
-# 文件存储配置
-file:
+# 系统配置
+system:
+  app-name: PetFosterHub
+  app-version: 1.0.0
+  environment: dev
+  debug: true
+  api-prefix: /api
+  page:
+    default-page-num: 1
+    default-page-size: 10
+    max-page-size: 100
   upload:
-    path: ./uploads/
-    max-size: 10MB
+    base-path: ./uploads
+    max-file-size: 10MB
+    allowed-types:
+      - .jpg
+      - .jpeg
+      - .png
+      - .gif
+      - .bmp
+      - .webp
+      - .pdf
+      - .doc
+      - .docx
+      - .xls
+      - .xlsx
+      - .txt
+      - .csv
+      - .mp3
+      - .wav
+      - .ogg
+      - .flac
+      - .mp4
+      - .avi
+      - .mov
+      - .mkv
+      - .webm
+    use-temp-storage: true
+    temp-file-expiry-minutes: 30
+  cache:
+    enabled: true
+    expiry: 1h
+    max-entries: 1000
+  jwt:
+    secret: petFosterHubSecretKey2024ForJWTTokenGeneration
+    expiry: 24h
+    refresh-expiry: 7d
+    token-prefix: "Bearer "
+    header: Authorization
 
 # 日志配置
 logging:
@@ -84,35 +123,50 @@ logging:
     # 开发环境不输出日志到文件
     name: ""
 
-# SpringDoc OpenAPI配置
-springdoc:
-  api-docs:
-    path: /api-docs
-  swagger-ui:
-    path: /swagger-ui.html
-    tags-sorter: alpha
-    operations-sorter: alpha
-  info:
-    title: PetFosterHub API
-    description: Pet Foster Hub Backend API Documentation
-    version: 1.0.0
-    contact:
-      name: PetFosterHub Team
-      email: support@petfosterhub.com
-
 # 短信服务配置
-sms:
-  api:
-    regionId: cn-hangzhou
-    secretId: your_access_key_id
-    secretKey: your_access_key_secret
-  app:
-    key: your_app_key  # 应用类型标识，从阿里云控制台获取
-  # 频率限制配置
-  rate-limit:
-    send-sms:
-      max-attempts: 50      # 单实例发送限制
-      time-window: 1        # 1秒时间窗口
-    template-operation:
-      max-attempts: 1       # 模板操作限制
-      time-window: 1        # 1秒时间窗口
+# sms:
+#   api:
+#     regionId: cn-hangzhou
+#     secretId: your_access_key_id
+#     secretKey: your_access_key_secret
+#   app:
+#     key: your_app_key  # 应用类型标识，从阿里云控制台获取
+#   # 频率限制配置
+#   rate-limit:
+#     send-sms:
+#       max-attempts: 50      # 单实例发送限制
+#       time-window: 1        # 1秒时间窗口
+#     template-operation:
+#       max-attempts: 1       # 模板操作限制
+#       time-window: 1        # 1秒时间窗口
+
+# JWT配置
+jwt:
+  secret-key: petFosterHubSecretKey2024ForJWTTokenGeneration
+  expiration: 86400000 # 24小时
+  refresh-expiration: 604800000 # 7天
+
+# WebSocket配置
+# webSocket:
+#   allowed-origins: "*" # 开发环境允许所有源访问，生产环境应该限制特定源
+
+# 安全配置
+# security:
+#   cors:
+#     allowed-origins: "*" # 开发环境允许所有源访问，生产环境应该限制特定源
+#   session:
+#     timeout: 1800s # 会话超时时间
+
+# 邮件服务配置
+# spring:
+#   mail:
+#     host: smtp.example.com
+#     port: 587
+#     username: your-email@example.com
+#     password: your-email-password
+#     properties:
+#       mail:
+#         smtp:
+#           auth: true
+#           starttls:
+#             enable: true

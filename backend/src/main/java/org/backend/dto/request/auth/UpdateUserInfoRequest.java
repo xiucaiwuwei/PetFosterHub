@@ -5,7 +5,7 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import org.backend.base.dto.BaseRequest;
+import org.backend.A_general.base.dto.BaseRequest;
 
 /**
  * 用户信息更新请求DTO

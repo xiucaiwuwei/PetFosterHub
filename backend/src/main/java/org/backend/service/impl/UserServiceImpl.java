@@ -1,6 +1,7 @@
 package org.backend.service.impl;
 
-import org.backend.base.service.BaseServiceImpl;
+import org.backend.A_general.base.service.impl.BaseServiceImpl;
+import org.backend.A_general.base.utils.ValidationUtils;
 import org.backend.dto.request.UserRequest;
 import org.backend.dto.request.auth.VerificationCodeVerifyRequest;
 import org.backend.entity.User;
@@ -9,7 +10,6 @@ import org.backend.entity.enums.VerificationCodeType;
 import org.backend.repository.UserRepository;
 import org.backend.service.UserService;
 import org.backend.service.VerificationCodeService;
-import org.backend.utils.ValidationUtil;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
@@ -41,12 +41,14 @@ public class UserServiceImpl extends BaseServiceImpl<User, Long, UserRepository>
 
     @Override
     public User saveUser(User user) {
-        return repository.save(user);
+        // 使用BaseServiceImpl中的save方法
+        return save(user);
     }
 
     @Override
     public UserRequest getUserDTOById(Long id) {
-        User user = repository.findById(id)
+        // 使用findByIdAndNotDeleted确保只获取未删除的用户
+        User user = findByIdAndNotDeleted(id)
                 .orElseThrow(() -> new RuntimeException("用户不存在"));
         UserRequest request = new UserRequest();
         request.setFullName(user.getFullName());
@@ -58,41 +60,54 @@ public class UserServiceImpl extends BaseServiceImpl<User, Long, UserRepository>
 
     @Override
     public Optional<User> getUserById(Long id) {
-        return repository.findById(id);
+        // 使用findByIdAndNotDeleted确保只获取未删除的用户
+        return findByIdAndNotDeleted(id);
     }
 
     @Override
     public User findByPhone(String phone) {
-        if (!ValidationUtil.isValidPhone(phone)) {
+        // 使用通用工具类ValidationUtils进行手机号验证
+        if (!ValidationUtils.isValidPhone(phone)) {
             throw new RuntimeException("手机号格式不正确");
         }
+        // 先通过手机号查找用户，然后确保用户未被删除
         return repository.findByPhone(phone)
+                .filter(user -> user.getDeleted() == null || user.getDeleted() == 0)
                 .orElseThrow(() -> new RuntimeException("用户不存在"));
     }
 
     @Override
     public User findByPhoneAndRole(String phone, UserRole role) {
-        if (!ValidationUtil.isValidPhone(phone)) {
+        // 使用通用工具类ValidationUtils进行手机号验证
+        if (!ValidationUtils.isValidPhone(phone)) {
             throw new RuntimeException("手机号格式不正确");
         }
+        // 先通过手机号和角色查找用户，然后确保用户未被删除
         return repository.findByPhoneAndRole(phone, role)
+                .filter(user -> user.getDeleted() == null || user.getDeleted() == 0)
                 .orElseThrow(() -> new RuntimeException("该角色用户不存在"));
     }
 
     @Override
     public boolean existsByPhone(String phone) {
-        if (!ValidationUtil.isValidPhone(phone)) {
+        // 使用通用工具类ValidationUtils进行手机号验证
+        if (!ValidationUtils.isValidPhone(phone)) {
             throw new RuntimeException("手机号格式不正确");
         }
-        return repository.existsByPhone(phone);
+        // 检查手机号是否存在且用户未被删除
+        Optional<User> userOptional = repository.findByPhone(phone);
+        return userOptional.isPresent() && (userOptional.get().getDeleted() == null || userOptional.get().getDeleted() == 0);
     }
 
     @Override
     public boolean existsByPhoneAndRole(String phone, UserRole role) {
-        if (!ValidationUtil.isValidPhone(phone)) {
+        // 使用通用工具类ValidationUtils进行手机号验证
+        if (!ValidationUtils.isValidPhone(phone)) {
             throw new RuntimeException("手机号格式不正确");
         }
-        return repository.existsByPhoneAndRole(phone, role);
+        // 检查手机号和角色是否存在且用户未被删除
+        Optional<User> userOptional = repository.findByPhoneAndRole(phone, role);
+        return userOptional.isPresent() && (userOptional.get().getDeleted() == null || userOptional.get().getDeleted() == 0);
     }
 
 

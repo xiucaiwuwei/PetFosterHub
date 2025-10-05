@@ -1,6 +1,6 @@
 package org.backend.service;
 
-import org.backend.base.service.BaseService;
+import org.backend.A_general.base.service.BaseService;
 import org.backend.entity.FosterService;
 import org.backend.entity.User;
 import org.springframework.data.domain.Page;

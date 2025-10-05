@@ -1,6 +1,6 @@
 package org.backend.service.impl;
 
-import org.backend.base.service.BaseServiceImpl;
+import org.backend.A_general.base.service.impl.BaseServiceImpl;
 import org.backend.dto.request.ReviewRequest;
 import org.backend.dto.response.ReviewResponse;
 import org.backend.entity.Review;

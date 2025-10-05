@@ -1,10 +1,10 @@
 package org.backend.service.impl;
 
+import org.backend.A_general.base.utils.ValidationUtils;
 import org.backend.dto.request.auth.VerificationCodeRequest;
 import org.backend.dto.request.auth.VerificationCodeVerifyRequest;
 import org.backend.service.SmsService;
 import org.backend.service.VerificationCodeService;
-import org.backend.utils.ValidationUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -88,7 +88,7 @@ public class VerificationCodeServiceImpl implements VerificationCodeService {
             }
 
             // 使用通用验证工具验证手机号格式
-            if (!ValidationUtil.isValidPhone(phone)) {
+            if (!ValidationUtils.isValidPhone(phone)) {
                 logger.error("验证码服务: 手机号格式不正确: {}", phone);
                 return false;
             }
@@ -194,7 +194,7 @@ public class VerificationCodeServiceImpl implements VerificationCodeService {
             }
 
             // 使用通用验证工具验证手机号格式
-            if (!ValidationUtil.isValidPhone(phone)) {
+            if (!ValidationUtils.isValidPhone(phone)) {
                 logger.error("验证码服务: 手机号格式不正确: {}", phone);
                 return false;
             }

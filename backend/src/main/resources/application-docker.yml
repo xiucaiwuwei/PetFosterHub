@@ -35,10 +35,61 @@ spring:
     show-sql: true
     database-platform: org.hibernate.dialect.MySQL8Dialect
 
+# JWT配置
 jwt:
-  secret: petFosterHubSecretKey2024ForJwtTokenGenerationAndValidation
-  expiration: 86400000
-  refresh-expiration: 604800000
+  secret-key: petFosterHubSecretKey2024ForJwtTokenGenerationAndValidation
+  expiration: 86400000 # 24小时
+  refresh-expiration: 604800000 # 7天
+
+# 系统配置
+system:
+  app-name: PetFosterHub
+  app-version: 1.0.0
+  environment: prod
+  debug: false
+  api-prefix: /api
+  page:
+    default-page-num: 1
+    default-page-size: 10
+    max-page-size: 100
+  upload:
+    base-path: /app/uploads
+    max-file-size: 10MB
+    allowed-types:
+      - .jpg
+      - .jpeg
+      - .png
+      - .gif
+      - .bmp
+      - .webp
+      - .pdf
+      - .doc
+      - .docx
+      - .xls
+      - .xlsx
+      - .txt
+      - .csv
+      - .mp3
+      - .wav
+      - .ogg
+      - .flac
+      - .mp4
+      - .avi
+      - .mov
+      - .mkv
+      - .webm
+    use-temp-storage: true
+    temp-file-expiry-minutes: 30
+  cache:
+    enabled: true
+    expiry: 1h
+    max-entries: 1000
+  jwt:
+    secret: petFosterHubSecretKey2024ForJwtTokenGenerationAndValidation
+    expiry: 24h
+    refresh-expiry: 7d
+    token-prefix: "Bearer "
+    header: Authorization
 
 logging:
   level:

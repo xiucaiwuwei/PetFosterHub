@@ -4,7 +4,7 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import org.backend.base.dto.BaseRequest;
+import org.backend.A_general.base.dto.BaseRequest;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;

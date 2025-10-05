@@ -5,5 +5,6 @@ export * from './sendMessage/MessageRequest';
 export * from './sendMessage/MessageResponse';
 export * from './UserActions';
 export * from './MessageActions';
-export * from './ConversationActions';
 export * from './Statistics';
+export * from './ConversationActions';
+export * from './DeleteActions';

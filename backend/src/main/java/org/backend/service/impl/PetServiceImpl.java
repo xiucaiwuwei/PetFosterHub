@@ -1,6 +1,6 @@
 package org.backend.service.impl;
 
-import org.backend.base.service.BaseServiceImpl;
+import org.backend.A_general.base.service.impl.BaseServiceImpl;
 import org.backend.entity.Pet;
 import org.backend.entity.User;
 import org.backend.entity.enums.PetType;
@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Collections;
 
 @Service
 public class PetServiceImpl extends BaseServiceImpl<Pet, Long, PetRepository> implements PetService {
@@ -38,47 +39,39 @@ public class PetServiceImpl extends BaseServiceImpl<Pet, Long, PetRepository> im
     @Override
     public Pet save(Pet pet, User user) {
         pet.setUserId(user.getId());
-        return repository.save(pet);
+        return save(pet);  // 使用BaseServiceImpl中的save方法
     }
 
     @Override
     public Pet update(Pet pet, User user) {
-        Pet existingPet = repository.findById(pet.getId()).orElse(null);
+        // 使用findByIdAndNotDeleted确保只更新未删除的宠物
+        Pet existingPet = findByIdAndNotDeleted(pet.getId()).orElse(null);
         if (existingPet == null || !existingPet.getUserId().equals(user.getId())) {
             throw new RuntimeException("宠物不存在或无权限修改");
         }
         pet.setUserId(user.getId());
-        return repository.save(pet);
+        pet.setDeleted(existingPet.getDeleted());  // 保留删除状态
+        return save(pet);  // 使用BaseServiceImpl中的save方法
     }
 
     @Override
     public void delete(Long id, User user) {
-        Pet pet = findById(id).orElse(null);
+        Pet pet = findByIdAndNotDeleted(id).orElse(null);
         if (pet != null && pet.getUserId().equals(user.getId())) {
-            pet.setDeleted(1);
-            save(pet);
+            // 使用logicallyDeleteByIds方法进行逻辑删除
+            logicallyDeleteByIds(Collections.singletonList(id));
         }
     }
-
 
     @Override
     public List<Pet> findByUserAndNameContaining(User user, String keyword) {
         return repository.findByUserAndNameContaining(user.getId(), keyword);
     }
 
-    // 根据BaseRepository，PetRepository应该提供findAll方法，但我们需要过滤已删除的宠物
-    private List<Pet> findAllNotDeleted() {
-        // 获取所有宠物并过滤掉已删除的（deleted不为0）
-        return repository.findAll().stream()
-                .filter(pet -> pet.getDeleted() == null || pet.getDeleted() == 0)
-                .toList();
-    }
-
     @Override
     public List<Pet> findByUserId(Long userId) {
         return repository.findByUserIdAndDeletedFalse(userId);
     }
-
 
     @Override
     public Optional<Pet> findById(Long id) {
@@ -87,21 +80,20 @@ public class PetServiceImpl extends BaseServiceImpl<Pet, Long, PetRepository> im
 
     @Override
     public List<Pet> findAll() {
-        return super.findAll();
+        // 使用findAllNotDeleted获取所有未删除的宠物
+        return (List<Pet>) findAllNotDeleted();
     }
 
     @Override
     public Page<Pet> findAll(Pageable pageable) {
-        return super.findAll(pageable);
+        // 重写findAll方法，确保只返回未删除的宠物
+        return repository.findAllByDeletedFalse(pageable);
     }
 
     @Override
     public List<Pet> searchPets(String keyword) {
-        // 先获取所有未删除的宠物，然后在内存中根据关键词过滤
-        List<Pet> allPets = findAllNotDeleted();
-        return allPets.stream()
-                .filter(pet -> pet.getName().toLowerCase().contains(keyword.toLowerCase()))
-                .toList();
+        // 使用PetRepository中新增的关键词搜索方法，避免在内存中过滤
+        return repository.findAllNotDeletedByNameContaining(keyword);
     }
 
     @Override

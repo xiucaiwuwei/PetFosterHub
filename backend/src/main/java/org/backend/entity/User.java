@@ -8,7 +8,7 @@ import jakarta.persistence.Table;
 import jakarta.persistence.UniqueConstraint;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import org.backend.base.entity.BaseEntity;
+import org.backend.A_general.base.entity.BaseEntity;
 import org.backend.entity.enums.UserRole;
 
 import java.math.BigDecimal;

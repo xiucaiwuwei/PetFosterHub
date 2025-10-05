@@ -1,6 +1,6 @@
 package org.backend.service.impl;
 
-import org.backend.base.service.BaseServiceImpl;
+import org.backend.A_general.base.service.impl.BaseServiceImpl;
 import org.backend.entity.FosterService;
 import org.backend.entity.User;
 import org.backend.repository.FosterServiceRepository;

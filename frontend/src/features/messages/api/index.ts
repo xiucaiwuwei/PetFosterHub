@@ -3,8 +3,9 @@
  * 提供消息系统相关的所有API接口的统一访问入口
  */
 
-// 导入消息核心API
-export * from './messageApi';
-
-// 导入文件上传API
+// 统一导出所有消息相关的API函数
+export * from './conversationApi';
+export * from './messageSendingApi';
+export * from './messageManagementApi';
+export * from './statisticsApi';
 export * from './uploadApi';

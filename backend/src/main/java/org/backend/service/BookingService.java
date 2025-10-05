@@ -1,6 +1,6 @@
 package org.backend.service;
 
-import org.backend.base.service.BaseService;
+import org.backend.A_general.base.service.BaseService;
 import org.backend.dto.request.BookingRequest;
 import org.backend.dto.response.BookingResponse;
 import org.backend.entity.Booking;

@@ -1,6 +1,6 @@
 package org.backend.repository;
 
-import org.backend.base.repository.BaseRepository;
+import org.backend.A_general.base.repository.BaseRepository;
 import org.backend.entity.Booking;
 import org.backend.entity.enums.BookingStatus;
 import org.springframework.data.domain.Page;

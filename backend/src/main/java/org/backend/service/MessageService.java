@@ -1,5 +1,6 @@
 package org.backend.service;
 
+import org.backend.A_general.base.service.BaseService;
 import org.backend.dto.request.message.ImageMessageRequest;
 import org.backend.dto.request.message.VideoMessageRequest;
 import org.backend.entity.Message;
@@ -11,7 +12,7 @@ import java.util.Map;
  * 消息服务接口
  * 提供消息管理相关的业务逻辑
  */
-public interface MessageService {
+public interface MessageService extends BaseService<Message, Long> {
 
     /**
      * 获取对话中的消息列表

@@ -4,8 +4,8 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.backend.base.controller.BaseController;
-import org.backend.base.dto.BaseResponse;
+import org.backend.A_general.base.controller.BaseController;
+import org.backend.A_general.base.dto.BaseResponse;
 import org.backend.dto.request.BookingRequest;
 import org.backend.dto.response.BookingResponse;
 import org.backend.entity.Booking;
@@ -30,9 +30,7 @@ public class BookingController extends BaseController {
     @Operation(summary = "获取当前用户的预约")
     public ResponseEntity<BaseResponse<List<Booking>>> getCurrentUserBookings(Authentication authentication) {
         Long userId = Long.parseLong(authentication.getName());
-        User user = new User();
-        user.setId(userId);
-        List<Booking> bookings = bookingService.findByUser(user);
+        List<Booking> bookings = bookingService.findByOwnerId(userId);
         return super.success("获取成功", bookings);
     }
 
@@ -40,9 +38,7 @@ public class BookingController extends BaseController {
     @Operation(summary = "获取当前用户收到的预约")
     public ResponseEntity<BaseResponse<List<Booking>>> getCurrentUserReceivedBookings(Authentication authentication) {
         Long userId = Long.parseLong(authentication.getName());
-        User user = new User();
-        user.setId(userId);
-        List<Booking> bookings = bookingService.findByServiceProvider(user);
+        List<Booking> bookings = bookingService.findByProviderId(userId);
         return super.success("获取成功", bookings);
     }
 

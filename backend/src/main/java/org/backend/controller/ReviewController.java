@@ -2,8 +2,8 @@ package org.backend.controller;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import org.backend.base.controller.BaseController;
-import org.backend.base.dto.BaseResponse;
+import org.backend.A_general.base.controller.BaseController;
+import org.backend.A_general.base.dto.BaseResponse;
 import org.backend.dto.request.ReviewRequest;
 import org.backend.dto.response.ReviewResponse;
 import org.backend.entity.Review;

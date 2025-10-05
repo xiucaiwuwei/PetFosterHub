@@ -1,5 +1,6 @@
 package org.backend.service.impl;
 
+import org.backend.A_general.base.service.impl.BaseServiceImpl;
 import org.backend.dto.request.message.ImageMessageRequest;
 import org.backend.dto.request.message.VideoMessageRequest;
 import org.backend.entity.Message;
@@ -23,11 +24,10 @@ import java.util.concurrent.ConcurrentHashMap;
  * 实现消息管理相关的业务逻辑
  */
 @Service
-public class MessageServiceImpl implements MessageService {
+public class MessageServiceImpl extends BaseServiceImpl<Message, Long, MessageRepository> implements MessageService {
 
     private static final Logger logger = LoggerFactory.getLogger(MessageServiceImpl.class);
 
-    private final MessageRepository messageRepository;
     private final UserRepository userRepository;
     private final ApplicationEventPublisher eventPublisher;
     
@@ -38,14 +38,14 @@ public class MessageServiceImpl implements MessageService {
     public MessageServiceImpl(MessageRepository messageRepository,
                             UserRepository userRepository,
                             ApplicationEventPublisher eventPublisher) {
-        this.messageRepository = messageRepository;
+        super(messageRepository);
         this.userRepository = userRepository;
         this.eventPublisher = eventPublisher;
     }
 
     @Override
     public List<Message> getMessagesByConversationId(Long conversationId) {
-        return messageRepository.findByConversationIdAndDeletedFalseOrderByCreatedAtAsc(conversationId);
+        return repository.findByConversationIdAndDeletedFalseOrderByCreatedAtAsc(conversationId);
     }
 
     @Override
@@ -61,7 +61,7 @@ public class MessageServiceImpl implements MessageService {
         message.setIsRead(false);
         message.setDeleted(false);
         
-        Message savedMessage = messageRepository.save(message);
+        Message savedMessage = super.save(message);
         
         // 通过事件发布新消息通知
         eventPublisher.publishEvent(new NewMessageEvent(savedMessage));
@@ -114,7 +114,7 @@ public class MessageServiceImpl implements MessageService {
             Long convId = Long.parseLong(conversationId);
             Long userid = Long.parseLong(userId);
             
-            List<Message> messages = messageRepository.findByConversationIdAndReceiverIdAndIsReadFalseAndDeletedFalseOrderByCreatedAtDesc(
+            List<Message> messages = repository.findByConversationIdAndReceiverIdAndIsReadFalseAndDeletedFalseOrderByCreatedAtDesc(
                     convId, userid);
             
             messages.forEach(message -> {
@@ -122,7 +122,7 @@ public class MessageServiceImpl implements MessageService {
                 message.setUpdatedAt(LocalDateTime.now());
             });
             
-            messageRepository.saveAll(messages);
+            super.saveAll(messages);
             logger.info("已将对话 {} 中的 {} 条消息标记为已读", conversationId, messages.size());
         } catch (NumberFormatException e) {
             logger.error("标记消息已读失败：无效的ID格式", e);
@@ -131,20 +131,20 @@ public class MessageServiceImpl implements MessageService {
 
     @Override
     public void markLatestMessageAsUnread(Long conversationId, Long userId) {
-        List<Message> messages = messageRepository.findByConversationIdAndReceiverIdAndDeletedFalseOrderByCreatedAtDesc(
+        List<Message> messages = repository.findByConversationIdAndReceiverIdAndDeletedFalseOrderByCreatedAtDesc(
                 conversationId, userId);
         
         if (!messages.isEmpty()) {
             Message latestMessage = messages.getFirst();
             latestMessage.setIsRead(false);
             latestMessage.setUpdatedAt(LocalDateTime.now());
-            messageRepository.save(latestMessage);
+            super.save(latestMessage);
         }
     }
 
     @Override
     public void deleteMessage(Long messageId, Long userId) {
-        Optional<Message> optionalMessage = messageRepository.findById(messageId);
+        Optional<Message> optionalMessage = repository.findById(messageId);
         
         if (optionalMessage.isPresent()) {
             Message message = optionalMessage.get();
@@ -152,7 +152,7 @@ public class MessageServiceImpl implements MessageService {
             if (message.getSenderId().equals(userId) || message.getReceiverId().equals(userId)) {
                 message.setDeleted(true);
                 message.setUpdatedAt(LocalDateTime.now());
-                messageRepository.save(message);
+                super.save(message);
             }
         }
     }
@@ -183,7 +183,7 @@ public class MessageServiceImpl implements MessageService {
 
     @Override
     public int getUnreadMessageCount(Long userId) {
-        return Math.toIntExact(messageRepository.countByReceiverIdAndIsReadFalseAndDeletedFalse(userId));
+        return Math.toIntExact(repository.countByReceiverIdAndIsReadFalseAndDeletedFalse(userId));
     }
 
     @Override
@@ -191,7 +191,7 @@ public class MessageServiceImpl implements MessageService {
         List<Map<String, Object>> conversations = new ArrayList<>();
         
         // 查询用户参与的所有对话
-        List<Object[]> results = messageRepository.findConversationsByUserId(userId);
+        List<Object[]> results = repository.findConversationsByUserId(userId);
         
         for (Object[] result : results) {
             Long conversationId = (Long) result[0];
@@ -230,14 +230,14 @@ public class MessageServiceImpl implements MessageService {
     @Override
     public boolean deleteConversation(Long conversationId, Long userId) {
         // 逻辑删除用户在该对话中的所有消息
-        List<Message> messages = messageRepository.findByConversationIdAndUserIdAndDeletedFalse(conversationId, userId);
+        List<Message> messages = repository.findByConversationIdAndUserIdAndDeletedFalse(conversationId, userId);
         
         if (!messages.isEmpty()) {
             messages.forEach(message -> {
                 message.setDeleted(true);
                 message.setUpdatedAt(LocalDateTime.now());
             });
-            messageRepository.saveAll(messages);
+            super.saveAll(messages);
             return true;
         }
         return false;

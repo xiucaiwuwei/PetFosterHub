@@ -5,6 +5,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
+import org.springframework.stereotype.Repository;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -13,6 +14,7 @@ import java.util.List;
  * 审计日志Repository接口
  * 提供审计日志的查询和持久化操作
  */
+@Repository
 public interface AuditLogRepository extends BaseRepository<AuditLog, Long> {
 
     /**
@@ -92,8 +94,8 @@ public interface AuditLogRepository extends BaseRepository<AuditLog, Long> {
     /**
      * 查询最近N条审计日志
      *
-     * @param limit 查询数量
+     * @param pageable 分页参数，通过PageRequest.of(0, limit)设置查询数量
      * @return 审计日志列表
      */
-    List<AuditLog> findTopNByOrderByCreatedAtDesc(int limit);
+    List<AuditLog> findTop1000ByOrderByCreatedAtDesc(Pageable pageable);
 }

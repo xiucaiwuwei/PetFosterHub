@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/messages/conversations")
+@RequestMapping("/messages/conversations")
 @RequiredArgsConstructor
 @Tag(name = "对话管理", description = "对话相关接口")
 public class ConversationController extends BaseController {

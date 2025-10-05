@@ -22,7 +22,7 @@ import java.util.Map;
  * 处理手机号验证码的发送和获取请求
  */
 @RestController
-@RequestMapping("/api/verification-code")
+@RequestMapping("/verification-code")
 @RequiredArgsConstructor
 @Tag(name = "验证码服务", description = "验证码发送和验证接口")
 public class VerificationCodeController extends BaseController {

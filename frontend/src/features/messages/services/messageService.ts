@@ -1,10 +1,11 @@
 /**
  * 消息业务逻辑服务
  */
-import { getConversations, getMessagesByConversationId, sendMessage as apiSendMessage, markAsRead, uploadImage, MessageResponse, ConversationListItemResponse, MessageListResponse } from '../api/messageApi';
+import { getConversations, getMessagesByConversationId, markAsRead, uploadImage, sendTextMessage, sendImageMessage } from '../api';
 import { Message } from '../types/entity/Message';
 import { Conversation } from '../types/entity/Conversation';
-import { GetMessagesDto, SendMessageDto } from '../types/dto';
+import { BaseResponse } from '@/types';
+import { TextMessageRequest, TextMessageResponse, ImageMessageRequest, ImageMessageResponse, MessageListResponse, GetConversationsRequest, MarkAsReadRequest } from '../types/dto';
 import { validateMessageContent } from '../utils/validationUtils';
 import { MessageType } from '../types/enums/MessageType';
 
@@ -14,44 +15,45 @@ import { MessageType } from '../types/enums/MessageType';
 export class MessageService {
   /**
  * 上传图片并发送图片消息
- * @param conversationId 对话ID
- * @param senderId 发送者ID
- * @param receiverId 接收者ID
+ * @param request 图片消息请求对象
  * @param file 图片文件
- * @param caption 图片说明文字
- * @param width 图片宽度
- * @param height 图片高度
  * @returns 发送的消息Promise
  */
   static async sendImageMessage(
-    conversationId: string,
-    senderId: string,
-    receiverId: string,
-    file: File,
-    caption?: string,
-    width?: number,
-    height?: number
+    request: ImageMessageRequest,
+    file: File
   ): Promise<Message> {
     try {
       // 上传图片文件
       const fileUrl = await uploadImage(file);
       
-      // 创建图片消息
-      const message: Message = {
-        id: `m${Date.now()}`,
-        conversationId,
-        senderId,
-        receiverId,
-        content: caption || '',
-        type: MessageType.IMAGE,
-        createdAt: new Date(),
-        isRead: false,
+      // 创建图片消息发送DTO，添加BaseRequest所需的字段
+      const dto: ImageMessageRequest = {
+        ...request,
         fileUrl,
-        isSentByMe: true,
-        status: 'sending'
+        operationType: 'CREATE',
+        operationContent: '发送图片消息'
       };
       
-      return message;
+      // 发送图片消息到服务器
+      const response = await sendImageMessage(dto);
+      
+      // 返回格式化后的消息
+      return {
+        id: response.data.id,
+        conversationId: request.conversationId,
+        senderId: request.senderId,
+        receiverId: request.receiverId,
+        content: request.caption || '',
+        type: MessageType.Image,
+        createdAt: new Date(),
+        isRead: false,
+        mediaUrl: fileUrl,
+        fileName: undefined,
+        fileSize: undefined,
+        isSentByMe: true,
+        status: 'sent'
+      };
     } catch (error) {
       console.error('发送图片消息失败:', error);
       throw new Error('发送图片失败，请重试');
@@ -65,7 +67,18 @@ export class MessageService {
    */
   static async getUserConversations(userId: string): Promise<Conversation[]> {
     try {
-      const conversations = await getConversations(userId);
+      // 构造获取对话列表的请求参数
+      const requestDto: GetConversationsRequest = {
+        userId,
+        pageSize: 100,  // 默认获取100条对话
+        page: 0,
+        sortBy: 'recent',
+        operationType: 'QUERY',
+        operationContent: '获取用户对话列表'
+      };
+      
+      const response = await getConversations(requestDto);
+      const conversations = response.data || [];
       
       // 确保日期格式正确
       const formattedConversations = conversations.map(conversation => ({
@@ -126,32 +139,34 @@ export class MessageService {
    * @param dto 获取消息列表的数据传输对象
    * @returns 消息列表Promise
    */
-  static async getConversationMessages(dto: GetMessagesDto): Promise<Message[]> {
-    try {
-      const messageListResponse = await getMessagesByConversationId(dto);
-      
-      // 从响应对象中提取消息数组
-      const messages = messageListResponse.messages || [];
-      
-      // 确保日期格式正确并转换为Message实体类型
-      const formattedMessages = messages.map((message: MessageResponse) => ({
-        id: message.id,
-        content: message.content || '',
-        senderId: message.senderId,
-        receiverId: message.receiverId,
-        conversationId: message.conversationId,
-        type: this.getMessageTypeFromResponse(message),
-        createdAt: message.createdAt instanceof Date ? message.createdAt : 
-                   typeof message.createdAt === 'string' ? new Date(message.createdAt) : new Date(),
-        updatedAt: message.updatedAt instanceof Date ? message.updatedAt : 
-                   typeof message.updatedAt === 'string' ? new Date(message.updatedAt) : undefined,
-        isRead: message.isRead,
-        deleted: false,
-        mediaUrl: 'fileUrl' in message ? message.fileUrl : undefined,
-        fileName: 'fileName' in message ? message.fileName : undefined,
-        fileSize: 'fileSize' in message ? message.fileSize : undefined,
-        status: message.status
-      }));
+  static async getConversationMessages(dto: any): Promise<Message[]> {
+      try {
+        const response = await getMessagesByConversationId(dto);
+        
+        // 从响应对象中提取消息数组
+        const messageListResponse = response.data;
+        const messages = messageListResponse?.messages || [];
+        
+        // 确保日期格式正确并转换为Message实体类型
+        const formattedMessages = messages.map((message: any) => ({
+          id: message.id,
+          content: message.content || '',
+          senderId: message.senderId,
+          receiverId: message.receiverId,
+          conversationId: message.conversationId,
+          type: this.getMessageTypeFromResponse(message),
+          createdAt: message.createdAt instanceof Date ? message.createdAt : 
+                     typeof message.createdAt === 'string' ? new Date(message.createdAt) : new Date(),
+          updatedAt: message.updatedAt instanceof Date ? message.updatedAt : 
+                     typeof message.updatedAt === 'string' ? new Date(message.updatedAt) : undefined,
+          isRead: message.isRead,
+          deleted: false,
+          mediaUrl: message.mediaUrl || (message.fileUrl ? message.fileUrl : undefined),
+          fileName: message.fileName || undefined,
+          fileSize: message.fileSize || undefined,
+          isSentByMe: message.senderId === dto.userId,
+          status: message.status || 'sent'
+        }));
       
       // 按时间排序，最早的消息在前面
       return formattedMessages.sort((a, b) => {
@@ -171,7 +186,7 @@ export class MessageService {
    * @param dto 发送消息的数据传输对象
    * @returns 发送的消息Promise
    */
-  static async sendMessage(dto: SendMessageDto): Promise<Message> {
+  static async sendMessage(dto: TextMessageRequest): Promise<Message> {
     // 验证消息内容
     const validationResult = validateMessageContent(dto.content);
     if (!validationResult.isValid) {
@@ -179,9 +194,17 @@ export class MessageService {
     }
 
     try {
-      const messageResponse = await apiSendMessage(dto);
+      // 添加BaseRequest所需的字段
+      const requestDto: TextMessageRequest = {
+        ...dto,
+        operationType: 'CREATE',
+        operationContent: '发送文本消息'
+      };
       
-      // 将MessageResponse转换为Message实体类型
+      const response = await sendTextMessage(requestDto);
+      
+      // 将响应转换为Message实体类型
+      const messageResponse = response.data;
       const formattedMessage: Message = {
         id: messageResponse.id,
         content: messageResponse.content || '',
@@ -213,7 +236,16 @@ export class MessageService {
    */
   static async markConversationAsRead(conversationId: string, userId: string): Promise<boolean> {
     try {
-      return await markAsRead(conversationId, userId);
+      // 构造标记为已读的请求参数
+      const requestDto: MarkAsReadRequest = {
+        conversationId,
+        userId,
+        operationType: 'UPDATE',
+        operationContent: '标记对话为已读'
+      };
+      
+      const response = await markAsRead(requestDto);
+      return response.success === true;
     } catch (error) {
       console.error('标记消息为已读失败:', error);
       throw new Error('标记消息为已读失败，请重试');
@@ -269,7 +301,7 @@ export class MessageService {
    * @param messageResponse 消息响应对象
    * @returns 消息类型枚举值
    */
-  private static getMessageTypeFromResponse(messageResponse: MessageResponse): MessageType {
+  private static getMessageTypeFromResponse(messageResponse: any): MessageType {
     if ('fileUrl' in messageResponse) {
       if ('width' in messageResponse && 'height' in messageResponse) {
         return 'duration' in messageResponse ? MessageType.VIDEO : MessageType.IMAGE;

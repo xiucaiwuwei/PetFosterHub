@@ -19,7 +19,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/api/bookings")
+@RequestMapping("/bookings")
 @RequiredArgsConstructor
 @Tag(name = "预约管理", description = "预约订单管理接口")
 public class BookingController extends BaseController {

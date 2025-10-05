@@ -38,7 +38,7 @@ import java.util.Map;
  */
 @Tag(name = "认证管理", description = "用户认证相关接口")
 @RestController
-@RequestMapping("/api/auth")
+@RequestMapping("/auth")
 public class AuthController extends BaseController {
 
     private static final Logger logger = LoggerFactory.getLogger(AuthController.class);

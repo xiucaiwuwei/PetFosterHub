@@ -19,7 +19,7 @@ import java.util.List;
  * 首页相关接口
  */
 @RestController
-@RequestMapping("/api/home")
+@RequestMapping("/home")
 @RequiredArgsConstructor
 @Tag(name = "首页相关接口")
 public class HomeController extends BaseController {

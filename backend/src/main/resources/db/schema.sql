@@ -1,6 +1,3 @@
--- PetFosterHub 基础数据库表结构
--- 创建时间: " + java.time.LocalDateTime.now().format(java.time.format.DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")) + "
-
 -- 审计日志表 (audit_log)
 CREATE TABLE IF NOT EXISTS audit_log (
     id BIGINT AUTO_INCREMENT PRIMARY KEY COMMENT '主键ID',

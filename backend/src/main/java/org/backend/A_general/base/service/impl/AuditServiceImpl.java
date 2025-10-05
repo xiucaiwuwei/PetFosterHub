@@ -162,7 +162,7 @@ public class AuditServiceImpl extends BaseServiceImpl<AuditLog, Long, AuditLogRe
      */
     @Override
     public List<AuditLog> findRecentLogs(int limit) {
-        return repository.findTopNByOrderByCreatedAtDesc(limit);
+        return repository.findTop1000ByOrderByCreatedAtDesc(Pageable.ofSize(limit));
     }
 
     /**

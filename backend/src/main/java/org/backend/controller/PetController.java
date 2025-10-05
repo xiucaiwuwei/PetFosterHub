@@ -19,7 +19,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/api/pets")
+@RequestMapping("/pets")
 @RequiredArgsConstructor
 @Tag(name = "宠物管理", description = "宠物信息管理接口")
 public class PetController extends BaseController {

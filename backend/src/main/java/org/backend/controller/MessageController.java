@@ -21,7 +21,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 @RestController
-@RequestMapping("/api/messages")
+@RequestMapping("/messages")
 @RequiredArgsConstructor
 @Tag(name = "消息管理", description = "消息管理接口")
 public class MessageController extends BaseController {
@@ -105,7 +105,7 @@ public class MessageController extends BaseController {
         }
     }
 
-    @GetMapping("/conversations/{userId}")
+    @GetMapping("/conversations/user/{userId}")
     @Operation(summary = "获取指定用户的对话列表")
     public ResponseEntity<BaseResponse<List<Map<String, Object>>>> getConversations(@PathVariable String userId) {
         try {

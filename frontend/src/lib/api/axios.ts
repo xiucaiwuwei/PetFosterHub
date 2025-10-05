@@ -4,7 +4,7 @@ import { AuthState } from '@/features/auth/types/entity';
 
 // 定义常量
 const LOGIN_PATH = '/login';
-const DEFAULT_BASE_URL = 'http://localhost:8080/api';
+const DEFAULT_BASE_URL = 'http://localhost:8080';
 
 // 定义公开接口的正则表达式（这些接口不需要认证）
 const PUBLIC_ENDPOINTS = [

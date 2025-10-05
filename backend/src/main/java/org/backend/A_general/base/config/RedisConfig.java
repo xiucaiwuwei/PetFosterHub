@@ -6,6 +6,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.repository.configuration.EnableRedisRepositories;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
 
 /**
@@ -14,6 +15,7 @@ import org.springframework.data.redis.serializer.StringRedisSerializer;
  * 该配置类主要配置RedisTemplate，设置合适的序列化器以确保数据能正确地存储和读取。
  */
 @Configuration
+@EnableRedisRepositories
 public class RedisConfig {
 
     private static final Logger logger = LoggerFactory.getLogger(RedisConfig.class);

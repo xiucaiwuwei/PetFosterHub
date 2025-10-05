@@ -19,7 +19,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/api/foster-services")
+@RequestMapping("/foster-services")
 @RequiredArgsConstructor
 @Tag(name = "寄养服务管理", description = "寄养服务信息管理接口")
 public class FosterServiceController extends BaseController {

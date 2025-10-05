@@ -10,7 +10,7 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
  */
 @Configuration
 @EnableJpaRepositories(
-        basePackages = "org.backend.repository",
+        basePackages = {"org.backend.repository", "org.backend.A_general.base.repository", "org.backend.A_general.file.repository"},
         repositoryBaseClass = BaseRepositoryImpl.class
 )
 public class RepositoryConfig {

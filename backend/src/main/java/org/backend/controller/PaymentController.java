@@ -22,7 +22,7 @@ import java.util.Map;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/api/payments")
+@RequestMapping("/payments")
 @RequiredArgsConstructor
 @Tag(name = "支付管理", description = "支付订单管理接口")
 public class PaymentController extends BaseController {

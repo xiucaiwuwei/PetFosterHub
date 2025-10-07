@@ -3,8 +3,8 @@
  * 提供大文件分块上传和断点续传的业务逻辑处理
  */
 import type {AxiosProgressEvent} from 'axios';
-import {UploadFileDto, UploadResponseDto} from '../types/dto';
-import {FileTypes} from '../types/enums';
+import {UploadFileDto, UploadResponseDto} from '../types/dto/A_index';
+import {FileTypes} from '../types/enums/A_index';
 import {
     calculateTotalChunks,
     checkFileUploadStatus,

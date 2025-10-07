@@ -2,7 +2,7 @@
  * 文件工具函数
  * 提供文件处理相关的辅助函数
  */
-import { FileTypes } from '../types/enums';
+import { FileTypes } from '../types/enums/A_index';
 
 /**
  * 获取文件类型

@@ -4,41 +4,34 @@
  */
 import {get, post} from '@/lib/api/axios';
 import type {AxiosProgressEvent} from 'axios';
-import {FileTypes} from '../types/enums';
+import {FileTypes} from '../types/enums/A_index';
+import type {ChunkUploadConfig} from '../types/entity/A_index';
+import {ChunkUploadStatusResponse, UploadResponse} from '../types/dto/UploadResponse';
 
 /** 分块大小（5MB） */
 export const CHUNK_SIZE = 5 * 1024 * 1024;
 
 /**
- * 分块上传任务配置
- */
-export interface ChunkUploadConfig {
-  /** 文件ID */
-  fileId: string;
-  /** 当前分块索引 */
-  chunkIndex: number;
-  /** 总分块数量 */
-  totalChunks: number;
-  /** 文件类型 */
-  fileType: FileTypes;
-  /** 文件名称 */
-  fileName: string;
-  /** 文件大小 */
-  fileSize: number;
-}
-
-/**
  * 检查文件是否已上传部分块（断点续传）
  * @param fileId 文件唯一标识
- * @returns 已上传的块索引数组
+ * @returns 分块上传状态响应
  */
-export const checkFileUploadStatus = async (fileId: string): Promise<number[]> => {
+export const checkFileUploadStatus = async (fileId: string): Promise<ChunkUploadStatusResponse> => {
   try {
-    const response = await get<number[]>(`/api/upload/chunk/${fileId}/status`);
-    return response || [];
+    const response = await get<ChunkUploadStatusResponse>(`/api/upload/chunk/${fileId}/status`);
+    return response;
   } catch (error) {
     console.error('检查文件上传状态失败:', error);
-    return [];
+    // 返回默认的上传状态
+    return {
+      success: false,
+      message: '检查上传状态失败',
+      fileId,
+      uploadedChunks: [],
+      totalChunks: 0,
+      uploadProgress: 0,
+      isUploadComplete: false
+    };
   }
 };
 
@@ -90,15 +83,15 @@ export const uploadChunk = async (
  * @param fileId 文件唯一标识
  * @param fileName 文件名
  * @param fileType 文件类型
- * @returns 合并后的文件URL
+ * @returns 合并后的文件响应
  */
 export const mergeChunks = async (
   fileId: string,
   fileName: string,
   fileType: FileTypes
-): Promise<string> => {
+): Promise<UploadResponse> => {
   try {
-      return await post<string>('/api/upload/chunk/merge', {
+      return await post<UploadResponse>('/api/upload/chunk/merge', {
         fileId,
         fileName,
         fileType
@@ -138,11 +131,14 @@ export const calculateTotalChunks = (fileSize: number, chunkSize: number = CHUNK
  * @returns 文件块数据
  */
 export const getFileChunk = (
-  file: File,
-  chunkIndex: number,
-  chunkSize: number = CHUNK_SIZE
+    file: File,
+    chunkIndex: number,
+    chunkSize: number = CHUNK_SIZE
 ): Blob => {
-  const start = chunkIndex * chunkSize;
-  const end = Math.min(start + chunkSize, file.size);
-  return file.slice(start, end);
+    const start = chunkIndex * chunkSize;
+    const end = Math.min(start + chunkSize, file.size);
+    return file.slice(start, end);
 };
+
+// 重新导出实体类型以保持向后兼容性
+export type { ChunkUploadConfig } from '../types/entity/A_index';

@@ -3,85 +3,9 @@
  * 管理文件上传相关的状态
  */
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { UploadedFile } from '../types/entity';
-import { UploadResponseDto } from '../types/dto';
-import { FileTypes } from '../types/enums';
-
-/**
- * 单个上传任务的状态
- */
-export interface UploadTask {
-  /** 上传任务ID */
-  id: string;
-  /** 文件对象 */
-  file: File;
-  /** 文件类型 */
-  fileType: FileTypes;
-  /** 上传进度（0-100） */
-  progress: number;
-  /** 上传状态 */
-  status: 'idle' | 'uploading' | 'success' | 'error';
-  /** 上传响应数据（如果成功） */
-  response?: UploadResponseDto;
-  /** 错误信息（如果失败） */
-  error?: string;
-  /** 上传开始时间 */
-  startTime: number;
-  /** 上传结束时间 */
-  endTime?: number;
-  
-  // 分块上传相关属性
-  /** 是否启用分块上传 */
-  useChunkUpload?: boolean;
-  /** 总分块数量 */
-  totalChunks?: number;
-  /** 已上传的块数 */
-  uploadedChunks?: number;
-  /** 文件唯一标识（用于断点续传） */
-  fileIdentifier?: string;
-  /** 重试次数 */
-  retries?: number;
-  /** 分块大小 */
-  chunkSize?: number;
-}
-
-/**
- * 文件上传配置选项
- */
-export interface UploadConfig {
-  /** 上传队列长度限制 */
-  queueLimit: number;
-  /** 是否启用自动上传 */
-  autoUpload: boolean;
-  /** 并行上传任务数 */
-  concurrentUploads: number;
-  /** 上传重试次数 */
-  retryLimit: number;
-  /** 是否启用分块上传 */
-  enableChunkUpload: boolean;
-  /** 启用分块上传的文件大小阈值（字节） */
-  chunkUploadThreshold: number;
-  /** 分块大小（字节） */
-  chunkSize: number;
-  /** 是否启用断点续传 */
-  enableResumeUpload: boolean;
-  /** 并行上传的块数 */
-  concurrentChunks: number;
-}
-
-/**
- * 文件上传模块的状态
- */
-export interface UploadState {
-  /** 当前上传任务 */
-  currentTasks: UploadTask[];
-  /** 已完成的上传文件列表 */
-  uploadedFiles: UploadedFile[];
-  /** 上传配置 */
-  config: UploadConfig;
-  /** 正在处理的上传任务数量 */
-  activeUploads: number;
-}
+import { UploadedFile, UploadTask, UploadConfig, UploadState } from '../types/entity/A_index';
+import { UploadResponseDto } from '../types/dto/A_index';
+import { FileTypes, UploadStatus } from '../types/enums/A_index';
 
 /**
  * 初始状态
@@ -131,7 +55,7 @@ export const uploadSlice = createSlice({
         file,
         fileType,
         progress: 0,
-        status: state.config.autoUpload ? 'uploading' : 'idle',
+        status: state.config.autoUpload ? UploadStatus.Uploading : UploadStatus.Idle,
         startTime: Date.now(),
         useChunkUpload: shouldUseChunkUpload,
         retries: 0
@@ -172,7 +96,7 @@ export const uploadSlice = createSlice({
       
       if (taskIndex !== -1) {
         const task = state.currentTasks[taskIndex];
-        task.status = 'success';
+        task.status = UploadStatus.Success;
         task.response = response;
         task.endTime = Date.now();
         
@@ -189,7 +113,7 @@ export const uploadSlice = createSlice({
       const task = state.currentTasks.find(t => t.id === taskId);
       
       if (task) {
-        task.status = 'error';
+        task.status = UploadStatus.Error;
         task.error = error;
         task.endTime = Date.now();
         
@@ -205,7 +129,7 @@ export const uploadSlice = createSlice({
       const taskId = action.payload;
       const task = state.currentTasks.find(t => t.id === taskId);
       
-      if (task && task.status === 'uploading') {
+      if (task && task.status === UploadStatus.Uploading) {
         // 如果任务正在上传中，从活动上传数中减去
         state.activeUploads = Math.max(0, state.activeUploads - 1);
       }
@@ -218,7 +142,7 @@ export const uploadSlice = createSlice({
      */
     clearUploadQueue: (state) => {
       // 从活动上传数中减去所有正在上传的任务
-      const uploadingTasks = state.currentTasks.filter(t => t.status === 'uploading');
+      const uploadingTasks = state.currentTasks.filter(t => t.status === UploadStatus.Uploading);
       state.activeUploads = Math.max(0, state.activeUploads - uploadingTasks.length);
       
       state.currentTasks = [];
@@ -295,8 +219,8 @@ export const uploadSlice = createSlice({
       const taskId = action.payload;
       const task = state.currentTasks.find(t => t.id === taskId);
       
-      if (task && task.status === 'idle') {
-        task.status = 'uploading';
+      if (task && task.status === UploadStatus.Idle) {
+        task.status = UploadStatus.Uploading;
         state.activeUploads += 1;
       }
     },
@@ -308,8 +232,8 @@ export const uploadSlice = createSlice({
       const taskId = action.payload;
       const task = state.currentTasks.find(t => t.id === taskId);
       
-      if (task && task.status === 'uploading') {
-        task.status = 'idle';
+      if (task && task.status === UploadStatus.Uploading) {
+        task.status = UploadStatus.Idle;
         state.activeUploads = Math.max(0, state.activeUploads - 1);
       }
     }
@@ -336,3 +260,6 @@ export const {
 } = uploadSlice.actions;
 
 export default uploadSlice.reducer;
+
+// 重新导出实体类型以保持向后兼容性
+export type { UploadTask, UploadConfig, UploadState } from '../types/entity/A_index';

@@ -3,9 +3,9 @@
  * 提供文件上传的业务逻辑处理
  */
 import { uploadImage, uploadVideo, uploadAudio, uploadDocument, uploadAnyFile } from '../api/uploadApi';
-import { FileTypes } from '../types/enums';
-import { UploadFileDto, UploadResponseDto } from '../types/dto';
-import { UploadedFile } from '../types/entity';
+import { FileTypes } from '../types/enums/A_index';
+import { UploadFileDto, UploadResponseDto } from '../types/dto/A_index';
+import { UploadedFile } from '../types/entity/A_index';
 
 /**
  * 上传文件并处理业务逻辑

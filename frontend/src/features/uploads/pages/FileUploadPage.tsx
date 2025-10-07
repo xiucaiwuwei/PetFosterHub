@@ -5,9 +5,9 @@
 import React from 'react';
 import { FileUploader, UploadProgress } from '../components';
 import { useFileUpload } from '../hooks';
-import { FileTypes } from '../types/enums';
+import { FileTypes } from '../types/enums/A_index';
 import { uploadImage, uploadFile } from '../api/uploadApi';
-import { UploadFileDto } from '../types/dto';
+import { UploadFileDto } from '../types/dto/A_index';
 
 /**
  * 文件上传示例页面

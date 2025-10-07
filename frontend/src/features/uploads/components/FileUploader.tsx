@@ -4,7 +4,7 @@
  */
 import React, { useRef, useState } from 'react';
 import { useFileUpload } from '../hooks';
-import { FileTypes } from '../types/enums';
+import { FileTypes } from '../types/enums/A_index';
 import { getFileType, formatFileSize } from '../utils';
 
 /**

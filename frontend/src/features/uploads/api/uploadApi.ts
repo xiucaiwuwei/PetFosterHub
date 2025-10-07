@@ -4,17 +4,28 @@
  */
 import { post } from '@/lib/api/axios';
 import type { AxiosProgressEvent } from 'axios';
-import { FileTypes } from '@/features/uploads/types/enums';
-import { UploadFileDto } from '@/features/uploads/types/dto';
+import { FileTypes } from '@/features/uploads/types/enums/A_index';
+import { UploadFileDto, ImageUploadDto, VideoUploadDto, AudioUploadDto, DocumentUploadDto, UploadProgressOptionsDto } from '@/features/uploads/types/dto/A_index';
+import { ImageUploadResponse, VideoUploadResponse, AudioUploadResponse, DocumentUploadResponse, UploadResponse } from '@/features/uploads/types/dto/UploadResponse';
 
 /** 上传图片文件 */
 export const uploadImage = async (
-  file: File,
-  progressOptions?: Record<string, any>,
+  dto: ImageUploadDto,
+  progressOptions?: UploadProgressOptionsDto,
   signal?: AbortSignal
-): Promise<string> => {
+): Promise<ImageUploadResponse> => {
   const formData = new FormData();
-  formData.append('file', file);
+  formData.append('file', dto.file);
+  
+  // 添加可选参数
+  if (dto.title) formData.append('title', dto.title);
+  if (dto.description) formData.append('description', dto.description);
+  if (dto.generateThumbnail !== undefined) formData.append('generateThumbnail', dto.generateThumbnail.toString());
+  if (dto.thumbnailWidth) formData.append('thumbnailWidth', dto.thumbnailWidth.toString());
+  if (dto.thumbnailHeight) formData.append('thumbnailHeight', dto.thumbnailHeight.toString());
+  if (dto.context) {
+    formData.append('context', JSON.stringify(dto.context));
+  }
   
   const config: any = {
     headers: {
@@ -27,18 +38,28 @@ export const uploadImage = async (
     config.signal = signal;
   }
   
-  // 上传文件并返回文件URL
-  return post<string>('/api/upload/image', formData, config);
+  // 上传文件并返回文件响应
+  return post<ImageUploadResponse>('/api/upload/image', formData, config);
 };
 
 /** 上传视频文件 */
 export const uploadVideo = async (
-  file: File,
-  progressOptions?: Record<string, any>,
+  dto: VideoUploadDto,
+  progressOptions?: UploadProgressOptionsDto,
   signal?: AbortSignal
-): Promise<string> => {
+): Promise<VideoUploadResponse> => {
   const formData = new FormData();
-  formData.append('file', file);
+  formData.append('file', dto.file);
+  
+  // 添加可选参数
+  if (dto.title) formData.append('title', dto.title);
+  if (dto.description) formData.append('description', dto.description);
+  if (dto.generateThumbnail !== undefined) formData.append('generateThumbnail', dto.generateThumbnail.toString());
+  if (dto.transcode !== undefined) formData.append('transcode', dto.transcode.toString());
+  if (dto.targetResolution) formData.append('targetResolution', dto.targetResolution);
+  if (dto.context) {
+    formData.append('context', JSON.stringify(dto.context));
+  }
   
   const config: any = {
     headers: {
@@ -51,18 +72,28 @@ export const uploadVideo = async (
     config.signal = signal;
   }
   
-  // 上传文件并返回文件URL
-  return post<string>('/api/upload/video', formData, config);
+  // 上传文件并返回文件响应
+  return post<VideoUploadResponse>('/api/upload/video', formData, config);
 };
 
 /** 上传音频文件 */
 export const uploadAudio = async (
-  file: File,
-  progressOptions?: Record<string, any>,
+  dto: AudioUploadDto,
+  progressOptions?: UploadProgressOptionsDto,
   signal?: AbortSignal
-): Promise<string> => {
+): Promise<AudioUploadResponse> => {
   const formData = new FormData();
-  formData.append('file', file);
+  formData.append('file', dto.file);
+  
+  // 添加可选参数
+  if (dto.title) formData.append('title', dto.title);
+  if (dto.description) formData.append('description', dto.description);
+  if (dto.extractMetadata !== undefined) formData.append('extractMetadata', dto.extractMetadata.toString());
+  if (dto.transcode !== undefined) formData.append('transcode', dto.transcode.toString());
+  if (dto.targetFormat) formData.append('targetFormat', dto.targetFormat);
+  if (dto.context) {
+    formData.append('context', JSON.stringify(dto.context));
+  }
   
   const config: any = {
     headers: {
@@ -75,18 +106,27 @@ export const uploadAudio = async (
     config.signal = signal;
   }
   
-  // 上传文件并返回文件URL
-  return post<string>('/api/upload/audio', formData, config);
+  // 上传文件并返回文件响应
+  return post<AudioUploadResponse>('/api/upload/audio', formData, config);
 };
 
 /** 上传文档文件 */
 export const uploadDocument = async (
-  file: File,
-  progressOptions?: Record<string, any>,
+  dto: DocumentUploadDto,
+  progressOptions?: UploadProgressOptionsDto,
   signal?: AbortSignal
-): Promise<string> => {
+): Promise<DocumentUploadResponse> => {
   const formData = new FormData();
-  formData.append('file', file);
+  formData.append('file', dto.file);
+  
+  // 添加可选参数
+  if (dto.title) formData.append('title', dto.title);
+  if (dto.description) formData.append('description', dto.description);
+  if (dto.generatePreview !== undefined) formData.append('generatePreview', dto.generatePreview.toString());
+  if (dto.enableOcr !== undefined) formData.append('enableOcr', dto.enableOcr.toString());
+  if (dto.context) {
+    formData.append('context', JSON.stringify(dto.context));
+  }
   
   const config: any = {
     headers: {
@@ -99,16 +139,16 @@ export const uploadDocument = async (
     config.signal = signal;
   }
   
-  // 上传文件并返回文件URL
-  return post<string>('/api/upload/document', formData, config);
+  // 上传文件并返回文件响应
+  return post<DocumentUploadResponse>('/api/upload/document', formData, config);
 };
 
 /** 上传任意文件（通用接口） */
 export const uploadFile = async (
   fileDto: UploadFileDto,
-  progressOptions?: Record<string, any>,
+  progressOptions?: UploadProgressOptionsDto,
   signal?: AbortSignal
-): Promise<string> => {
+): Promise<UploadResponse> => {
   const formData = new FormData();
   formData.append('file', fileDto.file);
   
@@ -150,17 +190,17 @@ export const uploadFile = async (
     config.signal = signal;
   }
   
-  // 上传文件并返回文件URL
-  return post<string>(endpoint, formData, config);
+  // 上传文件并返回文件响应
+  return post<UploadResponse>(endpoint, formData, config);
 };
 
 /** 通用文件上传函数 */
 export const uploadAnyFile = async (
   file: File,
   fileType: FileTypes,
-  progressOptions?: Record<string, any>,
+  progressOptions?: UploadProgressOptionsDto,
   signal?: AbortSignal
-): Promise<string> => {
+): Promise<UploadResponse> => {
   const fileDto: UploadFileDto = {
     file,
     fileType,
@@ -174,18 +214,17 @@ export const uploadAnyFile = async (
  * @param onProgress 进度回调函数
  * @returns 包含进度配置的选项对象
  */
-export const getUploadProgressOptions = (onProgress?: (progressEvent: AxiosProgressEvent) => void) => {
+export const getUploadProgressOptions = (onProgress?: (progressEvent: AxiosProgressEvent) => void): UploadProgressOptionsDto => {
   if (!onProgress) {
     return {};
   }
 
-  const progressConfig: any = {
+  const progressConfig: UploadProgressOptionsDto = {
     headers: {
       'Content-Type': 'multipart/form-data'
-    }
+    },
+    onUploadProgress: onProgress
   };
-  
-  progressConfig.onUploadProgress = onProgress;
   
   return progressConfig;
 };

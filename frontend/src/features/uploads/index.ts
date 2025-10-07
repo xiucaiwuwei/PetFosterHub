@@ -25,8 +25,8 @@ export { checkFileUploadStatus, uploadChunk, mergeChunks } from './api/chunkUplo
 export type { ChunkUploadConfig } from './api/chunkUploadApi';
 
 // 类型定义
-export * from './types/dto';
-export * from './types/entity';
-export * from './types/enums';
+export * from './types/dto/A_index';
+export * from './types/entity/A_index';
+export * from './types/enums/A_index';
 
 export { getFileType, formatFileSize, validateFileSize } from './utils/fileUtils';

@@ -22,8 +22,8 @@ import {
 } from '../slice/uploadSlice';
 import {handleFileUpload} from '../services/uploadService';
 import {handleChunkUpload} from '../services/chunkUploadService';
-import {UploadFileDto} from '../types/dto';
-import {FileTypes} from '../types/enums';
+import {UploadFileDto} from '../types/dto/A_index';
+import {FileTypes} from '../types/enums/A_index';
 
 /**
  * 文件上传Hook返回类型

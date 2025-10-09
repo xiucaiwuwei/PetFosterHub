@@ -5,7 +5,7 @@ import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
 import { Message } from '../types/entity/Message';
 import { Conversation } from '../types/entity/Conversation';
 import { GetMessagesDto, SendMessageDto } from '../types/dto';
-import { MessageService } from '../services/messageService';
+import { MessageService } from '../services';
 import { toast } from 'sonner';
 
 /**

@@ -3,6 +3,7 @@ package org.backend.A_general.base.security;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
@@ -14,6 +15,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.cors.CorsConfigurationSource;
 
 /**
  * 安全配置类
@@ -70,12 +72,14 @@ public class SecurityConfig {
             .csrf(AbstractHttpConfigurer::disable)
             // 禁用会话管理（使用无状态认证）
             .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+            // 集成CORS配置
+            .cors(cors -> cors.configurationSource(corsConfigurationSource))
             // 配置授权规则
             .authorizeHttpRequests(authorize -> authorize
                 // 允许访问公共端点
                 .requestMatchers("/api/public/**", "/api/auth/**", "/swagger-ui/**", "/v3/api-docs/**").permitAll()
-                // 允许OPTIONS请求
-                .requestMatchers("/**").permitAll()
+                // 允许OPTIONS请求（CORS预检请求）
+                .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
                 // 所有其他请求都需要认证
                 .anyRequest().authenticated()
             )
@@ -84,4 +88,8 @@ public class SecurityConfig {
 
         return http.build();
     }
+
+    // 注入CORS配置源
+    @Autowired
+    private CorsConfigurationSource corsConfigurationSource;
 }

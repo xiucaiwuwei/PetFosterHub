@@ -8,6 +8,7 @@ import org.backend.A_general.base.exception.UnauthorizedException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
@@ -46,6 +47,13 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
             throws ServletException, IOException {
+        // 对OPTIONS预检请求直接放行，不进行JWT验证
+        if (HttpMethod.OPTIONS.name().equals(request.getMethod())) {
+            logger.debug("跳过OPTIONS请求的JWT验证");
+            filterChain.doFilter(request, response);
+            return;
+        }
+        
         try {
             // 从请求头中提取JWT令牌
             String jwt = extractJwtFromRequest(request);

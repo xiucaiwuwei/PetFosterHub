@@ -91,16 +91,22 @@ system:
       - .webm
     use-temp-storage: true
     temp-file-expiry-minutes: 30
-  cache:
+
+# 文件上传路径配置
+file:
+  upload:
+    path: ./uploads
+
+cache:
     enabled: true
     expiry: 1h
     max-entries: 1000
-  jwt:
-    secret: petFosterHubSecretKey2024ForJWTTokenGeneration
-    expiry: 24h
-    refresh-expiry: 7d
-    token-prefix: "Bearer "
-    header: Authorization
+    jwt:
+      secret: petFosterHubSecretKey2024ForJWTTokenGeneration
+      expiry: 24h
+      refresh-expiry: 7d
+      token-prefix: "Bearer "
+      header: Authorization
 
 # 日志配置
 logging:

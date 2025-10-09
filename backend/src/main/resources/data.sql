@@ -1,23 +1,4 @@
 -- 用户表
--- 先删除所有依赖于users表的表，按照依赖关系顺序删除
-SET FOREIGN_KEY_CHECKS = 0;
-
--- 删除直接依赖users表的表
-DROP TABLE IF EXISTS file_uploads;
-DROP TABLE IF EXISTS messages;
-DROP TABLE IF EXISTS payments;
-DROP TABLE IF EXISTS reviews;
-
--- 删除间接依赖users表的表
-DROP TABLE IF EXISTS bookings;
-DROP TABLE IF EXISTS foster_services;
-DROP TABLE IF EXISTS pets;
-
--- 最后删除users表
-DROP TABLE IF EXISTS users;
-
-SET FOREIGN_KEY_CHECKS = 1;
-
 CREATE TABLE users (
     id BIGINT AUTO_INCREMENT PRIMARY KEY COMMENT '用户唯一标识符',
     phone VARCHAR(20) NOT NULL COMMENT '手机号码',

@@ -1,6 +1,10 @@
-import { getUserInfo, updateUserInfo, uploadUserAvatar } from '../api/userApi';
+/**
+ * 用户服务类
+ * 提供用户信息管理和操作的方法
+ */
 import { GetUserInfoDto, UpdateUserInfoDto } from '../types';
 import { toast } from 'sonner';
+import { getUserInfo, updateUserInfo, uploadUserAvatar } from '../api/userApi';
 
 /**
  * 用户信息服务

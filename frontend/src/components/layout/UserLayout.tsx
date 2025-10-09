@@ -1,6 +1,7 @@
 import { Navbar } from './Navbar.tsx';
 import { Outlet } from 'react-router-dom';
 import useUserInfoCheck from '@/features/auth/hooks/useUserInfoCheck';
+import { ErrorBoundary } from '../error/ErrorBoundary';
 
 /**
  * 用户端布局组件 - 实现上下结构
@@ -27,7 +28,9 @@ export function UserLayout() {
 
       {/* 主体内容区域 - 占据剩余空间，并为固定导航栏留出顶部空间 */}
       <main className="flex-1 pt-16">
-        <Outlet />
+        <ErrorBoundary>
+          <Outlet />
+        </ErrorBoundary>
       </main>
     </div>
   );

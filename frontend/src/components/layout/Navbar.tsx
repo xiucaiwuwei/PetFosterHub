@@ -40,10 +40,8 @@ export function Navbar() {
       }
     };
 
-    // 如果用户已登录，加载用户信息
-    if (isAuthenticated) {
-      loadUserInfo();
-    }
+    // 总是尝试加载用户信息，而不仅仅依赖isAuthenticated状态变化
+    loadUserInfo();
   }, [isAuthenticated]);
 
   const handleLogout = () => {
@@ -164,113 +162,51 @@ export function Navbar() {
              </div>
           </div>
           <div className="flex items-center">
-            {isAuthenticated ? (
-               <div className="hidden md:flex items-center ml-4 relative group">
-                 <div className="flex items-center mr-3 cursor-pointer hover:text-orange-500 transition-colors duration-300" onClick={() => setIsCityDropdownOpen(!isCityDropdownOpen)}>
-                   <i className="fa-solid fa-location-dot text-gray-500 mr-1"></i>
-                   <span className="text-sm text-gray-700">{selectedCity}</span>
-                   <i className="fa-solid fa-chevron-down ml-1 text-xs text-gray-500"></i>
-                 </div>
-                 {isCityDropdownOpen && (
-                   <div className="absolute top-full left-0 mt-1 w-48 bg-white rounded-lg shadow-xl py-1 z-10 ring-1 ring-black ring-opacity-5 transform origin-top-left scale-95 opacity-0 animate-[fadeIn_0.2s_ease-out_forwards,_scaleUp_0.2s_ease-out_forwards]">
-                     {cities.map(city => (
-                       <button
-                         key={city.id}
-                         onClick={() => {
-                           setSelectedCity(city.name);
-                           setIsCityDropdownOpen(false);
-                         }}
-                         className="block px-4 py-2 text-sm text-gray-700 hover:bg-orange-50 hover:text-orange-600 w-full text-left transition-colors duration-200"
-                       >
-                         {city.name}
-                       </button>
-                     ))}
-                   </div>
-                 )}
-                 <button
-                   onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-                   className="flex items-center p-1 rounded-full text-gray-500 hover:text-gray-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500 transition-all duration-300"
-                   aria-expanded={isDropdownOpen}
-                 >
-                   <span className="sr-only">打开用户菜单</span>
-                     <img 
-                       src={userInfo?.user?.avatar || "https://space.coze.cn/api/coze_space/gen_image?image_size=square&prompt=%E5%B9%B4%E8%BD%BB%E7%94%B7%E6%80%A7%E5%A4%B4%E5%83%8F%EF%BC%8C%E8%BF%90%E5%8A%A8%E9%A3%8E%E6%A0%BC%EF%BC%8C%E4%BA%9A%E6%B4%B2%E4%BA%BA&sign=66572c72fe2bc067c919e7742c2a81e6"} 
-                       alt="用户头像" 
-                       className="w-8 h-8 rounded-full mr-2 object-cover border-2 border-transparent hover:border-orange-500 transition-all duration-300"
-                     />
-                     <span className="text-sm font-medium text-gray-700">
-                       {userInfo?.user?.nickname || '用户'}
-                       <span className="ml-1 text-xs text-gray-500">
-                         ({userInfo?.user?.role === 'PROVIDER' ? '寄养家长' : 
-                            userInfo?.user?.role === 'OWNER' ? '宠物主人' : 
-                            userInfo?.user?.role === 'BUSINESS' ? '商城店家' : 
-                            userInfo?.user?.role === 'VETERINARIAN' ? '宠物医生' : 
-                            userInfo?.user?.role === 'ADMIN' ? '管理员' : '普通用户'})
-                       </span>
-                     </span>
-                 </button>
-                
-                 {isDropdownOpen && (
-                   <div className="absolute right-0 top-full mt-1 w-48 bg-white rounded-lg shadow-xl py-1 z-10 ring-1 ring-black ring-opacity-5 transform origin-top-right scale-95 opacity-0 animate-[fadeIn_0.2s_ease-out_forwards,_scaleUp_0.2s_ease-out_forwards]">
-                    <button
-                      onClick={() => {
-                        navigate('/profile');
-                        setIsDropdownOpen(false);
-                      }}
-                      className="block px-4 py-2 text-sm text-gray-700 hover:bg-orange-50 hover:text-orange-600 w-full text-left transition-colors duration-200"
-                    >
-                      <i className="fa-solid fa-user mr-2"></i>个人资料
-                    </button>
-                    
-                    <button
-                      onClick={() => {
-                        navigate('/profile/orders');
-                        setIsDropdownOpen(false);
-                      }}
-                      className="block px-4 py-2 text-sm text-gray-700 hover:bg-orange-50 hover:text-orange-600 w-full text-left transition-colors duration-200"
-                    >
-                      <i className="fa-solid fa-list-alt mr-2"></i>我的订单
-                    </button>
-                    {/* 后台管理 - 仅管理员可见 */}
-                      {canViewLink(['ADMIN']) && (
-                        <button
-                        onClick={() => {
-                          navigate('/admin');
-                          setIsDropdownOpen(false);
-                        }}
-                        className="block px-4 py-2 text-sm text-gray-700 hover:bg-orange-50 hover:text-orange-600 w-full text-left transition-colors duration-200"
-                      >
-                        <i className="fa-solid fa-cog mr-2"></i>后台管理
-                      </button>
-                      )}
-                    <button
-                      onClick={() => {
-                        handleLogout();
-                        setIsDropdownOpen(false);
-                      }}
-                      className="block px-4 py-2 text-sm text-gray-700 hover:bg-orange-50 hover:text-orange-600 w-full text-left transition-colors duration-200"
-                    >
-                      <i className="fa-solid fa-sign-out-alt mr-2"></i>退出登录
-                    </button>
-                  </div>
-                )}
+            <div className="hidden md:flex items-center ml-4 relative group">
+              <div className="flex items-center mr-3 cursor-pointer hover:text-orange-500 transition-colors duration-300" onClick={() => setIsCityDropdownOpen(!isCityDropdownOpen)}>
+                <i className="fa-solid fa-location-dot text-gray-500 mr-1"></i>
+                <span className="text-sm text-gray-700">{selectedCity}</span>
+                <i className="fa-solid fa-chevron-down ml-1 text-xs text-gray-500"></i>
               </div>
-            ) : (
-              <div className="hidden md:flex items-center ml-4">
-                <button
-                  onClick={() => navigate('/login')}
-                  className="ml-4 inline-flex items-center px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500 transition-all duration-300 transform hover:-translate-y-1"
-                >
-                  登录
-                </button>
-                <button
-                  onClick={() => navigate('/register')}
-                  className="ml-4 inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-orange-500 hover:bg-orange-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500 transition-all duration-300 transform hover:-translate-y-1"
-                >
-                  注册
-                </button>
-              </div>
-            )}
+              {isCityDropdownOpen && (
+                <div className="absolute top-full left-0 mt-1 w-48 bg-white rounded-lg shadow-xl py-1 z-10 ring-1 ring-black ring-opacity-5 transform origin-top-left scale-95 opacity-0 animate-[fadeIn_0.2s_ease-out_forwards,_scaleUp_0.2s_ease-out_forwards]">
+                  {cities.map(city => (
+                    <button
+                      key={city.id}
+                      onClick={() => {
+                        setSelectedCity(city.name);
+                        setIsCityDropdownOpen(false);
+                      }}
+                      className="block px-4 py-2 text-sm text-gray-700 hover:bg-orange-50 hover:text-orange-600 w-full text-left transition-colors duration-200"
+                    >
+                      {city.name}
+                    </button>
+                  ))}
+                </div>
+              )}
+              
+              {/* 直接跳转到个人主页的链接 */}
+              <Link
+                to="/profile"
+                className="flex items-center p-1 rounded-full text-gray-500 hover:text-orange-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500 transition-all duration-300"
+              >
+                <img 
+                  src={userInfo?.user?.avatar || "https://space.coze.cn/api/coze_space/gen_image?image_size=square&prompt=%E5%B9%B4%E8%BD%BB%E7%94%B7%E6%80%A7%E5%A4%B4%E5%83%8F%EF%BC%8C%E8%BF%90%E5%8A%A8%E9%A3%8E%E6%A0%BC%EF%BC%8C%E4%BA%9A%E6%B4%B2%E4%BA%BA&sign=66572c72fe2bc067c919e7742c2a81e6"} 
+                  alt="用户头像" 
+                  className="w-8 h-8 rounded-full mr-2 object-cover border-2 border-transparent hover:border-orange-500 transition-all duration-300"
+                />
+                <span className="text-sm font-medium text-gray-700">
+                  {userInfo?.user?.nickname || '用户'}
+                  <span className="ml-1 text-xs text-gray-500">
+                    ({userInfo?.user?.role === 'PROVIDER' ? '寄养家长' : 
+                       userInfo?.user?.role === 'OWNER' ? '宠物主人' : 
+                       userInfo?.user?.role === 'BUSINESS' ? '商城店家' : 
+                       userInfo?.user?.role === 'VETERINARIAN' ? '宠物医生' : 
+                       userInfo?.user?.role === 'ADMIN' ? '管理员' : '普通用户'})
+                  </span>
+                </span>
+              </Link>
+            </div>
             
             {/* 移动端菜单按钮 */}
             <div className="-mr-2 flex md:hidden">

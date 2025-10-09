@@ -1,3 +1,6 @@
+/**
+ * 用于管理用户个人资料的自定义hook
+ */
 import { useState, useEffect, useCallback } from 'react';
 import { UserService } from '../services/userService';
 import { GetUserInfoDto, UpdateUserInfoDto } from '../types';

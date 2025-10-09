@@ -1,15 +1,18 @@
-import axios from 'axios';
+/**
+ * 用户API模块
+ * 提供用户相关的API调用，包括获取用户信息、更新用户信息、上传用户头像等
+ */
+import { get, put, post } from '@/lib/api/axios';
 import { GetUserInfoDto, UpdateUserInfoDto } from '../types';
 
-const API_URL = '/api/user';
+const API_URL = '/api/users';
 
 /**
  * 获取当前登录用户信息
  */
 export const getUserInfo = async (): Promise<GetUserInfoDto> => {
   try {
-    const response = await axios.get(`${API_URL}/profile`);
-    return response.data;
+    return await get<GetUserInfoDto>(`${API_URL}/profile`);
   } catch (error) {
     console.error('获取用户信息失败:', error);
     throw error;
@@ -22,8 +25,7 @@ export const getUserInfo = async (): Promise<GetUserInfoDto> => {
  */
 export const updateUserInfo = async (userData: UpdateUserInfoDto): Promise<GetUserInfoDto> => {
   try {
-    const response = await axios.put(`${API_URL}/profile`, userData);
-    return response.data;
+    return await put<GetUserInfoDto>(`${API_URL}/profile`, userData);
   } catch (error) {
     console.error('更新用户信息失败:', error);
     throw error;
@@ -37,15 +39,13 @@ export const updateUserInfo = async (userData: UpdateUserInfoDto): Promise<GetUs
 export const uploadUserAvatar = async (file: File): Promise<string> => {
   try {
     const formData = new FormData();
-    formData.append('avatar', file);
+    formData.append('file', file);
     
-    const response = await axios.post(`${API_URL}/avatar`, formData, {
+    return await post<string>('/api/upload/image', formData, {
       headers: {
         'Content-Type': 'multipart/form-data'
       }
     });
-    
-    return response.data.avatarUrl;
   } catch (error) {
     console.error('上传头像失败:', error);
     throw error;
@@ -57,8 +57,8 @@ export const uploadUserAvatar = async (file: File): Promise<string> => {
  */
 export const getUserRole = async (): Promise<string> => {
   try {
-    const response = await axios.get(`${API_URL}/role`);
-    return response.data.role;
+    const result = await get<{ role: string }>(`${API_URL}/role`);
+    return result.role;
   } catch (error) {
     console.error('获取用户角色失败:', error);
     throw error;

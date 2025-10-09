@@ -1,7 +1,11 @@
+/**
+ * 用户个人资料表单组件
+ */
 import React, { useState } from 'react';
 import { GetUserInfoDto, UpdateUserInfoDto } from '../types';
 import { UserService } from '../services/userService';
 import { toast } from 'sonner';
+import { Loader2 } from 'lucide-react';
 
 interface UserProfileFormProps {
   userInfo: GetUserInfoDto | null;
@@ -27,8 +31,8 @@ export const UserProfileForm: React.FC<UserProfileFormProps> = ({
   // 如果没有用户信息，显示加载状态
   if (!userInfo || !editedUserInfo) {
     return (
-      <div className="p-6 flex items-center justify-center">
-        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-orange-500"></div>
+      <div className="p-8 flex items-center justify-center bg-white rounded-xl border border-gray-100 shadow-sm">
+        <div className="animate-spin rounded-full h-12 w-12 border-4 border-orange-100 border-t-orange-500"></div>
         <span className="ml-3 text-gray-600">加载中...</span>
       </div>
     );
@@ -39,7 +43,8 @@ export const UserProfileForm: React.FC<UserProfileFormProps> = ({
    */
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
-    setEditedUserInfo(prev => prev ? { ...prev, [name]: value } : null);
+    // 直接创建新的用户信息对象而不是使用回调函数
+    setEditedUserInfo(editedUserInfo ? { ...editedUserInfo, [name]: value } : null);
     
     // 清除该字段的错误
     if (errors[name]) {
@@ -60,9 +65,9 @@ export const UserProfileForm: React.FC<UserProfileFormProps> = ({
     // 准备要更新的数据
     const userData: UpdateUserInfoDto = {
       name: editedUserInfo.name,
-      phone: editedUserInfo.phone,
-      address: editedUserInfo.address,
-      bio: editedUserInfo.bio
+      phone: editedUserInfo.phone || '',
+      address: editedUserInfo.address || '',
+      bio: editedUserInfo.bio || ''
     };
 
     // 验证用户输入
@@ -84,9 +89,9 @@ export const UserProfileForm: React.FC<UserProfileFormProps> = ({
   };
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-6">
+    <form onSubmit={handleSubmit} className="space-y-6 bg-white rounded-xl border border-gray-100 shadow-sm p-6">
       <div>
-        <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-1">
+        <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-1.5">
           姓名 <span className="text-red-500">*</span>
         </label>
         <input
@@ -95,16 +100,19 @@ export const UserProfileForm: React.FC<UserProfileFormProps> = ({
           name="name"
           value={editedUserInfo.name}
           onChange={handleInputChange}
-          className={`block w-full px-4 py-2 border ${errors.name ? 'border-red-300' : 'border-gray-300'} rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-orange-500`}
+          className={`block w-full px-4 py-2.5 rounded-lg border ${errors.name ? 'border-red-300' : 'border-gray-200'} focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-all duration-300 shadow-sm`}
           required
         />
         {errors.name && (
-          <p className="mt-1 text-sm text-red-600">{errors.name}</p>
+          <p className="mt-1.5 text-sm text-red-600 flex items-center">
+            <span className="mr-1">⚠️</span>
+            {errors.name}
+          </p>
         )}
       </div>
       
       <div>
-        <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">
+        <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1.5">
           邮箱 <span className="text-red-500">*</span>
         </label>
         <input
@@ -113,13 +121,15 @@ export const UserProfileForm: React.FC<UserProfileFormProps> = ({
           name="email"
           value={editedUserInfo.email}
           onChange={handleInputChange}
-          className="block w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
+          className="block w-full px-4 py-2.5 rounded-lg border border-gray-200 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-all duration-300 shadow-sm"
           required
+          readOnly
         />
+        <p className="mt-1 text-xs text-gray-500">邮箱地址不可修改</p>
       </div>
       
       <div>
-        <label htmlFor="phone" className="block text-sm font-medium text-gray-700 mb-1">
+        <label htmlFor="phone" className="block text-sm font-medium text-gray-700 mb-1.5">
           电话
         </label>
         <input
@@ -128,16 +138,19 @@ export const UserProfileForm: React.FC<UserProfileFormProps> = ({
           name="phone"
           value={editedUserInfo.phone || ''}
           onChange={handleInputChange}
-          className={`block w-full px-4 py-2 border ${errors.phone ? 'border-red-300' : 'border-gray-300'} rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-orange-500`}
+          className={`block w-full px-4 py-2.5 rounded-lg border ${errors.phone ? 'border-red-300' : 'border-gray-200'} focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-all duration-300 shadow-sm`}
           placeholder="请输入手机号码"
         />
         {errors.phone && (
-          <p className="mt-1 text-sm text-red-600">{errors.phone}</p>
+          <p className="mt-1.5 text-sm text-red-600 flex items-center">
+            <span className="mr-1">⚠️</span>
+            {errors.phone}
+          </p>
         )}
       </div>
       
       <div>
-        <label htmlFor="address" className="block text-sm font-medium text-gray-700 mb-1">
+        <label htmlFor="address" className="block text-sm font-medium text-gray-700 mb-1.5">
           地址
         </label>
         <input
@@ -146,16 +159,19 @@ export const UserProfileForm: React.FC<UserProfileFormProps> = ({
           name="address"
           value={editedUserInfo.address || ''}
           onChange={handleInputChange}
-          className={`block w-full px-4 py-2 border ${errors.address ? 'border-red-300' : 'border-gray-300'} rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-orange-500`}
+          className={`block w-full px-4 py-2.5 rounded-lg border ${errors.address ? 'border-red-300' : 'border-gray-200'} focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-all duration-300 shadow-sm`}
           placeholder="请输入详细地址"
         />
         {errors.address && (
-          <p className="mt-1 text-sm text-red-600">{errors.address}</p>
+          <p className="mt-1.5 text-sm text-red-600 flex items-center">
+            <span className="mr-1">⚠️</span>
+            {errors.address}
+          </p>
         )}
       </div>
       
       <div>
-        <label htmlFor="bio" className="block text-sm font-medium text-gray-700 mb-1">
+        <label htmlFor="bio" className="block text-sm font-medium text-gray-700 mb-1.5">
           个人简介
         </label>
         <textarea
@@ -164,34 +180,37 @@ export const UserProfileForm: React.FC<UserProfileFormProps> = ({
           rows={4}
           value={editedUserInfo.bio || ''}
           onChange={handleInputChange}
-          className={`block w-full px-4 py-2 border ${errors.bio ? 'border-red-300' : 'border-gray-300'} rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-orange-500`}
+          className={`block w-full px-4 py-2.5 rounded-lg border ${errors.bio ? 'border-red-300' : 'border-gray-200'} focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-all duration-300 shadow-sm resize-none`}
           placeholder="介绍一下自己吧"
         ></textarea>
         {errors.bio && (
-          <p className="mt-1 text-sm text-red-600">{errors.bio}</p>
+          <p className="mt-1.5 text-sm text-red-600 flex items-center">
+            <span className="mr-1">⚠️</span>
+            {errors.bio}
+          </p>
         )}
-        <p className="mt-1 text-xs text-gray-500">
+        <p className="mt-1.5 text-xs text-gray-500">
           还可以输入 {500 - (editedUserInfo.bio?.length || 0)} 个字符
         </p>
       </div>
       
-      <div className="flex justify-end space-x-3 pt-4 border-t border-gray-200">
+      <div className="flex justify-end space-x-4 pt-4 border-t border-gray-100">
         <button
           type="button"
           onClick={onCancel}
           disabled={isSubmitting}
-          className="px-4 py-2 border border-gray-300 rounded-lg shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500"
+          className="px-5 py-2.5 border border-gray-200 rounded-lg shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500 transition-all duration-300"
         >
           取消
         </button>
         <button
           type="submit"
           disabled={isSubmitting}
-          className="px-4 py-2 border border-transparent rounded-lg shadow-sm text-sm font-medium text-white bg-orange-500 hover:bg-orange-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500"
+          className="px-5 py-2.5 border border-transparent rounded-lg shadow-sm text-sm font-medium text-white bg-orange-500 hover:bg-orange-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500 transition-all duration-300"
         >
           {isSubmitting ? (
             <span className="inline-flex items-center">
-              <i className="fa-solid fa-spinner fa-spin mr-2"></i>
+              <Loader2 size={16} className="mr-2 animate-spin" />
               保存中...
             </span>
           ) : (

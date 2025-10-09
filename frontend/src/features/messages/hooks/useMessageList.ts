@@ -6,7 +6,8 @@ import { useState, useEffect, useRef, useCallback } from 'react';
 import { useAppDispatch, useAppSelector } from '@/app/store/store';
 import { fetchMessages, markConversationAsRead, addNewMessage } from '../slice/messageSlice';
 import { Message } from '../types/entity/Message';
-import { useWebSocket } from './useWebSocket';
+import { useWebSocket } from '@/webSocket/hooks/useWebSocket';
+import { ConnectionStatus } from '@/webSocket/types/common';
 
 /**
  * 消息列表Hook的返回类型
@@ -59,7 +60,7 @@ export const useMessageList = (
   // 使用WebSocket Hook
   const {
     isConnected,
-    connecting: wsConnecting,
+    status,
     currentUserStatus,
     typingUsers,
     connect: wsConnect,
@@ -71,6 +72,9 @@ export const useMessageList = (
     handleNewMessage,
     undefined // 暂时不需要处理对话更新
   );
+
+  // 计算连接中状态
+  const wsConnecting = status === ConnectionStatus.CONNECTING;
 
   /**
    * 加载消息列表
@@ -129,19 +133,14 @@ export const useMessageList = (
     }
   }, [messages.length, scrollToBottom]);
 
-  // 当用户ID和对话ID都有效时连接WebSocket
+  // 不再在这里连接WebSocket，使用useConversationList中建立的全局连接
+  // 只处理断开连接的情况
   useEffect(() => {
-    if (currentUserId && conversationId) {
-      wsConnect();
-    } else {
-      wsDisconnect();
-    }
-
-    // 组件卸载时断开连接
+    // 组件卸载时清理资源，但不断开全局连接
     return () => {
-      wsDisconnect();
+      // 清理资源但不断开全局WebSocket连接
     };
-  }, [currentUserId, conversationId, wsConnect, wsDisconnect]);
+  }, []);
 
   return {
     messages,

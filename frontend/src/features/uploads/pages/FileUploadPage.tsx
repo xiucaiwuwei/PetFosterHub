@@ -7,7 +7,7 @@ import { FileUploader, UploadProgress } from '../components';
 import { useFileUpload } from '../hooks';
 import { FileTypes } from '../types/enums/A_index';
 import { uploadImage, uploadFile } from '../api/uploadApi';
-import { UploadFileDto } from '../types/dto/A_index';
+import { UploadFileRequest, ImageUploadRequest } from '../types/dto/A_index';
 
 /**
  * 文件上传示例页面
@@ -23,10 +23,18 @@ export const FileUploadPage: React.FC = () => {
     if (!file) return;
 
     try {
+      // 准备图片上传数据
+      const imageDto: ImageUploadRequest = {
+        file,
+        fileType: FileTypes.Image,
+        operationType: 'file_upload',
+        operationContent: `Uploading image ${file.name}`
+      };
+      
       // 使用API直接上传
-      const imageUrl = await uploadImage(file);
-      console.log('图片上传成功:', imageUrl);
-      alert(`图片上传成功: ${imageUrl}`);
+      const response = await uploadImage(imageDto);
+      console.log('图片上传成功:', response.data?.url);
+      alert(`图片上传成功: ${response.data?.url || '上传成功但URL为空'}`);
     } catch (error) {
       console.error('图片上传失败:', error);
       alert(`图片上传失败: ${error instanceof Error ? error.message : '未知错误'}`);
@@ -47,9 +55,11 @@ export const FileUploadPage: React.FC = () => {
 
     try {
       // 准备上传数据
-      const fileDto: UploadFileDto = {
+      const fileDto: UploadFileRequest = {
         file,
         fileType: FileTypes.Document,
+        operationType: 'file_upload',
+        operationContent: `Uploading document ${file.name}`,
         title: `自定义标题_${file.name}`,
         description: '这是一个测试文件',
         context: {
@@ -59,9 +69,9 @@ export const FileUploadPage: React.FC = () => {
       };
 
       // 使用uploadFile函数上传
-      const fileUrl = await uploadFile(fileDto);
-      console.log('文件上传成功:', fileUrl);
-      alert(`文件上传成功: ${fileUrl}`);
+      const response = await uploadFile(fileDto);
+      console.log('文件上传成功:', response.data?.url);
+      alert(`文件上传成功: ${response.data?.url || '上传成功但URL为空'}`);
     } catch (error) {
       console.error('文件上传失败:', error);
       alert(`文件上传失败: ${error instanceof Error ? error.message : '未知错误'}`);

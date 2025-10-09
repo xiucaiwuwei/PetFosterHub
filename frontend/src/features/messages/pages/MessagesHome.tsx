@@ -43,14 +43,16 @@ export default function MessagesHome() {
     isLoading: isLoadingConversations,
     totalUnreadCount,
     handleSelectConversation,
-    refreshConversations
+    refreshConversations,
+    currentUserStatus
   } = useConversationList(currentUserId);
 
   const {
     messages,
     isLoading: isLoadingMessages,
     messagesEndRef,
-    refreshMessages
+    refreshMessages,
+    typingUsers
   } = useMessageList(
     selectedConversation?.conversationId || null,
     currentUserId
@@ -137,6 +139,7 @@ export default function MessagesHome() {
             onSelectConversation={handleSelectConversation}
             onRefreshConversations={refreshConversations}
             currentUserId={currentUserId}
+            currentUserStatus={currentUserStatus}
           />
         </div>
         
@@ -155,6 +158,7 @@ export default function MessagesHome() {
                 handleToggleBlock(selectedConversation.conversationId, blocked);
               }
             }}
+            typingUsers={typingUsers}
           />
         </div>
         
@@ -189,6 +193,7 @@ export default function MessagesHome() {
                 onMarkAsRead={() => {}}
                 onDeleteConversation={() => {}}
                 currentUserId={currentUserId}
+                currentUserStatus={currentUserStatus}
               />
             </motion.div>
           )}

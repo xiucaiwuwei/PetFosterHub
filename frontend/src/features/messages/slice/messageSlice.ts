@@ -4,9 +4,11 @@
 import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
 import { Message } from '../types/entity/Message';
 import { Conversation } from '../types/entity/Conversation';
-import { GetMessagesDto, SendMessageDto } from '../types/dto';
+import { TextMessageRequest } from '../types/dto/sendMessage/MessageRequest';
 import { MessageService } from '../services';
 import { toast } from 'sonner';
+import { ImageMessageRequest } from '../types/dto/sendMessage/MessageRequest';
+import { UploadResponse } from '../../uploads/types/dto/UploadResponse';
 
 /**
  * 消息模块状态接口
@@ -45,7 +47,7 @@ export const fetchConversations = createAsyncThunk(
  */
 export const fetchMessages = createAsyncThunk(
   'message/fetchMessages',
-  async (dto: GetMessagesDto) => {
+  async (dto: any) => {
     return await MessageService.getConversationMessages(dto);
   }
 );
@@ -55,7 +57,7 @@ export const fetchMessages = createAsyncThunk(
  */
 export const sendMessage = createAsyncThunk(
   'message/sendMessage',
-  async (dto: SendMessageDto) => {
+  async (dto: TextMessageRequest) => {
     return await MessageService.sendMessage(dto);
   }
 );
@@ -67,27 +69,18 @@ export const sendImageMessage = createAsyncThunk(
   'message/sendImageMessage',
   async (
     { 
-      conversationId, 
-      senderId, 
-      receiverId, 
-      file, 
-      caption 
+      request, 
+      uploadResponse 
     }: {
-      conversationId: string;
-      senderId: string;
-      receiverId: string;
-      file: File;
-      caption?: string;
+      request: ImageMessageRequest;
+      uploadResponse: UploadResponse;
     },
     { rejectWithValue }
   ) => {
     try {
       const message = await MessageService.sendImageMessage(
-        conversationId,
-        senderId,
-        receiverId,
-        file,
-        caption
+        request,
+        uploadResponse
       );
       return message;
     } catch (error) {

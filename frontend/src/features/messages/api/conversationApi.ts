@@ -18,7 +18,28 @@ import {
 
 /** 获取用户的对话列表 */
 export const getConversations = async (dto: GetConversationsRequest): Promise<BaseResponse<ExtendedConversationListResponse>> => {
-  return post<BaseResponse<ExtendedConversationListResponse>>(`/api/messages/conversations`, dto);
+  try {
+    // 移除字符串前缀，仅保留数字部分并转换为Long类型
+    const numericUserId = dto.userId.replace(/[^0-9]/g, '');
+    
+    // 后端接口目前只接受userId作为路径参数，不支持其他查询参数
+    const response = await get<BaseResponse<any>>(`/api/messages/conversations/${numericUserId}`);
+    
+    // 适配后端返回的简单消息列表，转换为前端期望的ExtendedConversationListResponse格式
+    return {
+      success: response.success,
+      timestamp: response.timestamp,
+      message: response.message,
+      data: {
+        conversations: response.data || [],
+        total: response.data?.length || 0,
+        totalUnreadCount: 0
+      }
+    };
+  } catch (error) {
+    console.error('获取对话列表失败:', error);
+    throw error;
+  }
 };
 
 /**

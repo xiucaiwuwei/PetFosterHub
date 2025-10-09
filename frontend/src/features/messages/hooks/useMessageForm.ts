@@ -4,10 +4,10 @@
 import { useState, useCallback, useEffect } from 'react';
 import { useMessageActions } from './useMessageActions';
 import { validateMessageContent } from '../utils/validationUtils';
-import { SendMessageDto } from '../types/dto';
+import { TextMessageRequest } from '../types/dto';
 import { Message } from '../types/entity/Message';
 import { MessageType } from '../types/enums/MessageType';
-import { useWebSocket } from './useWebSocket';
+import { useWebSocket } from '@/webSocket/hooks/useWebSocket';
 
 /**
  * 消息表单Hook的返回类型
@@ -114,10 +114,13 @@ export const useMessageForm = (
     setError(null);
 
     try {
-      const dto: SendMessageDto = {
+      const dto: TextMessageRequest = {
         conversationId,
+        senderId: currentUserId || '',
         receiverId,
-        content: messageContent.trim()
+        content: messageContent.trim(),
+        operationType: 'send_message',
+        operationContent: 'text_message'
       };
 
       const message = await handleSendMessage(dto);

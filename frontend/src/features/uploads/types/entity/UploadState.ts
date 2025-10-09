@@ -3,8 +3,8 @@
  * 表示上传模块的整体状态
  */
 import { UploadTask } from './UploadTask';
-import { UploadedFile } from './UploadedFile';
 import { UploadConfig } from './UploadConfig';
+import { UploadedFile } from './UploadedFile';
 
 /**
  * 文件上传模块的状态

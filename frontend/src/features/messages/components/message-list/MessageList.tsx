@@ -20,6 +20,7 @@ interface MessageListProps {
   onMarkAsRead: (conversationId: string) => void;
   onDeleteConversation: (conversationId: string) => void;
   currentUserId: string;
+  currentUserStatus?: Map<string, 'online' | 'offline' | 'away'>;
 }
 
 export const MessageList: React.FC<MessageListProps> = ({
@@ -30,6 +31,7 @@ export const MessageList: React.FC<MessageListProps> = ({
   onMarkAsRead,
   onDeleteConversation,
   currentUserId,
+  currentUserStatus = new Map(),
 }) => {
   const [expandedConversationId, setExpandedConversationId] = useState<string | null>(null);
 
@@ -115,6 +117,7 @@ export const MessageList: React.FC<MessageListProps> = ({
               onMarkAsRead={handleMarkAsRead}
               onDelete={handleDeleteConversation}
               currentUserId={currentUserId}
+              currentUserStatus={currentUserStatus}
             />
           ))}
         </AnimatePresence>

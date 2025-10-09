@@ -5,8 +5,8 @@ import { useState, useEffect, useCallback } from 'react';
 import { useAppDispatch, useAppSelector } from '@/app/store/store';
 import { fetchConversations, setSelectedConversation } from '../slice/messageSlice';
 import { Conversation } from '../types/entity/Conversation';
-import { MessageService } from '../services/messageService';
-import { useWebSocket } from './useWebSocket';
+import { MessageService } from '../services';
+import { useWebSocket } from '@/webSocket/hooks/useWebSocket';
 
 /**
  * 对话列表Hook的返回类型
@@ -21,6 +21,8 @@ export interface UseConversationListReturn {
   // WebSocket相关状态
   isWsConnected: boolean;
   currentUserStatus: Map<string, 'online' | 'offline' | 'away'>;
+  // WebSocket连接控制方法
+  handleManualConnect: () => Promise<void>;
 }
 
 /**
@@ -83,14 +85,26 @@ export const useConversationList = (userId: string): UseConversationListReturn =
   // 初始加载对话列表
   useEffect(() => {
     loadConversations();
-    // 连接WebSocket
-    wsConnect();
+    
+    // 注意：不再在这里立即调用连接方法
+    // useWebSocket内部已经包含了智能重连机制
+    // 避免双重触发导致的循环加载问题
 
     // 组件卸载时断开连接
     return () => {
       wsDisconnect();
     };
-  }, [loadConversations, wsConnect, wsDisconnect]);
+  }, [loadConversations, wsDisconnect]);
+
+  // 提供给外部组件手动触发连接的方法
+  const handleManualConnect = async () => {
+    try {
+      await wsConnect();
+      console.log('WebSocket连接初始化完成');
+    } catch (error) {
+      console.error('WebSocket连接初始化失败:', error);
+    }
+  };
 
   return {
     conversations,
@@ -101,6 +115,8 @@ export const useConversationList = (userId: string): UseConversationListReturn =
     refreshConversations,
     // WebSocket相关状态
     isWsConnected: isConnected,
-    currentUserStatus
+    currentUserStatus,
+    // WebSocket连接控制方法
+    handleManualConnect
   };
 };

@@ -14,6 +14,7 @@ interface MessageItemProps {
   onMarkAsRead: (conversationId: string) => void;
   onDelete: (conversationId: string) => void;
   currentUserId: string;
+  currentUserStatus?: Map<string, 'online' | 'offline' | 'away'>;
 }
 
 /**
@@ -29,6 +30,7 @@ const MessageItemComponent = forwardRef<HTMLDivElement, MessageItemProps>(({
   onMarkAsRead,
   onDelete,
   currentUserId,
+  currentUserStatus = new Map(),
 }, ref) => {
   const userName = conversation.otherUser.name;
   const userAvatar = conversation.otherUser.avatar;
@@ -52,6 +54,9 @@ const MessageItemComponent = forwardRef<HTMLDivElement, MessageItemProps>(({
     onMarkAsRead(conversation.conversationId);
     setSwipeOffset(0);
   };
+
+  // 获取用户状态
+  const userStatus = currentUserStatus.get(conversation.otherUser.id.toString()) || 'offline';
 
   // 左滑相关状态和处理
   const [swipeOffset, setSwipeOffset] = useState(0);
@@ -224,6 +229,8 @@ const MessageItemComponent = forwardRef<HTMLDivElement, MessageItemProps>(({
       >
         {/* 用户头像 - 增强视觉效果 */}
         <div className="relative flex-shrink-0">
+          {/* 用户状态指示器 */}
+          <span className={`absolute bottom-0 right-0 h-4 w-4 rounded-full border-2 border-white ${userStatus === 'online' ? 'bg-green-500' : userStatus === 'away' ? 'bg-yellow-500' : 'bg-gray-400'}`}></span>
             <div className="h-12 w-12 rounded-full overflow-hidden">
               {userAvatar ? (
                 <img 

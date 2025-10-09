@@ -30,16 +30,16 @@ export class MessageRetrievalService {
       };
       
       const response = await getConversations(requestDto);
-      const conversations = response.data || [];
+      const conversations = response.data?.conversations || [];
       
       // 确保日期格式正确
-      const formattedConversations = conversations.map(conversation => ({
+      const formattedConversations = conversations.map((conversation: any) => ({
         conversationId: conversation.id,
         otherUser: {
-          id: conversation.participants.find(p => p.id !== userId)?.id || '',
-          name: conversation.participants.find(p => p.id !== userId)?.name || '',
-          avatar: conversation.participants.find(p => p.id !== userId)?.avatar || '',
-          role: conversation.participants.find(p => p.id !== userId)?.role
+          id: conversation.participants.find((p: any) => p.id !== userId)?.id || '',
+          name: conversation.participants.find((p: any) => p.id !== userId)?.name || '',
+          avatar: conversation.participants.find((p: any) => p.id !== userId)?.avatar || '',
+          role: conversation.participants.find((p: any) => p.id !== userId)?.role
         },
         lastMessage: conversation.lastMessage ? {
           id: conversation.lastMessage.id,
@@ -47,7 +47,7 @@ export class MessageRetrievalService {
           senderId: conversation.lastMessage.senderId,
           receiverId: conversation.lastMessage.receiverId,
           conversationId: conversation.lastMessage.conversationId,
-          type: conversation.lastMessage.type || MessageType.TEXT,
+          type: conversation.lastMessage.type || MessageType.Text,
           createdAt: conversation.lastMessage.createdAt instanceof Date ? conversation.lastMessage.createdAt : 
                      typeof conversation.lastMessage.createdAt === 'string' ? new Date(conversation.lastMessage.createdAt) : new Date(),
           isRead: conversation.lastMessage.isRead,
@@ -63,7 +63,7 @@ export class MessageRetrievalService {
           senderId: '',
           receiverId: '',
           conversationId: conversation.id,
-          type: MessageType.TEXT,
+          type: MessageType.Text,
           createdAt: new Date(),
           isRead: true,
           deleted: false
@@ -141,19 +141,19 @@ export class MessageRetrievalService {
   private static getMessageTypeFromResponse(messageResponse: any): MessageType {
     if ('fileUrl' in messageResponse) {
       if ('width' in messageResponse && 'height' in messageResponse) {
-        return 'duration' in messageResponse ? MessageType.VIDEO : MessageType.IMAGE;
+        return 'duration' in messageResponse ? MessageType.Video : MessageType.Image;
       } else if ('duration' in messageResponse) {
-        return MessageType.AUDIO;
+        return MessageType.Audio;
       } else if ('fileName' in messageResponse) {
-        return MessageType.FILE;
+        return MessageType.File;
       }
     } else if ('latitude' in messageResponse && 'longitude' in messageResponse) {
-      return MessageType.LOCATION;
+      return MessageType.Location;
     } else if ('contactUserId' in messageResponse) {
-      return MessageType.CONTACT;
+      return MessageType.Contact;
     } else if ('stickerUrl' in messageResponse) {
-      return MessageType.STICKER;
+      return MessageType.Sticker;
     }
-    return MessageType.TEXT;
+    return MessageType.Text;
   }
 }

@@ -1,11 +1,15 @@
 /*
  * 上传文件实体类型
- * 表示系统中已上传的文件信息
+ * 表示已上传的文件信息
+ */
+
+/**
+ * 已上传文件的实体类型
  */
 export interface UploadedFile {
-  /** 文件唯一标识 */
+  /** 文件ID */
   id: string;
-  /** 文件名称 */
+  /** 文件名 */
   name: string;
   /** 文件URL */
   url: string;
@@ -13,14 +17,12 @@ export interface UploadedFile {
   type: string;
   /** 文件大小（字节） */
   size: number;
-  /** 上传时间 */
+  /** 上传时间（ISO格式字符串） */
   uploadedAt: string;
   /** 上传用户ID */
   uploadedBy: string;
-  /** 文件存储路径 */
+  /** 存储路径 */
   storagePath: string;
-  /** 缩略图URL（如果有） */
+  /** 缩略图URL（可选） */
   thumbnailUrl?: string;
-  /** 文件元数据 */
-  metadata?: Record<string, unknown>;
 }

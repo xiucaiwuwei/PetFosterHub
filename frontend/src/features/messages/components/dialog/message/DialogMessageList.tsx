@@ -22,9 +22,10 @@ interface DialogMessageListProps {
   onToggleOptionsDrawer?: () => void;
   isBlocked?: boolean;
   onToggleBlock?: (blocked: boolean) => void;
+  typingUsers?: Map<string, boolean>;
 }
 
-export const DialogMessageList: React.FC<DialogMessageListProps> = ({ messages, isLoading, isOptionsDrawerOpen = false, onToggleOptionsDrawer, isBlocked = false, onToggleBlock }) => {
+export const DialogMessageList: React.FC<DialogMessageListProps> = ({ messages, isLoading, isOptionsDrawerOpen = false, onToggleOptionsDrawer, isBlocked = false, onToggleBlock, typingUsers = new Map() }) => {
   // 消息动画配置
   const MESSAGE_ANIMATIONS = {
     initial: { opacity: 0, y: 10 },
@@ -105,11 +106,11 @@ export const DialogMessageList: React.FC<DialogMessageListProps> = ({ messages, 
     // 根据消息类型渲染不同内容
     const renderMessageContent = () => {
       switch (message.type) {
-        case MessageType.IMAGE:
-          return message.fileUrl ? (
+        case MessageType.Image:
+          return message.mediaUrl ? (
             <div className="relative">
               <img 
-                src={message.fileUrl} 
+                src={message.mediaUrl} 
                 alt={message.content || '图片消息'} 
                 className="max-w-full h-auto rounded-lg object-cover"
                 style={{ maxHeight: '300px' }}
@@ -123,11 +124,11 @@ export const DialogMessageList: React.FC<DialogMessageListProps> = ({ messages, 
           ) : (
             <p className="text-gray-400 italic">图片加载失败</p>
           );
-        case MessageType.VIDEO:
-          return message.fileUrl ? (
+        case MessageType.Video:
+          return message.mediaUrl ? (
             <div className="relative">
               <video 
-                src={message.fileUrl} 
+                src={message.mediaUrl} 
                 controls 
                 className="max-w-full h-auto rounded-lg"
                 style={{ maxHeight: '300px' }}
@@ -209,6 +210,18 @@ export const DialogMessageList: React.FC<DialogMessageListProps> = ({ messages, 
           );
         })}
       </AnimatePresence>
+      
+      {/* 对方正在输入提示 */}
+      {Array.from(typingUsers.values()).some(isTyping => isTyping) && (
+        <div className="pl-6 pr-4 py-2">
+          <div className="flex items-center space-x-2">
+            <div className="h-2 w-2 rounded-full bg-gray-400 animate-bounce" style={{ animationDelay: '0ms' }}></div>
+            <div className="h-2 w-2 rounded-full bg-gray-400 animate-bounce" style={{ animationDelay: '150ms' }}></div>
+            <div className="h-2 w-2 rounded-full bg-gray-400 animate-bounce" style={{ animationDelay: '300ms' }}></div>
+            <span className="ml-1 text-sm text-gray-500">对方正在输入...</span>
+          </div>
+        </div>
+      )}
       
       {/* 对话选项抽屉 - 集成在DialogMessageList内部 */}
       {onToggleOptionsDrawer && (

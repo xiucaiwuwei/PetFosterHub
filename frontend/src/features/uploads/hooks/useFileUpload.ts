@@ -3,6 +3,7 @@
  * 提供文件上传的React Hooks接口
  */
 import {useCallback, useRef} from 'react';
+import type { AxiosProgressEvent } from 'axios';
 import {useSelector} from 'react-redux';
 import {RootState, useAppDispatch} from '@/app/store/store';
 import {
@@ -22,7 +23,7 @@ import {
 } from '../slice/uploadSlice';
 import {handleFileUpload} from '../services/uploadService';
 import {handleChunkUpload} from '../services/chunkUploadService';
-import {UploadFileDto} from '../types/dto/A_index';
+import {UploadFileRequest} from '../types/dto/A_index';
 import {FileTypes} from '../types/enums/A_index';
 
 /**
@@ -44,7 +45,7 @@ export interface UseFileUploadReturn {
     /** 更新上传配置 */
     updateConfig: (config: Partial<UploadConfig>) => void;
     /** 上传进度回调函数 */
-    onUploadProgress: (taskId: string) => (progressEvent: ProgressEvent) => void;
+    onUploadProgress: (taskId: string) => (progressEvent: AxiosProgressEvent) => void;
 }
 
 /**
@@ -95,7 +96,9 @@ export const useFileUpload = (): UseFileUploadReturn => {
                 const response = await handleChunkUpload(
                     {
                         file: task.file,
-                        fileType: task.fileType
+                        fileType: task.fileType,
+                        operationType: 'file_upload',
+                        operationContent: `Uploading ${task.file.name}`
                     },
                     {
                         onProgress: (chunkIndex: number, progress: number) => {
@@ -125,14 +128,16 @@ export const useFileUpload = (): UseFileUploadReturn => {
             } else {
                 // 使用普通上传
                 // 准备上传数据
-                const uploadDto: UploadFileDto = {
+                const uploadDto: UploadFileRequest = {
                     file: task.file,
-                    fileType: task.fileType
+                    fileType: task.fileType,
+                    operationType: 'file_upload',
+                    operationContent: `Uploading ${task.file.name}`
                 };
 
                 // 定义进度回调
-                const onProgress = (progressEvent: ProgressEvent) => {
-                    if (progressEvent.lengthComputable) {
+                const onProgress = (progressEvent: AxiosProgressEvent) => {
+                    if (progressEvent.total) {
                         const percentCompleted = Math.round((progressEvent.loaded * 100) / progressEvent.total);
                         dispatch(updateUploadProgress({taskId, progress: percentCompleted}));
                     }
@@ -225,8 +230,8 @@ export const useFileUpload = (): UseFileUploadReturn => {
      * 上传进度回调函数生成器
      */
     const onUploadProgress = useCallback((taskId: string) => {
-        return (progressEvent: ProgressEvent) => {
-            if (progressEvent.lengthComputable) {
+        return (progressEvent: AxiosProgressEvent) => {
+            if (progressEvent.total) {
                 const percentCompleted = Math.round((progressEvent.loaded * 100) / progressEvent.total);
                 dispatch(updateUploadProgress({taskId, progress: percentCompleted}));
             }

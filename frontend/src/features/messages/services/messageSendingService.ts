@@ -3,9 +3,7 @@
  * 处理各类消息的发送功能
  */
 import { sendTextMessage, sendImageMessage as apiSendImageMessage, sendVideoMessage as apiSendVideoMessage, sendAudioMessage as apiSendAudioMessage, sendSystemMessage as apiSendSystemMessage } from '../api';
-import { handleFileUpload } from '../../uploads/services/uploadService';
-import { FileTypes } from '../../uploads/types/enums/FileTypes';
-import { UploadFileDto } from '../../uploads/types/dto/A_index';
+import { UploadResponse } from '../../uploads/types/dto/UploadResponse';
 import { Message } from '../types/entity/Message';
 import { TextMessageRequest, ImageMessageRequest, VideoMessageRequest, AudioMessageRequest, SystemMessageRequest } from '../types/dto';
 import { validateMessageContent } from '../utils/validationUtils';
@@ -15,23 +13,14 @@ export class MessageSendingService {
   /**
    * 发送视频消息
    * @param request 视频消息请求对象
-   * @param file 视频文件
+   * @param uploadResponse 已上传的文件信息
    * @returns 发送的消息Promise
    */
   static async sendVideoMessage(
     request: VideoMessageRequest,
-    file: File
+    uploadResponse: UploadResponse
   ): Promise<Message> {
     try {
-      // 创建上传文件DTO
-      const uploadFileDto: UploadFileDto = {
-        file,
-        fileType: FileTypes.Video
-      };
-      
-      // 使用uploads模块的服务处理文件上传
-      const uploadResponse = await handleFileUpload(uploadFileDto);
-      
       // 创建视频消息发送DTO，添加BaseRequest所需的字段
       const dto: VideoMessageRequest = {
         ...request,
@@ -69,23 +58,14 @@ export class MessageSendingService {
   /**
    * 发送音频消息
    * @param request 音频消息请求对象
-   * @param file 音频文件
+   * @param uploadResponse 已上传的文件信息
    * @returns 发送的消息Promise
    */
   static async sendAudioMessage(
     request: AudioMessageRequest,
-    file: File
+    uploadResponse: UploadResponse
   ): Promise<Message> {
     try {
-      // 创建上传文件DTO
-      const uploadFileDto: UploadFileDto = {
-        file,
-        fileType: FileTypes.Audio
-      };
-      
-      // 使用uploads模块的服务处理文件上传
-      const uploadResponse = await handleFileUpload(uploadFileDto);
-      
       // 创建音频消息发送DTO，添加BaseRequest所需的字段
       const dto: AudioMessageRequest = {
         ...request,
@@ -151,22 +131,12 @@ export class MessageSendingService {
       throw new Error('发送系统消息失败，请重试');
     }
   }
-  /** 上传图片并发送图片消息 */
+  /** 发送图片消息（使用已上传的图片信息） */
   static async sendImageMessage(
     request: ImageMessageRequest,
-    file: File
+    uploadResponse: UploadResponse
   ): Promise<Message> {
     try {
-      // 创建上传文件DTO
-      const uploadFileDto: UploadFileDto = {
-        file,
-        fileType: FileTypes.Image
-      };
-      
-      // 使用uploads模块的服务处理文件上传
-      // 不传入进度回调，因为在这个服务层不需要直接处理进度UI更新
-      const uploadResponse = await handleFileUpload(uploadFileDto);
-      
       // 创建图片消息发送DTO，添加BaseRequest所需的字段
       const dto: ImageMessageRequest = {
         ...request,
@@ -231,14 +201,17 @@ export class MessageSendingService {
         senderId: messageResponse.senderId,
         receiverId: messageResponse.receiverId,
         conversationId: messageResponse.conversationId,
-        type: MessageType.TEXT,
-        createdAt: messageResponse.createdAt instanceof Date ? messageResponse.createdAt : 
-                   typeof messageResponse.createdAt === 'string' ? new Date(messageResponse.createdAt) : new Date(),
-        updatedAt: messageResponse.updatedAt instanceof Date ? messageResponse.updatedAt : 
-                   typeof messageResponse.updatedAt === 'string' ? new Date(messageResponse.updatedAt) : undefined,
+        type: MessageType.Text,
+        createdAt: typeof messageResponse.createdAt === 'string' ? new Date(messageResponse.createdAt) : 
+                   (messageResponse.createdAt && typeof messageResponse.createdAt === 'object' && (messageResponse.createdAt as any) instanceof Date ? messageResponse.createdAt : new Date()),
+        ...(messageResponse.updatedAt ? {
+          updatedAt: typeof messageResponse.updatedAt === 'string' ? new Date(messageResponse.updatedAt) : 
+                    (messageResponse.updatedAt && typeof messageResponse.updatedAt === 'object' && (messageResponse.updatedAt as any) instanceof Date ? messageResponse.updatedAt : new Date())
+        } : {}),
         isRead: messageResponse.isRead,
         deleted: false,
-        status: messageResponse.status
+        ...(messageResponse.status && ['sending', 'sent', 'delivered', 'read'].includes(messageResponse.status as any) ? 
+             { status: messageResponse.status as 'sending' | 'sent' | 'delivered' | 'read' } : {})
       };
       
       return formattedMessage;

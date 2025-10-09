@@ -4,7 +4,7 @@
  */
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { UploadedFile, UploadTask, UploadConfig, UploadState } from '../types/entity/A_index';
-import { UploadResponseDto } from '../types/dto/A_index';
+import { UploadResponse } from '../types/dto/A_index';
 import { FileTypes, UploadStatus } from '../types/enums/A_index';
 
 /**
@@ -90,7 +90,7 @@ export const uploadSlice = createSlice({
     /**
      * 上传成功
      */
-    uploadSuccess: (state, action: PayloadAction<{ taskId: string; response: UploadResponseDto }>) => {
+    uploadSuccess: (state, action: PayloadAction<{ taskId: string; response: UploadResponse }>) => {
       const { taskId, response } = action.payload;
       const taskIndex = state.currentTasks.findIndex(t => t.id === taskId);
       

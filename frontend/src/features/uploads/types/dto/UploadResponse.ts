@@ -70,4 +70,6 @@ export interface ChunkUploadStatusResponse {
   uploadProgress: number; // 上传进度(0-100)
   isUploadComplete: boolean; // 是否上传完成
   lastUploadTime?: number; // 最后上传时间戳
+  success?: boolean; // 操作是否成功
+  message?: string; // 消息描述
 }

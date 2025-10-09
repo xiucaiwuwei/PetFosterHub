@@ -10,6 +10,7 @@ interface MessageListSidebarProps {
   onSelectConversation: (conversation: Conversation) => void;
   onRefreshConversations: () => void;
   currentUserId: string;
+  currentUserStatus?: Map<string, 'online' | 'offline' | 'away'>;
   onMarkAsRead?: (conversationId: string) => void;
   onDeleteConversation?: (conversationId: string) => void;
 }
@@ -22,6 +23,7 @@ export const MessageListSidebar: React.FC<MessageListSidebarProps> = ({
   onSelectConversation,
   onRefreshConversations,
   currentUserId,
+  currentUserStatus = new Map(),
   onMarkAsRead = () => console.warn('onMarkAsRead not implemented'),
   onDeleteConversation = () => console.warn('onDeleteConversation not implemented'),
 }) => {
@@ -87,6 +89,7 @@ export const MessageListSidebar: React.FC<MessageListSidebarProps> = ({
         onMarkAsRead={onMarkAsRead}
         onDeleteConversation={onDeleteConversation}
         currentUserId={currentUserId}
+        currentUserStatus={currentUserStatus}
       />
     </div>
   );

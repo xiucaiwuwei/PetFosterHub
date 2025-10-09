@@ -4,14 +4,15 @@
 import { useCallback } from 'react';
 import { useAppDispatch } from '@/app/store/store';
 import { sendMessage, markConversationAsRead, sendImageMessage } from '../slice/messageSlice';
-import { SendMessageDto } from '../types/dto';
+import { TextMessageRequest, ImageMessageRequest } from '../types/dto/sendMessage/MessageRequest';
 import { Message } from '../types/entity/Message';
+import { uploadImage } from '../../uploads/api/uploadApi';
 
 /**
  * 消息操作Hook的返回类型
  */
 export interface UseMessageActionsReturn {
-  handleSendMessage: (dto: SendMessageDto) => Promise<Message>;
+  handleSendMessage: (dto: TextMessageRequest) => Promise<Message>;
   handleMarkAsRead: (conversationId: string, userId: string) => void;
   handleSendImageMessage: (conversationId: string, senderId: string, receiverId: string, file: File, caption?: string) => void;
 }
@@ -28,7 +29,7 @@ export const useMessageActions = (): UseMessageActionsReturn => {
    * @param dto 发送消息的数据传输对象
    * @returns 发送的消息Promise
    */
-  const handleSendMessage = useCallback(async (dto: SendMessageDto): Promise<Message> => {
+  const handleSendMessage = useCallback(async (dto: TextMessageRequest): Promise<Message> => {
     try {
       const action = await dispatch(sendMessage(dto)).unwrap();
       return action;
@@ -46,23 +47,42 @@ export const useMessageActions = (): UseMessageActionsReturn => {
    * @param file 图片文件
    * @param caption 图片说明（可选）
    */
-  const handleSendImageMessage = useCallback((
+  const handleSendImageMessage = useCallback(async (
     conversationId: string,
     senderId: string,
     receiverId: string,
     file: File,
     caption?: string
   ) => {
-    // 处理caption参数，确保与exactOptionalPropertyTypes兼容
-    const payload = {
-      conversationId,
-      senderId,
-      receiverId,
-      file,
-      ...(caption !== undefined && { caption })
-    };
-    
-    dispatch(sendImageMessage(payload));
+    try {
+      // 1. 先调用uploads模块上传图片
+      const uploadResponse = await uploadImage({
+        file,
+        fileType: file.type,
+        operationType: 'CREATE',
+        operationContent: '发送图片消息'
+      });
+      
+      // 2. 构建ImageMessageRequest对象
+      const request: ImageMessageRequest = {
+        conversationId,
+        senderId,
+        receiverId,
+        fileUrl: uploadResponse.data.url,
+        operationType: 'CREATE',
+        operationContent: '发送图片消息',
+        ...(caption !== undefined && { caption })
+      };
+      
+      // 3. 发送消息
+      dispatch(sendImageMessage({
+        request,
+        uploadResponse: uploadResponse.data
+      }));
+    } catch (error) {
+      console.error('发送图片消息失败:', error);
+      throw error;
+    }
   }, [dispatch]);
 
   /**

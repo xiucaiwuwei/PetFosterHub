@@ -8,4 +8,3 @@ export * from './conversationApi';
 export * from './messageSendingApi';
 export * from './messageManagementApi';
 export * from './statisticsApi';
-export * from './uploadApi';

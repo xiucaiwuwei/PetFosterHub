@@ -3,13 +3,12 @@
  * 提供大文件分块上传和断点续传的业务逻辑处理
  */
 import type {AxiosProgressEvent} from 'axios';
-import {UploadFileDto, UploadResponseDto} from '../types/dto/A_index';
+import {UploadFileRequest, UploadResponse ,ChunkUploadConfig} from '../types';
 import {FileTypes} from '../types/enums/A_index';
 import {
     calculateTotalChunks,
     checkFileUploadStatus,
     CHUNK_SIZE,
-    ChunkUploadConfig,
     generateFileIdentifier,
     getFileChunk,
     mergeChunks,
@@ -42,9 +41,9 @@ export interface ChunkUploadOptions {
  * @returns 上传响应数据
  */
 export const handleChunkUpload = async (
-  fileDto: UploadFileDto,
+  fileDto: UploadFileRequest,
   options: ChunkUploadOptions = {}
-): Promise<UploadResponseDto> => {
+): Promise<UploadResponse> => {
   // 默认选项
   const defaultOptions: ChunkUploadOptions = {
     chunkSize: CHUNK_SIZE,
@@ -72,7 +71,8 @@ export const handleChunkUpload = async (
 
   // 检查已上传的块（断点续传）
   if (enableResume) {
-    uploadedChunks = await checkFileUploadStatus(fileId);
+    const uploadStatus = await checkFileUploadStatus(fileId);
+    uploadedChunks = uploadStatus.uploadedChunks;
   }
 
   // 计算需要上传的块
@@ -83,7 +83,8 @@ export const handleChunkUpload = async (
     // 所有块都已上传，直接合并
   // 将string类型的fileType转换为FileTypes类型
   const fileType = fileDto.fileType as FileTypes;
-  const fileUrl = await mergeChunks(fileId, fileDto.file.name, fileType);
+  const uploadResponse = await mergeChunks(fileId, fileDto.file.name, fileType);
+  const fileUrl = uploadResponse.url;
   return buildChunkUploadResponse(fileDto, fileUrl);
   }
 
@@ -102,7 +103,8 @@ export const handleChunkUpload = async (
   );
 
   // 合并文件块
-  const fileUrl = await mergeChunks(fileId, fileDto.file.name, fileDto.fileType as FileTypes);
+  const uploadResponse = await mergeChunks(fileId, fileDto.file.name, fileDto.fileType as FileTypes);
+  const fileUrl = uploadResponse.url;
 
   // 构建响应数据
   return buildChunkUploadResponse(fileDto, fileUrl);
@@ -211,7 +213,7 @@ async function uploadChunkWithRetry(
 /**
  * 构建分块上传响应数据
  */
-export const buildChunkUploadResponse = (fileDto: UploadFileDto, fileUrl: string): UploadResponseDto => {
+export const buildChunkUploadResponse = (fileDto: UploadFileRequest, fileUrl: string): UploadResponse => {
   // 从URL中提取文件ID（示例逻辑，实际需根据后端返回格式调整）
   const fileId = generateFileIdentifier(fileDto.file);
 

@@ -22,6 +22,7 @@ interface ConversationPanelProps {
   onClose?: () => void;
   isBlocked?: boolean;
   onToggleBlock?: (blocked: boolean) => void;
+  typingUsers?: Map<string, boolean>;
 }
 
 export const ConversationPanel: React.FC<ConversationPanelProps> = ({
@@ -34,6 +35,7 @@ export const ConversationPanel: React.FC<ConversationPanelProps> = ({
   onClose,
   isBlocked = false,
   onToggleBlock,
+  typingUsers = new Map(),
 }) => {
   // 控制右侧抽屉开关的状态
   const [isOptionsDrawerOpen, setIsOptionsDrawerOpen] = React.useState(false);
@@ -81,6 +83,7 @@ export const ConversationPanel: React.FC<ConversationPanelProps> = ({
         isOptionsDrawerOpen={isOptionsDrawerOpen}
         onToggleOptionsDrawer={handleToggleOptionsDrawer}
         isBlocked={isBlocked}
+        typingUsers={typingUsers}
         {...(onToggleBlock && { onToggleBlock })}
       />
       <MessageInput 

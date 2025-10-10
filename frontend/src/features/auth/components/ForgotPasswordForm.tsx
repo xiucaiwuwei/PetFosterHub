@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import useFormService from '../hooks/useFormService';
-import { UserRole } from '../types/enums';
+import { UserRole } from '@/types';
 import type { PasswordResetErrors, SendVerificationCodeErrors } from '../hooks/usePasswordReset';
 
 /**

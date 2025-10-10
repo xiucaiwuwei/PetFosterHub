@@ -1,4 +1,4 @@
-import {UserRole} from "../enums";
+import {UserRole} from "@/types";
 
 // 用户信息接口，包含用户基本信息
 export interface UserInfo {

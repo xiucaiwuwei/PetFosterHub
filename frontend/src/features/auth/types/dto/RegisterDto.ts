@@ -1,5 +1,4 @@
-import type {BaseRequest, BaseResponse} from '@/types';
-import type {UserRole} from '../enums';
+import type {BaseRequest, BaseResponse ,UserRole} from '@/types';
 
 // 注册请求参数
 export interface RegisterRequest extends BaseRequest {

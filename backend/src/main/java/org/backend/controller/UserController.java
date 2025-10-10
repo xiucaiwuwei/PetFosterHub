@@ -8,6 +8,7 @@ import org.backend.A_general.base.controller.BaseController;
 import org.backend.A_general.base.dto.BaseResponse;
 import org.backend.A_general.base.utils.ValidationUtils;
 import org.backend.dto.request.UserRequest;
+import org.backend.dto.response.user.UserProfileResponse;
 import org.backend.entity.User;
 import org.backend.service.UserService;
 import org.springframework.http.ResponseEntity;
@@ -24,25 +25,57 @@ public class UserController extends BaseController {
 
     @GetMapping("/profile")
     @Operation(summary = "获取当前用户信息")
-    public ResponseEntity<BaseResponse<User>> getCurrentUser(Authentication authentication) {
+    public ResponseEntity<BaseResponse<UserProfileResponse>> getCurrentUser(Authentication authentication) {
         // 由于移除了email字段，我们需要根据id获取用户信息
         Long userId = Long.parseLong(authentication.getName());
         User user = userService.findById(userId)
                 .orElseThrow(() -> new RuntimeException("用户不存在"));
-        return super.success("获取成功", user);
+        
+        // 转换为响应DTO，确保不包含敏感信息
+        UserProfileResponse responseDTO = new UserProfileResponse();
+        responseDTO.setId(user.getId());
+        responseDTO.setPhone(user.getPhone());
+        responseDTO.setAvatar(user.getAvatar());
+        responseDTO.setNickname(user.getNickname());
+        responseDTO.setRole(user.getRole());
+        responseDTO.setFullName(user.getFullName());
+        responseDTO.setAddress(user.getAddress());
+        responseDTO.setBio(user.getBio());
+        responseDTO.setRating(user.getRating());
+        responseDTO.setReviewCount(user.getReviewCount());
+        responseDTO.setCreatedAt(user.getCreatedAt());
+        responseDTO.setUpdatedAt(user.getUpdatedAt());
+        
+        return super.success("获取成功", responseDTO);
     }
 
     @GetMapping("/{id}")
     @Operation(summary = "根据ID获取用户信息")
-    public ResponseEntity<BaseResponse<User>> getUserById(@PathVariable Long id) {
+    public ResponseEntity<BaseResponse<UserProfileResponse>> getUserById(@PathVariable Long id) {
         User user = userService.getUserById(id)
                 .orElseThrow(() -> new RuntimeException("用户不存在"));
-        return super.success("获取成功", user);
+        
+        // 转换为响应DTO，确保不包含敏感信息
+        UserProfileResponse responseDTO = new UserProfileResponse();
+        responseDTO.setId(user.getId());
+        responseDTO.setPhone(user.getPhone());
+        responseDTO.setAvatar(user.getAvatar());
+        responseDTO.setNickname(user.getNickname());
+        responseDTO.setRole(user.getRole());
+        responseDTO.setFullName(user.getFullName());
+        responseDTO.setAddress(user.getAddress());
+        responseDTO.setBio(user.getBio());
+        responseDTO.setRating(user.getRating());
+        responseDTO.setReviewCount(user.getReviewCount());
+        responseDTO.setCreatedAt(user.getCreatedAt());
+        responseDTO.setUpdatedAt(user.getUpdatedAt());
+        
+        return super.success("获取成功", responseDTO);
     }
 
     @PutMapping("/profile")
     @Operation(summary = "更新当前用户信息")
-    public ResponseEntity<BaseResponse<User>> updateCurrentUser(
+    public ResponseEntity<BaseResponse<UserProfileResponse>> updateCurrentUser(
             Authentication authentication,
             @Valid @RequestBody UserRequest userDTO) {
         // 由于移除了email字段，我们需要根据id获取用户信息
@@ -62,7 +95,23 @@ public class UserController extends BaseController {
         if (userDTO.getBio() != null) user.setBio(userDTO.getBio());
         
         User updatedUser = userService.saveUser(user);
-        return super.success("更新成功", updatedUser);
+        
+        // 转换为响应DTO，确保不包含敏感信息
+        UserProfileResponse responseDTO = new UserProfileResponse();
+        responseDTO.setId(updatedUser.getId());
+        responseDTO.setPhone(updatedUser.getPhone());
+        responseDTO.setAvatar(updatedUser.getAvatar());
+        responseDTO.setNickname(updatedUser.getNickname());
+        responseDTO.setRole(updatedUser.getRole());
+        responseDTO.setFullName(updatedUser.getFullName());
+        responseDTO.setAddress(updatedUser.getAddress());
+        responseDTO.setBio(updatedUser.getBio());
+        responseDTO.setRating(updatedUser.getRating());
+        responseDTO.setReviewCount(updatedUser.getReviewCount());
+        responseDTO.setCreatedAt(updatedUser.getCreatedAt());
+        responseDTO.setUpdatedAt(updatedUser.getUpdatedAt());
+        
+        return super.success("更新成功", responseDTO);
     }
 
     @DeleteMapping("/account")

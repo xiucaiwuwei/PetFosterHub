@@ -4,6 +4,7 @@
 import React, { useEffect, useState } from 'react';
 import { useUserProfile } from '../hooks';
 import { UserInfoSummary, ProfileTabs, ProfileContent } from '../components';
+import { UserProfileForm } from '../components/UserProfileForm';
 import { GetUserInfoDto, UpdateUserInfoDto } from '../types';
 import { useNavigate } from 'react-router-dom';
 import { UserService } from '../services/userService';
@@ -12,9 +13,9 @@ import { Loader2, RefreshCw, User } from 'lucide-react';
 
 const Profile: React.FC = () => {
   const navigate = useNavigate();
-  const [activeTab, setActiveTab] = useState('info');
   const [editedUserInfo, setEditedUserInfo] = useState<GetUserInfoDto | null>(null);
   const [isRefreshing, setIsRefreshing] = useState(false);
+  const [activeTab, setActiveTab] = useState('profile'); // 默认显示个人资料标签页
   
   // 使用自定义hook管理用户个人资料
   const {
@@ -34,33 +35,32 @@ const Profile: React.FC = () => {
     }
   }, [userInfo]);
 
-  // 处理标签页切换
-  const handleTabChange = (tab: string) => {
-    setActiveTab(tab);
-    // 切换标签页时取消编辑状态
-    if (isEditing) {
-      cancelEdit();
-    }
-  };
+
 
   // 取消编辑
   const cancelEdit = () => {
+    // 切换回个人信息显示界面
     setHookIsEditing(false);
     // 重置编辑状态的用户信息
     if (userInfo) {
       setEditedUserInfo({ ...userInfo });
     }
+    toast.info('已取消编辑');
   };
 
   // 保存编辑后的用户资料
   const saveEdit = async (userData: UpdateUserInfoDto) => {
     try {
       await updateUserInfo(userData);
+      // 无论成功与否，编辑完成后都切换回个人信息显示界面
       setHookIsEditing(false);
       // 重新获取用户信息以更新UI
       await refreshUserInfo();
+      toast.success('个人资料更新成功');
     } catch (err) {
       // 错误处理已在updateUserInfo中完成
+      // 确保即使发生错误，也能返回到非编辑状态
+      setHookIsEditing(false);
     }
   };
 
@@ -120,11 +120,12 @@ const Profile: React.FC = () => {
         </div>
       </header>
 
-      {/* 主要内容 */}
+      {/* 主要内容 - 左右布局 */}
       <main className="max-w-7xl mx-auto py-8 px-4 sm:px-6 lg:px-8">
         {/* 加载状态 - 添加骨架屏效果 */}
         {isLoading && (
-          <div className="space-y-6 animate-pulse">
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 animate-pulse">
+            {/* 左侧用户信息骨架屏 */}
             <div className="bg-white rounded-2xl shadow-lg overflow-hidden">
               <div className="bg-gradient-to-r from-orange-400 to-orange-500 h-32"></div>
               <div className="px-6 pb-6">
@@ -138,7 +139,8 @@ const Profile: React.FC = () => {
               </div>
             </div>
             
-            <div className="bg-white rounded-2xl shadow-lg overflow-hidden">
+            {/* 右侧内容骨架屏 */}
+            <div className="lg:col-span-2 bg-white rounded-2xl shadow-lg overflow-hidden">
               <div className="border-b border-gray-200 py-4">
                 <div className="flex space-x-6 pl-6">
                   {[1, 2, 3, 4, 5].map((i) => (
@@ -158,38 +160,59 @@ const Profile: React.FC = () => {
           </div>
         )}
 
-        {/* 用户信息概览 - 添加卡片动效和阴影层次 */}
+        {/* 用户信息和相关记录 - 左右布局 */}
         {!isLoading && userInfo && (
-          <div className="space-y-8">
-            <div className="transform transition-all duration-300 hover:scale-[1.01] hover:shadow-xl">
-              <UserInfoSummary
-                userInfo={userInfo}
-                isEditing={isEditing}
-                setIsEditing={setHookIsEditing}
-                onLogout={onLogout}
-                onAvatarUpdate={handleAvatarUpload}
-              />
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            {/* 左侧 - 用户信息 */}
+            <div className="lg:col-span-1">
+              {/* 用户信息卡片 */}
+              <div className="transform transition-all duration-300 hover:scale-[1.01] hover:shadow-xl">
+                <UserInfoSummary
+                  userInfo={userInfo}
+                  isEditing={isEditing}
+                  setIsEditing={setHookIsEditing}
+                  onLogout={onLogout}
+                  onAvatarUpdate={handleAvatarUpload}
+                />
+              </div>
             </div>
 
-            {/* 标签页导航和内容 - 添加卡片动效和过渡 */}
-            <div className="bg-white shadow-lg overflow-hidden rounded-2xl transform transition-all duration-300 hover:shadow-xl">
-              <ProfileTabs
-                userInfo={userInfo}
-                activeTab={activeTab}
-                onTabChange={handleTabChange}
-              />
-
-              {/* 标签页内容 - 添加过渡动画 */}
-              <div className="border-t border-gray-200">
-                <ProfileContent
+            {/* 右侧 - 标签页导航、内容区域和编辑表单 */}
+            <div className="lg:col-span-2 space-y-8">
+              {/* 编辑表单 - 放在顶部 */}
+              {isEditing && (
+                <div className="bg-white shadow-lg overflow-hidden rounded-2xl transform transition-all duration-300 hover:shadow-xl">
+                  <UserProfileForm
+                    userInfo={userInfo}
+                    editedUserInfo={editedUserInfo}
+                    setEditedUserInfo={setEditedUserInfo}
+                    onCancel={cancelEdit}
+                    onSubmit={saveEdit}
+                  />
+                </div>
+              )}
+              
+              {/* 标签页导航和内容区域 */}
+              <div className="bg-white shadow-lg overflow-hidden rounded-2xl transform transition-all duration-300 hover:shadow-xl">
+                {/* 标签页导航 */}
+                <ProfileTabs
                   userInfo={userInfo}
                   activeTab={activeTab}
-                  isEditing={isEditing}
-                  editedUserInfo={editedUserInfo}
-                  setEditedUserInfo={setEditedUserInfo}
-                  onCancelEdit={cancelEdit}
-                  onSaveEdit={saveEdit}
+                  onTabChange={setActiveTab}
                 />
+                
+                {/* 内容区域 - 添加过渡动画 */}
+                <div className="p-6">
+                  <ProfileContent
+                    userInfo={userInfo}
+                    isEditing={false}
+                    editedUserInfo={editedUserInfo}
+                    setEditedUserInfo={setEditedUserInfo}
+                    onCancelEdit={cancelEdit}
+                    onSaveEdit={saveEdit}
+                    activeTab={activeTab}
+                  />
+                </div>
               </div>
             </div>
           </div>

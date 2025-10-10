@@ -4,15 +4,25 @@
  */
 import { get, put, post } from '@/lib/api/axios';
 import { GetUserInfoDto, UpdateUserInfoDto } from '../types';
-
-const API_URL = '/api/users';
+import { UserRole } from '@/types';
 
 /**
  * 获取当前登录用户信息
  */
 export const getUserInfo = async (): Promise<GetUserInfoDto> => {
   try {
-    return await get<GetUserInfoDto>(`${API_URL}/profile`);
+    const response = await get<{
+      success: boolean;
+      message: string;
+      data: GetUserInfoDto;
+      timestamp: string;
+    }>(`/api/users/profile`);
+    
+    if (!response.success) {
+      throw new Error(response.message || '获取用户信息失败');
+    }
+    
+    return response.data;
   } catch (error) {
     console.error('获取用户信息失败:', error);
     throw error;
@@ -25,7 +35,7 @@ export const getUserInfo = async (): Promise<GetUserInfoDto> => {
  */
 export const updateUserInfo = async (userData: UpdateUserInfoDto): Promise<GetUserInfoDto> => {
   try {
-    return await put<GetUserInfoDto>(`${API_URL}/profile`, userData);
+    return await put<GetUserInfoDto>(`/api/users/profile`, userData);
   } catch (error) {
     console.error('更新用户信息失败:', error);
     throw error;
@@ -57,7 +67,7 @@ export const uploadUserAvatar = async (file: File): Promise<string> => {
  */
 export const getUserRole = async (): Promise<string> => {
   try {
-    const result = await get<{ role: string }>(`${API_URL}/role`);
+    const result = await get<{ role: UserRole }>(`/api/users/role`);
     return result.role;
   } catch (error) {
     console.error('获取用户角色失败:', error);

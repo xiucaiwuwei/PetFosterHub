@@ -1,4 +1,4 @@
-import type { BaseResponse } from '@/types/baseType';
+import type { BaseResponse } from '@/types/dto/baseDto';
 import { get, post, put, del } from './axios';
 
 /**

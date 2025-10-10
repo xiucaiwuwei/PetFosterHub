@@ -64,9 +64,9 @@ export class UserService {
   static validateUserInput(userData: Partial<UpdateUserInfoDto>): { isValid: boolean; errors: Record<string, string> } {
     const errors: Record<string, string> = {};
 
-    // 验证姓名
-    if (userData.name && userData.name.trim().length === 0) {
-      errors.name = '姓名不能为空';
+    // 验证昵称
+    if (userData.nickname && userData.nickname.trim().length === 0) {
+      errors.nickname = '昵称不能为空';
     }
 
     // 验证电话格式（简单验证）

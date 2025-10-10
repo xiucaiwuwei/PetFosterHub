@@ -2,7 +2,7 @@
  * 模拟API请求工具函数
  */
 
-import type { BaseResponse } from '@/types/baseType';
+import type { BaseResponse } from '@/types/dto/baseDto';
 
 /**
  * 模拟API延迟

@@ -115,8 +115,62 @@ export const UserInfoSummary: React.FC<UserInfoSummaryProps> = ({
           </div>
         )}
 
+        {/* 用户信息展示区域 */}
+        <div className="mt-8 space-y-6">
+          {/* 用户名和角色 */}
+          <div className="text-center space-y-2">
+            <h2 className="text-xl font-bold text-gray-900">{userInfo.nickname || '用户'}</h2>
+            <div className="text-sm text-orange-500 font-medium">
+              {userInfo.role === 'OWNER' && '宠物主人'}
+              {userInfo.role === 'FOSTER' && '寄养人士'}
+              {userInfo.role === 'ADMIN' && '管理员'}
+              {userInfo.role === 'BUSINESS' && '商家'}
+              {userInfo.role === 'VETERINARIAN' && '兽医'}
+            </div>
+          </div>
+
+          {/* 联系信息 */}
+          <div className="space-y-3">
+            {userInfo.email && (
+              <div className="flex items-center gap-3 text-gray-600">
+                <Mail size={18} className="text-orange-400" />
+                <span>{userInfo.email}</span>
+              </div>
+            )}
+            {userInfo.phone && (
+              <div className="flex items-center gap-3 text-gray-600">
+                <Phone size={18} className="text-orange-400" />
+                <span>{userInfo.phone}</span>
+              </div>
+            )}
+            {userInfo.address && (
+              <div className="flex items-start gap-3 text-gray-600">
+                <MapPin size={18} className="text-orange-400 mt-0.5" />
+                <span className="text-sm">{userInfo.address}</span>
+              </div>
+            )}
+          </div>
+
+          {/* 操作按钮 */}
+          <div className="space-y-3">
+            <button
+              onClick={() => setIsEditing(!isEditing)}
+              className="w-full flex items-center justify-center gap-2 px-4 py-2.5 bg-orange-500 hover:bg-orange-600 text-white font-medium rounded-lg transition-colors duration-300"
+            >
+              <Edit size={16} />
+              {isEditing ? '取消编辑' : '编辑个人资料'}
+            </button>
+            
+            <button
+              onClick={onLogout}
+              className="w-full flex items-center justify-center gap-2 px-4 py-2.5 bg-gray-100 hover:bg-gray-200 text-gray-700 font-medium rounded-lg transition-colors duration-300"
+            >
+              <LogOut size={16} />
+              退出登录
+            </button>
+          </div>
+        </div>
       </div>
     </div>
   );
-
 };

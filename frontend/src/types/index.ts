@@ -1,4 +1,8 @@
-export * from "./baseType"
+export * from "./dto/baseDto"
+export * from "./enums/UserRole"
+
+
+
 export interface FosterService {
   id: string;
   providerId: string;

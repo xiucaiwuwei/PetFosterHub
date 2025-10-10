@@ -1,5 +1,4 @@
-import { BaseRequest, BaseResponse } from "@/types";
-import { UserRole } from "../enums";
+import { BaseRequest, BaseResponse, UserRole } from "@/types";
 
 // 重置密码请求参数
 export interface ResetPasswordRequest extends BaseRequest {

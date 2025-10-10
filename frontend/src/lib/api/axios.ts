@@ -1,4 +1,8 @@
-import axios, { AxiosInstance, AxiosRequestConfig, InternalAxiosRequestConfig, AxiosResponse, AxiosError } from 'axios';
+/**
+ * 自定义axios实例，用于处理API请求和响应
+ * 包含全局配置、拦截器和错误处理
+ */
+import axios, { AxiosInstance, AxiosResponse, AxiosError, InternalAxiosRequestConfig, AxiosRequestConfig } from 'axios';
 import { getToken, clearAuthInfo } from '@/lib/utils/TokenManager';
 import { AuthState } from '@/features/auth/types/entity';
 

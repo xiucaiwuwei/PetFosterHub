@@ -6,7 +6,7 @@ import {useNavigate} from 'react-router-dom';
 import RoleSelection from './RoleSelection';
 import PhoneVerification from './PhoneVerification';
 import useFormService from '../hooks/useFormService';
-import { UserRole } from '../types/enums/UserRole';
+import { UserRole } from '../../../types/enums/UserRole';
 
 interface RegisterFormProps {
   onRegisterSuccess?: () => void;

@@ -1,5 +1,5 @@
 import { post } from '@/lib/api';
-import type { BaseResponse } from '@/types/baseType';
+import type { BaseResponse } from '@/types/dto/baseDto';
 import type {
     LoginRequest,
     LoginResponse,

@@ -7,7 +7,7 @@ import authApi from '../api/authApi';
 
 // 类型导入
 import type {BaseResponse} from '@/types';
-import type {UserRole} from '../types/enums';
+import type {UserRole} from '@/types';
 import type {StoredUserInfo} from '../types/entity';
 import type {
     GetUserInfoRequest,

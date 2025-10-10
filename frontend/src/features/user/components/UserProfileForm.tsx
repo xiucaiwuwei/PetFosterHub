@@ -91,41 +91,24 @@ export const UserProfileForm: React.FC<UserProfileFormProps> = ({
   return (
     <form onSubmit={handleSubmit} className="space-y-6 bg-white rounded-xl border border-gray-100 shadow-sm p-6">
       <div>
-        <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-1.5">
-          姓名 <span className="text-red-500">*</span>
+        <label htmlFor="nickname" className="block text-sm font-medium text-gray-700 mb-1.5">
+          昵称 <span className="text-red-500">*</span>
         </label>
         <input
           type="text"
-          id="name"
-          name="name"
-          value={editedUserInfo.name}
+          id="nickname"
+          name="nickname"
+          value={editedUserInfo.nickname}
           onChange={handleInputChange}
-          className={`block w-full px-4 py-2.5 rounded-lg border ${errors.name ? 'border-red-300' : 'border-gray-200'} focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-all duration-300 shadow-sm`}
+          className={`block w-full px-4 py-2.5 rounded-lg border ${errors.nickname ? 'border-red-300' : 'border-gray-200'} focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-all duration-300 shadow-sm`}
           required
         />
-        {errors.name && (
+        {errors.nickname && (
           <p className="mt-1.5 text-sm text-red-600 flex items-center">
             <span className="mr-1">⚠️</span>
-            {errors.name}
+            {errors.nickname}
           </p>
         )}
-      </div>
-      
-      <div>
-        <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1.5">
-          邮箱 <span className="text-red-500">*</span>
-        </label>
-        <input
-          type="email"
-          id="email"
-          name="email"
-          value={editedUserInfo.email}
-          onChange={handleInputChange}
-          className="block w-full px-4 py-2.5 rounded-lg border border-gray-200 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-all duration-300 shadow-sm"
-          required
-          readOnly
-        />
-        <p className="mt-1 text-xs text-gray-500">邮箱地址不可修改</p>
       </div>
       
       <div>

@@ -1,5 +1,5 @@
 import { BaseRequest } from "@/types";
-import { UserRole } from "../enums";
+import {UserRole} from "@/types";
 
 // 查询用户信息请求参数
 export interface GetUserInfoRequest extends BaseRequest {

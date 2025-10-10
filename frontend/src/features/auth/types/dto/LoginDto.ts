@@ -1,5 +1,5 @@
-import { BaseRequest, BaseResponse } from '@/types';
-import { LoginType, UserRole } from '../enums';
+import { BaseRequest, BaseResponse, UserRole } from '@/types';
+import { LoginType } from '../enums';
 
 // 登录请求参数
 export interface LoginRequest extends BaseRequest {

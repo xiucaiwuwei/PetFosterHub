@@ -1,5 +1,5 @@
-import { BaseRequest, BaseResponse } from '@/types';
-import type { UserRole, VerificationCodeType } from '../enums';
+import { BaseRequest, BaseResponse, UserRole } from '@/types';
+import { VerificationCodeType } from '../enums';
 
 // 发送验证码请求参数
 export interface VerificationCodeRequest extends BaseRequest {

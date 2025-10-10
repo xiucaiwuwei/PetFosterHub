@@ -1,7 +1,7 @@
 /**
  * 寄养服务相关API接口
  */
-import type {BaseResponse} from '@/types/baseType';
+import type {BaseResponse} from '@/types/dto/baseDto';
 import {post} from '@/lib/api';
 import type {
     FosterServiceListRequest,

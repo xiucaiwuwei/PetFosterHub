@@ -11,7 +11,7 @@ import PasswordLogin from './PasswordLogin';
 import useFormService from '../hooks/useFormService';
 
 // 导入枚举类型
-import { UserRole } from '../types/enums/UserRole';
+import { UserRole } from '../../../types/enums/UserRole';
 import { LoginType } from '../types/enums/LoginType';
 
 /**

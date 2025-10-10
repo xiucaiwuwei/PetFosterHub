@@ -7,7 +7,7 @@ import authService from '@/features/auth/services/authService';
 // 类型导入
 import { LoginRequest, LoginResponse, RegisterRequest, UpdateUserInfoRequest, UpdateUserInfoResponse, VerificationCodeRequest, VerificationCodeResponse, VerificationCodeVerifyRequest, VerificationCodeVerifyResponse, ResetPasswordRequest, ResetPasswordResponse } from '../types/dto';
 import type { AuthState, StoredUserInfo } from '../types/entity';
-import { UserRole } from '../types/enums';
+import { UserRole } from '@/types';
 import { LocalStorageManager } from '@/lib/utils';
 
 // 常量定义

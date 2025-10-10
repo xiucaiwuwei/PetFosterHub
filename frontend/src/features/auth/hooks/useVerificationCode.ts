@@ -2,7 +2,8 @@ import { useState, useCallback, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { toast } from 'sonner';
 import type { AppDispatch } from '@/app/store/store';
-import { UserRole, VerificationCodeType } from '../types/enums';
+import { UserRole } from '@/types';
+import { VerificationCodeType } from '../types/enums';  
 import { clearError as clearAuthError, sendVerificationCode as sendVerificationCodeAction } from '../slice/authSlice';
 
 // 定义验证码hook返回类型

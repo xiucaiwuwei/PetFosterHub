@@ -1,7 +1,8 @@
 import { toast } from 'sonner';
 import { useDispatch } from 'react-redux';
 import type { AppDispatch } from '@/app/store/store';
-import { UserRole, VerificationCodeType } from '@/features/auth/types/enums';
+import { UserRole } from '@/types';
+import { VerificationCodeType } from '../types/enums';
 import useVerificationCode from './useVerificationCode';
 import useAuthFormValidation from './useAuthFormValidation';
 import { clearError as clearAuthError, verifyVerificationCode, resetPassword } from '../slice/authSlice';

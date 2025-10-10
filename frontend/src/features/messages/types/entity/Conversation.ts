@@ -2,7 +2,7 @@
  * 对话实体类型
  */
 import { Message } from './Message';
-import { UserRole } from '../../../auth/types/enums/UserRole';
+import { UserRole } from '../../../../types/enums/UserRole';
 
 export interface UserInfo {
   id: string;

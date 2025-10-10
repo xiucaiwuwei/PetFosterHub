@@ -4,7 +4,7 @@
 import { get } from '@/lib/api';
 import type { FosterService } from '../types';
 import type { Testimonial } from '../types';
-import type { BaseResponse } from '@/types/baseType';
+import type { BaseResponse } from '@/types/dto/baseDto';
 import { mockFosterServices } from '../mocks/mockFosterServices';
 import { mockTestimonials } from '../mocks/mockTestimonials';
 

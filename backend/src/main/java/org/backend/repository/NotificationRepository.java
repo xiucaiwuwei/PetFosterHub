@@ -5,6 +5,9 @@ import org.backend.entity.Notification;
 import org.backend.entity.enums.NotificationType;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.repository.Modifying;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -70,7 +73,9 @@ public interface NotificationRepository extends BaseRepository<Notification, Lon
      * @param userId 用户ID
      * @return 更新的记录数
      */
-    int updateByIdAndUserIdSetIsReadTrue(Long id, Long userId);
+    @Modifying
+    @Query("UPDATE Notification n SET n.isRead = true WHERE n.id = :id AND n.userId = :userId")
+    int updateByIdAndUserIdSetIsReadTrue(@Param("id") Long id, @Param("userId") Long userId);
 
     /**
      * 删除用户的通知

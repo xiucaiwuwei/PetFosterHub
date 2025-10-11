@@ -131,7 +131,7 @@ export class WebSocketService {
       
       try {
         // 创建WebSocket URL并建立SockJS连接
-      const wsUrl = createWebSocketUrl(this.config, this.userId);
+      const wsUrl = createWebSocketUrl(this.config, this.userId, token);
       const sockJs = new SockJS(wsUrl, undefined, {
         transports: ['websocket', 'xhr-streaming', 'xhr-polling']
       });
@@ -146,9 +146,8 @@ export class WebSocketService {
           }
         };
         
-        // 连接选项 - token会在STOMP连接时传递
+        // 连接选项 - token已在URL中传递
         const connectOptions = {
-          token: token || '',
           // 心跳配置
           heartbeat_outgoing: this.config.connection.heartbeatOutgoing,
           heartbeat_incoming: this.config.connection.heartbeatIncoming

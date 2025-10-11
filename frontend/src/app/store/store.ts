@@ -9,6 +9,7 @@ import homeReducer from '../../features/home/slice/homeSlice';
 import fosterReducer from '../../features/foster/slice/fosterSlice';
 import messageReducer from '../../features/messages/slice/messageSlice';
 import uploadReducer from '../../features/uploads/slice/uploadSlice';
+import notificationReducer from '../../notifications/slice/notificationSlice';
 import { ErrorHandler } from '@/lib/utils';
 
 // Redux Persist 相关的常量
@@ -82,6 +83,7 @@ const reducers = {
   foster: fosterReducer,
   message: messageReducer,
   uploads: uploadReducer,
+  notification: notificationReducer,
 } as const;
 
 // 配置Store

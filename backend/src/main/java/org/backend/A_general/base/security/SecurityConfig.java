@@ -76,8 +76,12 @@ public class SecurityConfig {
             .cors(cors -> cors.configurationSource(corsConfigurationSource))
             // 配置授权规则
             .authorizeHttpRequests(authorize -> authorize
-                // 允许访问公共端点
-                .requestMatchers("/api/public/**", "/api/auth/**", "/swagger-ui/**", "/v3/api-docs/**").permitAll()
+                // 允许GET请求到/api/home/**（首页）
+                .requestMatchers(HttpMethod.GET, "/home/**").permitAll()
+                // 允许POST请求到/api/auth/**（用户登录、注册等）
+                .requestMatchers(HttpMethod.POST, "/auth/**").permitAll()
+                // 允许POST请求到验证码相关路径
+                .requestMatchers(HttpMethod.POST, "/verification-code/**").permitAll()
                 // 允许OPTIONS请求（CORS预检请求）
                 .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
                 // 所有其他请求都需要认证

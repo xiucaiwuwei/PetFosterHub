@@ -1,4 +1,4 @@
-import {UserInfo} from "./UserInfo";
+import {UserInfo} from "./AuthUserInfo";
 
 // 认证状态接口 - 存储用户认证相关的状态信息
 export interface AuthState {

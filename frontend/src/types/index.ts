@@ -1,5 +1,6 @@
 export * from "./dto/baseDto"
 export * from "./enums/UserRole"
+export * from "./entity/User"
 
 
 

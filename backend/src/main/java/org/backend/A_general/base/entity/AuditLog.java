@@ -1,15 +1,17 @@
 package org.backend.A_general.base.entity;
 
-import jakarta.persistence.*;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Table;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import org.hibernate.annotations.DynamicUpdate;
-
-import java.time.LocalDateTime;
 
 /**
  * 审计日志实体
  * 用于记录系统中的重要操作日志
  */
+@EqualsAndHashCode(callSuper = true)
 @Entity
 @Table(name = "audit_log")
 @Data

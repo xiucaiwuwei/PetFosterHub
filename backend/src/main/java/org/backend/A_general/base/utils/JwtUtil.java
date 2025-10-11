@@ -3,7 +3,7 @@ package org.backend.A_general.base.utils;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
-import org.backend.A_general.base.config.JwtProperties;
+import org.backend.A_general.base.config.frontend.JwtProperties;
 import org.backend.entity.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

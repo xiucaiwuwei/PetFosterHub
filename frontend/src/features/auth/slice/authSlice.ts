@@ -33,16 +33,8 @@ export const safeConvertToUserType = (role: string | undefined | null): UserRole
 };
 
 // 辅助函数：创建标准的异步action错误处理
-const handleAsyncError = (error: any, defaultMessage: string, context?: Record<string, any>): string => {
-  // 优先使用error.message，因为在authService中我们已经提取了response.message
-  // 然后才尝试从error.response.data.message获取（适用于直接抛出API错误的情况）
+const handleAsyncError = (error: any, defaultMessage: string, _context?: Record<string, any>): string => {
   const errorMessage = error?.message || error?.response?.data?.message || defaultMessage;
-  
-  // 生产环境不输出详细日志
-  if (process.env.NODE_ENV !== 'production' && context) {
-    console.error(`[AuthSlice] ${defaultMessage}:`, { errorMessage, ...context });
-  }
-  
   return errorMessage;
 };
 
@@ -56,10 +48,6 @@ export const login = createAsyncThunk<
   async (params: LoginRequest, { rejectWithValue }) => {
     const { phone } = params;
     try {
-      if (process.env.NODE_ENV !== 'production') {
-        console.log('[AuthSlice] 开始登录请求', { phone, hasVerificationCode: !!params.verificationCode });
-      }
-      
       const result = await authService.login(params);
       if (!result) {
         const errorMsg = '登录失败：未获取到响应数据';
@@ -109,28 +97,7 @@ export const register = createAsyncThunk<
   }
 );
 
-// 登出异步action
-export const logout = createAsyncThunk(
-  'auth/logout',
-  async () => {
-    try {
-      if (process.env.NODE_ENV !== 'production') {
-        console.log('[AuthSlice] 开始登出请求');
-      }
-      
-      await authService.logout();
-      
-      if (process.env.NODE_ENV !== 'production') {
-        console.log('[AuthSlice] 登出请求成功');
-      }
-    } catch (error) {
-      if (process.env.NODE_ENV !== 'production') {
-        console.error('[AuthSlice] 登出过程中发生错误:', error);
-      }
-      // 即使登出API调用失败，也继续清除本地状态
-    }
-  }
-);
+// 注意：登出功能已迁移到userSlice
 
 // 刷新token异步action
 export const refreshToken = createAsyncThunk<
@@ -560,20 +527,7 @@ const authSlice = createSlice({
         state.error = action.payload || '注册失败';
       });
 
-    // 登出
-    builder.addCase(logout.fulfilled, (state) => {
-      if (process.env.NODE_ENV !== 'production') {
-        console.log('[AuthSlice] 登出成功，清除所有认证状态');
-      }
-      
-      state.isAuthenticated = false;
-      state.isLoading = false;
-      state.user = null;
-      state.token = null;
-      state.refreshToken = null;
-      state.tokenExpireTime = null;
-      state.error = null;
-    });
+    // 注意：登出功能已迁移到userSlice
 
     // 刷新token
     builder

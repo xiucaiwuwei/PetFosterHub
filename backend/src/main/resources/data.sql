@@ -170,3 +170,39 @@ CREATE TABLE IF NOT EXISTS file_uploads (
     INDEX idx_entity (entity_type, entity_id) COMMENT '实体索引',
     INDEX idx_file_type (file_type) COMMENT '文件类型索引'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='文件上传信息表';
+
+-- 通知表
+CREATE TABLE IF NOT EXISTS notifications (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY COMMENT '通知唯一标识符',
+    user_id BIGINT NOT NULL COMMENT '接收通知的用户ID',
+    title VARCHAR(200) COMMENT '通知标题',
+    message TEXT NOT NULL COMMENT '通知内容',
+    type VARCHAR(20) NOT NULL COMMENT '通知类型：INFO, SUCCESS, WARNING, ERROR, DEFAULT',
+    is_read BOOLEAN DEFAULT FALSE COMMENT '是否已读',
+    duration INT DEFAULT 5000 COMMENT '显示时长(毫秒)',
+    target_url VARCHAR(500) COMMENT '点击通知后跳转的URL',
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
+    INDEX idx_user_id (user_id) COMMENT '用户ID索引',
+    INDEX idx_is_read (is_read) COMMENT '是否已读索引',
+    INDEX idx_type (type) COMMENT '通知类型索引',
+    INDEX idx_created_at (created_at) COMMENT '创建时间索引'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='通知信息表';
+
+-- 插入示例通知数据
+-- 注意：这里假设存在用户ID为1的用户，实际使用时请根据系统中的用户ID进行调整
+INSERT INTO notifications (user_id, title, message, type, is_read, duration, target_url, created_at)
+VALUES
+    (1, '欢迎使用宠物寄养平台', '感谢您注册PetFosterHub，请完善您的个人资料以开始使用全部功能。', 'success', false, 5000, '/profile/edit', NOW() - INTERVAL 1 DAY),
+    (1, '寄养服务预约确认', '您预约的寄养服务「爱心之家寄养」已确认，请查看详情。', 'success', true, 5000, '/bookings/1', NOW() - INTERVAL 2 DAY),
+    (1, '系统维护通知', '系统将于明天凌晨2:00-4:00进行例行维护，期间部分功能可能暂时不可用。', 'warning', false, 10000, null, NOW() - INTERVAL 3 DAY),
+    (1, '新消息通知', '您有一条来自寄养师「爱心人士」的新消息，请查收。', 'info', false, 5000, '/messages', NOW() - INTERVAL 4 DAY),
+    (1, '支付成功', '您的订单#12345支付成功，感谢您的使用。', 'success', true, 5000, '/payments/12345', NOW() - INTERVAL 5 DAY);
+
+-- 为更多示例用户添加通知
+-- 注意：实际数据请根据系统中的用户ID进行调整
+INSERT INTO notifications (user_id, title, message, type, is_read, duration, target_url, created_at)
+VALUES
+    (2, '宠物信息完善提醒', '您的宠物「小白」信息尚未完善，请尽快补充完整。', 'info', false, 5000, '/pets/1', NOW() - INTERVAL 1 DAY),
+    (3, '寄养服务申请', '有新的用户申请了您的寄养服务，请及时处理。', 'warning', false, 8000, '/foster-services/manage', NOW());

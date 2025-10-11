@@ -1,4 +1,4 @@
-import { UserInfo } from "./UserInfo";
+import { UserInfo } from "./AuthUserInfo";
 
 // 本地存储的用户信息接口 - 定义在本地存储中保存的用户认证数据
 export interface StoredUserInfo {

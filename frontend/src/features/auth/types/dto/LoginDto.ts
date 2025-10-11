@@ -1,4 +1,4 @@
-import { BaseRequest, BaseResponse, UserRole } from '@/types';
+import { BaseRequest, UserRole } from '@/types';
 import { LoginType } from '../enums';
 
 // 登录请求参数
@@ -31,8 +31,4 @@ export interface LoginResponse {
   nickname: string;
   // 用户头像URL
   avatar: string;
-}
-
-// 登出响应参数
-export interface LogoutResponse extends BaseResponse {
 }

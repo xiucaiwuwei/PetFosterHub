@@ -1,3 +1,3 @@
 export * from './StoredUserInfo';
-export * from './UserInfo';
+export * from './AuthUserInfo';
 export * from './AuthState';

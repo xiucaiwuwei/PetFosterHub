@@ -2,11 +2,12 @@
  * 个人中心标签页导航组件
  */
 import React from 'react';
-import { GetUserInfoDto } from '../types';
+import { UserProfileResponse } from '../types';
 import { User, PawPrint, Home, Calendar, ShoppingCart, Stethoscope } from 'lucide-react';
+import { UserRole } from '@/types';
 
 interface ProfileTabsProps {
-  userInfo: GetUserInfoDto;
+  userInfo: UserProfileResponse;
   activeTab: string;
   onTabChange: (tab: string) => void;
 }
@@ -27,9 +28,9 @@ export const ProfileTabs: React.FC<ProfileTabsProps> = ({
       icon: <User size={18} />
     },
     {
-      id: userInfo.role === 'owner' ? 'pets' : 'services',
-      label: userInfo.role === 'owner' ? '我的宠物' : '我的寄养服务',
-      icon: userInfo.role === 'owner' ? <PawPrint size={18} /> : <Home size={18} />
+      id: userInfo.role === UserRole.OWNER ? 'pets' : 'services',
+      label: userInfo.role === UserRole.OWNER ? '我的宠物' : '我的寄养服务',
+      icon: userInfo.role === UserRole.OWNER ? <PawPrint size={18} /> : <Home size={18} />
     },
     {
       id: 'bookings',

@@ -1,7 +1,8 @@
 import {useDispatch} from 'react-redux';
 import {useNavigate} from 'react-router-dom';
 import {toast} from 'sonner';
-import {login, register, logout, refreshToken, updateUserProfile, loadUserFromStorage} from '../slice/authSlice';
+import {login, register, refreshToken, updateUserProfile, loadUserFromStorage} from '../slice/authSlice';
+import {logout} from '@/features/user/slice/userSlice';
 import type {AppDispatch} from '@/app/store/store';
 import {UserRole} from "@/types";
 import {LoginType} from '../types/enums';
@@ -84,7 +85,15 @@ const useAuthActions = () => {
 
             // 登录成功
             toast.success('登录成功！');
-            navigate('/', {replace: true}); // 使用replace防止用户返回登录页
+            
+            // 获取保存的重定向路径，如果没有则使用默认路径
+            const redirectPath = localStorage.getItem('redirectPath') || '/';
+            
+            // 清除保存的重定向路径
+            localStorage.removeItem('redirectPath');
+            
+            // 导航到目标路径，使用replace防止用户返回登录页
+            navigate(redirectPath, {replace: true});
             return true;
 
         } catch (error: any) {
@@ -153,7 +162,7 @@ const useAuthActions = () => {
             }
             // 即使登出API调用失败，也继续导航到登录页
         } finally {
-            navigate('/login', {replace: true});
+            navigate('/', {replace: true});
         }
     };
 

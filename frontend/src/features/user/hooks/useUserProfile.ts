@@ -3,21 +3,21 @@
  */
 import { useState, useEffect, useCallback } from 'react';
 import { UserService } from '../services/userService';
-import { GetUserInfoDto, UpdateUserInfoDto } from '../types';
+import { UserProfileResponse, UpdateUserInfoRequest } from '../types';
 import { useDispatch, useSelector } from 'react-redux';
-import { logout } from '@/features/auth/slice/authSlice';
 import { useNavigate } from 'react-router-dom';
 import { AppDispatch, RootState } from '@/app/store/store';
+import { logout } from '../slice/userSlice';
 
 interface UseUserProfileReturn {
-  userInfo: GetUserInfoDto | null;
+  userInfo: UserProfileResponse | null;
   isLoading: boolean;
   isEditing: boolean;
   setIsEditing: (isEditing: boolean) => void;
-  editedUserInfo: GetUserInfoDto | null;
-  setEditedUserInfo: (userInfo: GetUserInfoDto | null) => void;
+  editedUserInfo: UserProfileResponse | null;
+  setEditedUserInfo: (userInfo: UserProfileResponse | null) => void;
   refreshUserInfo: () => Promise<void>;
-  updateUserInfo: (userData: UpdateUserInfoDto) => Promise<void>;
+  updateUserInfo: (userData: UpdateUserInfoRequest) => Promise<void>;
   handleLogout: () => void;
 }
 
@@ -29,10 +29,10 @@ export const useUserProfile = (): UseUserProfileReturn => {
   const navigate = useNavigate();
   const { isAuthenticated } = useSelector((state: RootState) => state.auth);
   
-  const [userInfo, setUserInfo] = useState<GetUserInfoDto | null>(null);
+  const [userInfo, setUserInfo] = useState<UserProfileResponse | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [isEditing, setIsEditing] = useState(false);
-  const [editedUserInfo, setEditedUserInfo] = useState<GetUserInfoDto | null>(null);
+  const [editedUserInfo, setEditedUserInfo] = useState<UserProfileResponse | null>(null);
 
   /**
    * 获取用户信息
@@ -65,7 +65,7 @@ export const useUserProfile = (): UseUserProfileReturn => {
   /**
    * 更新用户信息
    */
-  const updateUserInfo = useCallback(async (userData: UpdateUserInfoDto) => {
+  const updateUserInfo = useCallback(async (userData: UpdateUserInfoRequest) => {
     try {
       const updatedData = await UserService.updateCurrentUserInfo(userData);
       setUserInfo(updatedData);
@@ -80,9 +80,13 @@ export const useUserProfile = (): UseUserProfileReturn => {
   /**
    * 处理用户登出
    */
-  const handleLogout = useCallback(() => {
-    dispatch(logout());
-    navigate('/login');
+  const handleLogout = useCallback(async () => {
+    try {
+      await dispatch(logout()).unwrap();
+      navigate('/');
+    } catch (error) {
+      console.error('用户登出失败:', error);
+    }
   }, [dispatch, navigate]);
 
   // 初始加载和认证状态变化时获取用户信息

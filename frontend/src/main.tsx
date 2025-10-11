@@ -6,13 +6,16 @@ import App from "./app/App.tsx";
 import "./index.css";
 
 import { CartProvider } from '@/lib/contexts/cartContext';
+import { NotificationsProvider } from '@/notifications';
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
     <BrowserRouter>
       <CartProvider>
-        <App />
-        <Toaster />
+        <NotificationsProvider>
+          <App />
+          <Toaster />
+        </NotificationsProvider>
       </CartProvider>
     </BrowserRouter>
   </StrictMode>

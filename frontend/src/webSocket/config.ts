@@ -68,9 +68,10 @@ export const defaultWebSocketConfig: WebSocketConfig = {
  * 创建WebSocket服务器URL
  * @param config WebSocket配置
  * @param userId 用户ID
+ * @param token 可选的认证token
  * @returns 完整的WebSocket服务器URL
  */
-export function createWebSocketUrl(config: WebSocketConfig, userId: string): string {
+export function createWebSocketUrl(config: WebSocketConfig, userId: string, token?: string | null): string {
   // 优先使用专门的WebSocket环境变量
   if (import.meta.env.VITE_WEBSOCKET_URL) {
     // 如果已经提供了完整的WebSocket URL，则直接使用它
@@ -80,7 +81,9 @@ export function createWebSocketUrl(config: WebSocketConfig, userId: string): str
     // 确保路径以斜杠开头
     const cleanEndpoint = config.messageEndpointPrefix.startsWith('/') ? config.messageEndpointPrefix : `/${config.messageEndpointPrefix}`;
     
-    return `${cleanWsUrl}${cleanEndpoint}/${userId}`;
+    // 如果有token，添加到URL参数中
+    const urlWithUserId = `${cleanWsUrl}${cleanEndpoint}/${userId}`;
+    return token ? `${urlWithUserId}?token=${token}` : urlWithUserId;
   }
   
   // 否则，根据协议和主机构建WebSocket URL
@@ -98,7 +101,8 @@ export function createWebSocketUrl(config: WebSocketConfig, userId: string): str
   const cleanEndpoint = config.messageEndpointPrefix.startsWith('/') ? config.messageEndpointPrefix : `/${config.messageEndpointPrefix}`;
   
   // 构建完整的WebSocket URL
-  return `${baseUrl}${cleanEndpoint}/${userId}`;
+  const urlWithUserId = `${baseUrl}${cleanEndpoint}/${userId}`;
+  return token ? `${urlWithUserId}?token=${token}` : urlWithUserId;
 }
 
 /**

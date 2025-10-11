@@ -29,7 +29,7 @@ const apiClient: AxiosInstance = axios.create({
   headers: {
     'Content-Type': 'application/json',
   },
-  withCredentials: true, // 允许跨域请求携带凭证(cookies等)
+  withCredentials: false, // JWT认证不需要cookie，设置为false
   maxRedirects: 0, // 禁用自动重定向跟随
   validateStatus: (status) => {
     // 包含302状态码，让我们可以在响应拦截器中处理重定向
@@ -154,9 +154,9 @@ apiClient.interceptors.response.use(
     
     console.error('❌ 响应错误:', status, error.config?.url);
     
-    // 处理401未授权错误
-    if (status === 401 && originalRequest) {
-      console.log('检测到401错误，清理认证信息并重定向到登录页');
+    // 处理401未授权和403禁止访问错误
+    if ((status === 401 || status === 403) && originalRequest) {
+      console.log(`检测到${status}错误，清理认证信息并重定向到登录页`);
       clearAuthData();
       
       // 重定向到登录页

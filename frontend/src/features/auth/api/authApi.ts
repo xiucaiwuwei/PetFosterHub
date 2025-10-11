@@ -13,7 +13,6 @@ import type {
     VerificationCodeResponse,
     VerificationCodeVerifyRequest,
     VerificationCodeVerifyResponse,
-    LogoutResponse,
     ResetPasswordResponse,
     ResetPasswordRequest,
     RegisterResponse,
@@ -96,13 +95,6 @@ const authApi = {
         return await post<BaseResponse<GetUserInfoResponse>>('/api/auth/get-user-info', params);
     },
 
-    /**
-     * 用户登出
-     * @returns 登出结果的Promise，表示操作是否成功
-     */
-    logout: async (): Promise<LogoutResponse> => {
-        return await post<LogoutResponse>('/api/auth/logout');
-    }
 };
 
 export default authApi;

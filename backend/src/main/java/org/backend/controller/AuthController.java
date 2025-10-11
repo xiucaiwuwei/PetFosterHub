@@ -2,8 +2,6 @@ package org.backend.controller;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import org.backend.A_general.base.controller.BaseController;
 import org.backend.A_general.base.dto.BaseResponse;
@@ -19,11 +17,8 @@ import org.backend.service.AuthService;
 import org.backend.service.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -47,7 +42,6 @@ public class AuthController extends BaseController {
     private final UserService userService;
     private final JwtUtil jwtUtil;
 
-    @Autowired
     public AuthController(AuthService authService, UserService userService, JwtUtil jwtUtil) {
         this.authService = authService;
         this.userService = userService;
@@ -175,26 +169,7 @@ public class AuthController extends BaseController {
         }
     }
 
-    /**
-     * 用户登出接口
-     * 清除用户的认证信息
-     *
-     * @param request  HTTP请求对象
-     * @param response HTTP响应对象
-     * @return 登出结果响应
-     */
-    @Operation(summary = "用户登出", description = "清除用户的认证信息")
-    @PostMapping("/logout")
-    public ResponseEntity<BaseResponse<Object>> logout(HttpServletRequest request, HttpServletResponse response) {
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        if (auth != null) {
-            new SecurityContextLogoutHandler().logout(request, response, auth);
-            logger.info("用户登出成功，用户名: {}", auth.getName());
-        } else {
-            logger.info("用户未登录，无需登出操作");
-        }
-        return super.success("登出成功");
-    }
+
 
     /**
      * 更新用户信息接口

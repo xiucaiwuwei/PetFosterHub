@@ -76,6 +76,10 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             // 处理其他异常
             logger.error("JWT认证过滤器异常", ex);
             SecurityContextHolder.clearContext();
+            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+            response.setContentType("application/json");
+            response.getWriter().write("{\"error\": \"认证异常\", \"message\": \"认证过程中发生异常\"}");
+            return;
         }
 
         // 继续过滤器链

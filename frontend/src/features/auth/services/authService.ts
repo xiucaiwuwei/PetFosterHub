@@ -1,9 +1,10 @@
 // 外部依赖
-import {getToken, removeToken, setToken} from '@/lib/utils/TokenManager';
+import {getToken, setToken} from '@/lib/utils/TokenManager';
 import LocalStorageManager from '@/lib/utils/LocalStorageManager';
 
 // 内部依赖
 import authApi from '../api/authApi';
+import { UserService } from '../../user/services/userService';
 
 // 类型导入
 import type {BaseResponse} from '@/types';
@@ -14,7 +15,6 @@ import type {
     GetUserInfoResponse,
     LoginRequest,
     LoginResponse,
-    LogoutResponse,
     RefreshTokenRequest,
     RefreshTokenResponse,
     RegisterRequest,
@@ -200,20 +200,6 @@ class AuthService {
         }
     }
 
-    // 登出
-    async logout(): Promise<LogoutResponse> {
-        console.log('[AuthService] 开始登出流程');
-        try {
-            return await authApi.logout();
-        } catch (error) {
-            console.error('[AuthService] 登出API调用失败', { error: error instanceof Error ? error.message : '未知错误' });
-            throw error;
-        } finally {
-            console.log('[AuthService] 清除本地用户信息');
-            this.clearUserInfo();
-        }
-    }
-
     // 检查用户是否已登录
     isLoggedIn(): boolean {
         console.log('[AuthService] 检查用户登录状态');
@@ -233,7 +219,7 @@ class AuthService {
         if (isExpired) {
             console.log('[AuthService] 用户登录信息已过期，清除登录信息');
             // 超过三天，清除信息并返回未登录
-            this.clearUserInfo();
+            UserService.clearUserInfo();
             return false;
         }
 
@@ -333,11 +319,12 @@ class AuthService {
     }
 
     // 清除本地存储的用户信息
-    private clearUserInfo(): void {
-        LocalStorageManager.removeItem('userInfo');
-        removeToken();
-        console.log('[AuthService] 本地存储的用户信息已清除');
-    }
+    // 注意：清除用户信息功能已迁移到UserService
+    // private clearUserInfo(): void {
+    //     LocalStorageManager.removeItem('userInfo');
+    //     removeToken();
+    //     console.log('[AuthService] 本地存储的用户信息已清除');
+    // }
 }
 
 export default new AuthService();

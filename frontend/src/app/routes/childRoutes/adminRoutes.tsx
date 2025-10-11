@@ -1,5 +1,6 @@
 import { RouteObject } from 'react-router-dom';
 import { AdminLayout } from '@/components/layout/AdminLayout.tsx';
+import { RouteGuard } from '@/features/auth/components/RouteGuard';
 import Admin from '@/features/admin/pages/Admin.tsx';
 import Users from '@/features/admin/pages/Users.tsx';
 import Products from '@/features/admin/pages/Products.tsx';
@@ -12,29 +13,35 @@ const adminRoutes: RouteObject[] = [
     path: '/admin',
     element: <AdminLayout />,
     children: [
+      // 使用RouteGuard保护管理员路由，并要求管理员权限
       {
-        path: 'users',
-        element: <Users />
-      },
-      {
-        path: 'products',
-        element: <Products />
-      },
-      {
-        path: 'orders',
-        element: <Orders />
-      },
-      {
-        path: 'consultations',
-        element: <Consultations />
-      },
-      {
-        path: 'reports',
-        element: <Reports />
-      },
-      {
-        path: '',
-        element: <Admin />
+        element: <RouteGuard requireAdmin={true} />,
+        children: [
+          {
+            path: 'users',
+            element: <Users />
+          },
+          {
+            path: 'products',
+            element: <Products />
+          },
+          {
+            path: 'orders',
+            element: <Orders />
+          },
+          {
+            path: 'consultations',
+            element: <Consultations />
+          },
+          {
+            path: 'reports',
+            element: <Reports />
+          },
+          {
+            path: '',
+            element: <Admin />
+          }
+        ]
       }
     ]
   }

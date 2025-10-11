@@ -2,9 +2,11 @@
  * 用户服务类
  * 提供用户信息管理和操作的方法
  */
-import { GetUserInfoDto, UpdateUserInfoDto } from '../types';
+import { UserProfileResponse, UpdateUserInfoRequest } from '../types';
 import { toast } from 'sonner';
-import { getUserInfo, updateUserInfo, uploadUserAvatar } from '../api/userApi';
+import { getUserInfo, updateUserInfo, logout, uploadUserAvatar } from '../api/userApi';
+import LocalStorageManager from '@/lib/utils/LocalStorageManager';
+import { removeToken } from '@/lib/utils/TokenManager';
 
 /**
  * 用户信息服务
@@ -14,10 +16,10 @@ export class UserService {
    * 获取当前用户信息
    * @returns 用户信息
    */
-  static async getCurrentUserInfo(): Promise<GetUserInfoDto> {
+  static async getCurrentUserInfo(): Promise<UserProfileResponse> {
     try {
       const userInfo = await getUserInfo();
-      return userInfo;
+      return userInfo.data;
     } catch (error) {
       toast.error('获取用户信息失败，请稍后重试');
       throw error;
@@ -29,11 +31,11 @@ export class UserService {
    * @param userData 要更新的用户数据
    * @returns 更新后的用户信息
    */
-  static async updateCurrentUserInfo(userData: UpdateUserInfoDto): Promise<GetUserInfoDto> {
+  static async updateCurrentUserInfo(userData: UpdateUserInfoRequest): Promise<UserProfileResponse> {
     try {
       const updatedUserInfo = await updateUserInfo(userData);
       toast.success('个人信息更新成功！');
-      return updatedUserInfo;
+      return updatedUserInfo.data;
     } catch (error) {
       toast.error('更新个人信息失败，请稍后重试');
       throw error;
@@ -61,7 +63,7 @@ export class UserService {
    * @param userData 要验证的用户数据
    * @returns 验证结果和错误信息
    */
-  static validateUserInput(userData: Partial<UpdateUserInfoDto>): { isValid: boolean; errors: Record<string, string> } {
+  static validateUserInput(userData: Partial<UpdateUserInfoRequest>): { isValid: boolean; errors: Record<string, string> } {
     const errors: Record<string, string> = {};
 
     // 验证昵称
@@ -69,9 +71,14 @@ export class UserService {
       errors.nickname = '昵称不能为空';
     }
 
-    // 验证电话格式（简单验证）
-    if (userData.phone && !/^1[3-9]\d{9}$/.test(userData.phone)) {
-      errors.phone = '请输入有效的手机号码';
+    // 验证真实姓名
+    if (userData.fullName && userData.fullName.trim().length === 0) {
+      errors.fullName = '真实姓名不能为空';
+    }
+
+    // 验证身份证号（简单验证）
+    if (userData.idCard && !/^[1-9]\d{5}(18|19|20)\d{2}((0[1-9])|(1[0-2]))(([0-2][1-9])|10|20|30|31)\d{3}[0-9Xx]$/.test(userData.idCard)) {
+      errors.idCard = '请输入有效的身份证号码';
     }
 
     // 验证地址
@@ -88,5 +95,34 @@ export class UserService {
       isValid: Object.keys(errors).length === 0,
       errors
     };
+  }
+
+  /**
+   * 用户登出
+   * @returns 登出结果
+   */
+  static async logout(): Promise<void> {
+    try {
+      const response = await logout();
+      if (!response.success) {
+        throw new Error(response.message || '登出失败');
+      }
+      toast.success('用户登出成功！');
+    } catch (error) {
+      toast.error('登出失败，请稍后重试');
+      throw error;
+    } finally {
+      // 无论登出请求是否成功，都清除本地用户信息
+      UserService.clearUserInfo();
+    }
+  }
+
+  /**
+   * 清除本地存储的用户信息
+   */
+  public static clearUserInfo(): void {
+    LocalStorageManager.removeItem('userInfo');
+    removeToken();
+    console.log('[UserService] 本地存储的用户信息已清除');
   }
 }
